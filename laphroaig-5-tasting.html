@@ -289,7 +289,7 @@ const SPOTS=[
    {w:"cask strength",ipa:"/kɑːsk streŋθ/",zh:"桶强（未稀释）",ja:"カスクストレングス"},
    {w:"expression",ipa:"/ɪkˈspreʃn/",zh:"酒款（同厂不同版本）",ja:"エクスプレッション"}
   ]);
-  b.appendChild(E("div","box flat","<div class='small'><b>vinous</b> 就是你上次写 <i>“like an old wine”</i> 时够不到的那个词。/ˈvaɪnəs/，来自拉丁语 vinum。你那瓶雪莉桶 Macallan 的官方笔记上，大概率就有这个词。</div>"));
+  b.appendChild(E("div","box flat","<div class='small'><b>vinous</b> /ˈvaɪnəs/ 来自拉丁语 vinum（酒）。想说 <i>“like an old wine”</i> 却觉得太啰嗦时，用的就是这个词。<br><br>它<b>专门形容雪莉桶、波特桶</b>那种葡萄酒感——只要你手上有一瓶雪莉桶，官方笔记上大概率就有它。</div>"));
  },
  check:{q:"品鉴笔记里 <b>“not remotely shy”</b> 是什么意思？",
   opts:["一点都不含蓄（味道非常张扬）","有点害羞、内敛","不太好闻","离得远才闻得到"],a:0,
@@ -307,7 +307,7 @@ const SPOTS=[
  build(b){
   b.appendChild(E("p","zh","架子上那瓶深色的，标上没有酒厂名，只有<b>两段数字</b>。前一个是<b>酒厂代码</b>（按学会首次买入该厂的顺序编号），后一个是这厂的<b>第几个桶</b>。"));
   const w=E("div","chips");
-  [["24.xxx","Macallan — 就是你那瓶"],["29.xxx","Laphroaig — 本章"],["3.xxx","Bowmore"],["1.xxx","Glenfarclas — 学会的第一桶"]]
+  [["29.xxx","Laphroaig — 本章"],["24.xxx","Macallan"],["3.xxx","Bowmore"],["1.xxx","Glenfarclas — 学会的第一桶"]]
    .forEach(p=>w.appendChild(E("div","chip","<span>"+p[0]+"</span><small>"+p[1]+"</small>")));
   b.appendChild(w);
   b.appendChild(E("h3",null,"拆开看这条笔记的五段骨架"));
@@ -322,7 +322,7 @@ const SPOTS=[
    const en=E("p","en",s[1]);en.style.fontSize="15px";en.appendChild(WM.sb(s[1]));
    d.appendChild(en);d.appendChild(E("div","why",s[2]));b.appendChild(d);
   });
-  b.appendChild(E("div","box flat","<div class='small'>你那瓶雪莉桶 Macallan：你写的 <i>“like an old wine”</i> → 标准说法是 <b>vinous</b>；<i>“berry wood”</i> 拆开是 <b>dark berries</b>（果）+ <b>polished oak</b>（木）。<br><br><b>“bright sweetness” 你用得很好</b>，是真实的品鉴用词，保留。</div>"));
+  b.appendChild(E("div","box flat","<div class='small'><b>初学者常见的三种「差一点」，SMWS 都有现成说法：</b><br><br>· 想说 <i>“like an old wine”</i> → <b>vinous</b><br>· 想说 <i>“berry wood”</i>（果味 + 木头味）→ 拆成 <b>dark berries</b> ＋ <b>polished oak</b><br>· 想说「明亮的甜」→ <b>a bright sweetness</b> 就是对的，这本来就是真实的品鉴用词，不用改。<br><br><b>规律：说不准的时候不要造复合词，拆成两个具体的东西并列。</b></div>"));
  },
  check:{q:"SMWS 笔记里写 <b>“something antiseptic”</b>，为什么不直接写 antiseptic？",
   opts:["因为闻到的东西说不准是什么，something + 形容词 表示「某种……的味道」","因为 antiseptic 不能单独用","因为要凑字数","因为这是名词，前面必须加 something"],a:0,
@@ -409,8 +409,8 @@ const SPOTS=[
 
 {id:"notes",x:16,y:82,icon:"📓",label:"本场笔记",kind:"写作 · Your notes for this scene",title:"这一场，你自己写",
  notes:{
-  taskTitle:"重写你那瓶 SMWS 24",
-  task:"就是你说「像 berry wood、像老葡萄酒、但保留着 bright sweetness」的那瓶。<b>这次用今天的骨架重写一遍</b>（四到六句）。<br><br><b>要求（都是今天学的）：</b><br>· 第一句写一个<b>画面</b>，不是形容词（SMWS 的招牌）<br>· 然后 <b>On the nose… / On the palate… / The finish is…</b><br>· 至少一个 <b>something + 形容词</b><br>· 至少一个<b>比较</b>（…er than 或 not as … as）<br>· 试着用一次 <b>vinous</b>",
+  taskTitle:"写一条属于你自己的 SMWS 笔记",
+  task:"拿手边任意一瓶酒——<b>最好是一瓶雪莉桶</b>，风味层次多，好写。用今天的骨架写四到六句。<br><br><b>要求（都是今天学的）：</b><br>· 第一句写一个<b>画面</b>，不是形容词（SMWS 的招牌）<br>· 然后 <b>On the nose… / On the palate… / The finish is…</b><br>· 至少一个 <b>something + 形容词</b><br>· 至少一个<b>比较</b>（…er than 或 not as … as）<br>· 试着用一次 <b>vinous</b>",
   placeholder:"An old armchair in a room where…",
   minHeight:"150px",
   checklist:["<b>三段式骨架</b>：On the nose → On the palate → The finish 都写了吗？",
@@ -420,7 +420,7 @@ const SPOTS=[
    "<b>动词形式</b>：it still <b>keeps</b>（主语是 it，三单）",
    "<b>拼写</b>：flavo<b>u</b>r —— 苏格兰用英式"],
   ref:"An old armchair in a room where someone has just opened a jar of jam. On the nose: dark berries, polished oak and something faintly vinous. On the palate it's richer than I expected, but it keeps a bright sweetness underneath. The finish is long, dry and a little dusty.",
-  refNote:"这是把<b>你自己的原话</b>（berry wood / like an old wine / bright sweetness）套进 SMWS 骨架的结果。<b>你的感受一个字没变，只是换了语言的装法。</b><br><br>用到：画面开头／三段式／<b>something faintly vinous</b>（something + 副词 + 形容词）／<b>richer than I expected</b>（比较）／<b>it keeps</b>（三单）。"
+  refNote:"这是一条典型的雪莉桶笔记。<b>注意它没有一个难词</b>——dark berries、polished oak、a jar of jam，全是日常词。<br><br>用到：画面开头／三段式／<b>something faintly vinous</b>（something + 副词 + 形容词）／<b>richer than I expected</b>（比较）／<b>it keeps</b>（三单）。<br><br><b>写笔记的关键不是词汇量，是骨架。</b>你脑子里那些说不清的感受，套进骨架就成句了。"
  }},
 
 {id:"outro",x:80,y:83,icon:"🧾",label:"过关",kind:"过关 · Produce, don't pick",title:"这一关要你真的写英语",outro:true}

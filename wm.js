@@ -91,29 +91,30 @@ function autosave(node,key,tag){
  node.addEventListener("input",()=>{clearTimeout(t);t=setTimeout(()=>{saveNote(key,node.value);if(tag)tag.textContent="已保存"},450)});
 }
 
-/* ================= 个人错题本（跨场共用） ================= */
+/* ================= 常错八条（跨场共用） =================
+   中文母语者写威士忌笔记时最常漏的四类零件：
+   冠词 / 量词 / 名词↔形容词 / 动词形式 */
 const ERRBOOK=[
- ["there are too many bottles I know and I don't know","there are so many bottles — ones I know and ones I don't",
-  "<b>too many</b> ＝「多到成问题」。想说「多得很」用 <b>so many</b>。加 <b>ones</b> 避免重复。"],
- ["why I love whisky is about the variety","what I love about whisky is the variety",
-  "两个句型混了。<b>What I love about X is Y</b> — 超好用的强调框架。"],
- ["even the bottles from same distillery","even bottles from the same distillery",
-  "<b>the same</b> 永远带 the，没有例外。"],
- ["the air, temperature, wet, time make everything different","the air, the temperature, the humidity, the time — they all make a difference",
-  "<b>wet</b> 是形容词，名词是 <b>humidity</b>。<b>make a difference</b> 是固定搭配。这个四项排比写得很好，我没动。"],
- ["I'm keeping finding out the difference of them","I keep finding new differences between them",
-  "① <b>keep + V-ing</b> 已表持续；② 差别在两者<b>之间</b> → <b>between</b>；③ 复数 <b>differences</b>。"],
- ["I love almost of them","I love almost all of them",
-  "<b>almost</b> 是副词，必须修饰量词：almost <b>all</b> / almost <b>every</b>。"],
- ["a expensive and exclusive bottle from Macallan bottling by smws","an expensive, exclusive bottle — a Macallan bottled by SMWS",
-  "① <b>a → an</b>；② 酒是<b>被</b>装瓶 → <b>bottled by</b>；③ 形容词并列用逗号。"],
- ["like berry wood? and like a old wine, but still keep the bright sweetness and a fruit favor",
-  "like dark berries and polished oak — vinous, like an old wine — but it still keeps a bright sweetness and a fruity flavour",
-  "① 拆成 <b>dark berries</b> + <b>polished oak</b>；② <b>an old</b>；③ 那个词是 <b>vinous</b>；④ It → <b>keeps</b>；⑤ fruit → <b>fruity</b>；⑥ favor → <b>flavour</b>。"]
+ ["There are too many whiskies I want to try.","There are so many whiskies I want to try.",
+  "<b>量词</b>：<b>too many</b> ＝「多到成问题了」（负面）。想说「多得很」要用 <b>so many</b>。"],
+ ["Why I like Islay is about the smoke.","What I like about Islay is the smoke.",
+  "<b>结构混搭</b>：<i>why I like X is…</i> 和 <i>it's about…</i> 揉在了一起。挑一个。<br><b>What I like about X is Y</b> 是超好用的强调框架，记住它。"],
+ ["Two bottles from same cask can taste different.","Two bottles from the same cask can taste different.",
+  "<b>冠词</b>：<b>the same</b> 永远带 the，没有例外（same 本身就预设了特指）。"],
+ ["The air, temperature, wet and time change everything.","The air, the temperature, the humidity and the time all make a difference.",
+  "<b>词性</b>：<b>wet</b> 是形容词，名词是 <b>humidity</b>（湿度）。<br><b>make a difference</b> 是固定搭配，比 change everything 地道得多。"],
+ ["I'm keeping finding out the difference of them.","I keep finding new differences between them.",
+  "<b>动词形式 + 介词 + 单复数</b>，三处：① <b>keep + V-ing</b> 已表持续，不能再套进行时；② 差别在两者<b>之间</b> → <b>between</b>；③ 找到的是很多个 → 复数 <b>differences</b>。"],
+ ["I like almost of the Islay malts.","I like almost all of the Islay malts.",
+  "<b>量词</b>：<b>almost</b> 是副词，不能单独当量词，必须修饰一个量词：almost <b>all</b> / almost <b>every</b> / almost <b>none</b>。"],
+ ["I bought a expensive bottle from Macallan bottling by SMWS.","I bought an expensive bottle — a Macallan bottled by SMWS.",
+  "<b>冠词 + 被动分词</b>：① <b>a → an</b>（expensive 以元音开头）；② 酒是<b>被</b>装瓶的 → 过去分词 <b>bottled by</b>，不是 bottling。"],
+ ["It is like a old wine but still keep a fruit favor.","It is like an old wine, but it still keeps a fruity flavour.",
+  "<b>四个零件一次到齐</b>：① <b>an old</b>；② 主语是 It → <b>keeps</b>；③ <b>fruit</b>（名词）→ <b>fruity</b>（形容词）；④ favor → <b>flavour</b>（苏格兰用英式拼写）。<br><br>顺带：想说「像一款老葡萄酒」，行话里的那个词是 <b>vinous</b>。"]
 ];
 function renderErrbook(b){
- b.appendChild(el("h3",null,"我的常见错误（每场都翻一遍）"));
- b.appendChild(el("p","small","来自你自己写过的那段话，是你的<b>个人错题本</b>。写完对照一下。"));
+ b.appendChild(el("h3",null,"常错八条（每场都翻一遍）"));
+ b.appendChild(el("p","small","中文母语者写威士忌笔记时最常漏的<b>四类零件</b>：冠词、量词、名词↔形容词、动词形式。<b>这八条把四类全覆盖了。</b>写完对照一下。"));
  let i=0;
  const card=el("div","rw");card.style.cssText="border-left:3px solid var(--rust);padding-left:12px;margin:12px 0";
  const pg=el("div","pager"),pv=el("button","btn sm","‹ 上一条"),nm=el("span","n",""),nx=el("button","btn sm gold","下一条 ›");
