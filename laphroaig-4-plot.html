@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Laphroaig 4 · 领地租 | Whisky Map</title>
+<link rel="stylesheet" href="wm.css">
+</head>
+<body><div id="app"></div>
+<script src="wm.js"></script>
+<script>
+const E=WM.el;
+
+const SVG=`<svg class="bg" viewBox="0 0 375 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E7C84"/><stop offset=".55" stop-color="#98A6A8"/><stop offset="1" stop-color="#BCC4BE"/></linearGradient>
+<linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A6A72"/><stop offset="1" stop-color="#33545E"/></linearGradient>
+<linearGradient id="bogG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E6E42"/><stop offset=".45" stop-color="#5E5A34"/><stop offset="1" stop-color="#42391F"/></linearGradient>
+<linearGradient id="peatG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A3620"/><stop offset="1" stop-color="#2E2112"/></linearGradient>
+</defs>
+<rect width="375" height="400" fill="url(#sky)"/>
+<g fill="#5E6A70" opacity=".5"><ellipse cx="60" cy="30" rx="70" ry="20"/><ellipse cx="180" cy="18" rx="80" ry="16"/>
+<ellipse cx="300" cy="38" rx="76" ry="22"/></g>
+<!-- 大雁 -->
+<g stroke="#3E4A4E" stroke-width="2" fill="none" stroke-linecap="round">
+<path d="M148 56 l7 -7 l7 7"/><path d="M172 44 l7 -7 l7 7"/><path d="M196 58 l7 -7 l7 7"/>
+<path d="M220 46 l6 -6 l6 6"/><path d="M132 72 l6 -6 l6 6"/><path d="M244 64 l6 -6 l6 6"/>
+<path d="M184 74 l5 -5 l5 5"/></g>
+<!-- 远山 Jura -->
+<path d="M0 118 L44 96 L78 110 L120 88 L160 106 L200 92 L250 108 L300 94 L340 108 L375 100 L375 126 L0 126 Z" fill="#5A6A6E" opacity=".8"/>
+<!-- 海 -->
+<rect x="0" y="124" width="375" height="34" fill="url(#seaG)"/>
+<g stroke="#8AA8AE" stroke-width="1" opacity=".4"><line x1="20" y1="134" x2="86" y2="134"/><line x1="120" y1="142" x2="196" y2="142"/><line x1="240" y1="136" x2="320" y2="136"/><line x1="60" y1="150" x2="140" y2="150"/></g>
+<!-- 远处酒厂 -->
+<g><rect x="252" y="132" width="76" height="26" fill="#F0EDE4"/><rect x="252" y="129" width="76" height="4" fill="#3E342C"/>
+<text x="290" y="148" font-family="Georgia,serif" font-size="8" font-weight="bold" fill="#241F1B" text-anchor="middle" letter-spacing=".5">LAPHROAIG</text>
+<rect x="296" y="116" width="14" height="14" fill="#E4DFD4"/><path d="M294 116 L303 106 L312 116 Z" fill="#4E4239"/></g>
+<!-- 泥煤地 -->
+<path d="M0 156 q90 -10 180 4 t195 -6 L375 400 L0 400 Z" fill="url(#bogG)"/>
+<!-- 石南丛 -->
+<g opacity=".85">
+<ellipse cx="42" cy="200" rx="34" ry="12" fill="#6B4E62"/><ellipse cx="128" cy="214" rx="40" ry="13" fill="#7C5E70"/>
+<ellipse cx="238" cy="196" rx="36" ry="12" fill="#6B4E62"/><ellipse cx="330" cy="216" rx="42" ry="14" fill="#7C5E70"/>
+<ellipse cx="80" cy="256" rx="46" ry="15" fill="#6B4E62" opacity=".8"/><ellipse cx="286" cy="262" rx="48" ry="15" fill="#7C5E70" opacity=".8"/></g>
+<g fill="#9E7E96" opacity=".75">
+<circle cx="30" cy="196" r="2.6"/><circle cx="52" cy="202" r="2.2"/><circle cx="118" cy="210" r="2.6"/><circle cx="142" cy="216" r="2.2"/>
+<circle cx="230" cy="192" r="2.4"/><circle cx="252" cy="199" r="2.2"/><circle cx="322" cy="212" r="2.6"/><circle cx="342" cy="219" r="2.2"/>
+<circle cx="70" cy="252" r="2.4"/><circle cx="96" cy="259" r="2.2"/><circle cx="276" cy="258" r="2.5"/><circle cx="300" cy="265" r="2.2"/></g>
+<!-- 泥煤切割条 -->
+<g fill="url(#peatG)">
+<path d="M188 230 L262 224 L268 250 L192 258 Z"/><path d="M272 224 L340 219 L346 244 L278 250 Z"/>
+<path d="M196 262 L270 254 L276 278 L200 288 Z"/></g>
+<g opacity=".5" stroke="#6E5238" stroke-width="1.6">
+<line x1="192" y1="240" x2="266" y2="234"/><line x1="276" y1="234" x2="344" y2="229"/><line x1="200" y1="272" x2="274" y2="264"/></g>
+<!-- 溪 burn + 木板 -->
+<path d="M0 316 q70 -18 140 -4 q80 16 160 -8 q40 -12 75 -4 L375 336 q-40 8 -80 4 q-80 -8 -156 12 q-70 18 -139 0 Z" fill="#4E6672" opacity=".85"/>
+<g stroke="#87A0A8" stroke-width="1.4" opacity=".5"><path d="M20 322 q60 -12 120 -2"/><path d="M200 322 q60 -10 120 -6"/></g>
+<g><rect x="96" y="300" width="18" height="44" rx="2" fill="#8A6A44" transform="rotate(-6 105 322)"/>
+<rect x="96" y="300" width="18" height="44" rx="2" fill="none" stroke="#5E4526" stroke-width="1.6" transform="rotate(-6 105 322)"/></g>
+<!-- 一排小旗 -->
+<g>
+<g transform="translate(214,286)"><rect x="0" y="0" width="2.6" height="34" fill="#EFEAE0"/><path d="M2.6 0 L22 6 L2.6 12 Z" fill="#C8A23E"/></g>
+<g transform="translate(248,292)"><rect x="0" y="0" width="2.6" height="32" fill="#EFEAE0"/><path d="M2.6 0 L20 5 L2.6 11 Z" fill="#9E4B34"/></g>
+<g transform="translate(284,286)"><rect x="0" y="0" width="2.6" height="36" fill="#EFEAE0"/><path d="M2.6 0 L22 6 L2.6 12 Z" fill="#3E6B7A"/></g>
+<g transform="translate(320,294)"><rect x="0" y="0" width="2.6" height="32" fill="#EFEAE0"/><path d="M2.6 0 L20 5 L2.6 11 Z" fill="#C8A23E"/></g>
+<g transform="translate(252,236)"><rect x="0" y="0" width="3" height="40" fill="#FFFDF6"/><path d="M3 0 L28 8 L3 16 Z" fill="#E0B458"/>
+<text x="12" y="11" font-family="Georgia,serif" font-size="6" fill="#3E2E14">4471</text></g></g>
+<!-- 前景苔藓（危险） -->
+<g><ellipse cx="128" cy="366" rx="52" ry="17" fill="#7C9648" opacity=".85"/>
+<ellipse cx="128" cy="362" rx="38" ry="11" fill="#8FAA52" opacity=".9"/></g>
+<!-- 靴子 -->
+<g transform="translate(30,336)">
+<path d="M0 0 L20 0 L20 34 L38 34 L38 48 L0 48 Z" fill="#2E3A3E"/>
+<path d="M0 44 L38 44 L38 48 L0 48 Z" fill="#1C2426"/>
+<path d="M44 4 L64 4 L64 38 L82 38 L82 52 L44 52 Z" fill="#2E3A3E"/>
+<path d="M44 48 L82 48 L82 52 L44 52 Z" fill="#1C2426"/></g>
+<!-- 地图 -->
+<g transform="translate(148,336)"><rect x="0" y="0" width="52" height="40" rx="2" fill="#EDE6D2" transform="rotate(-8)"/>
+<g transform="rotate(-8)"><path d="M6 30 q14 -18 30 -8 t12 -14" fill="none" stroke="#9E4B34" stroke-width="1.4" stroke-dasharray="3 3"/>
+<circle cx="42" cy="9" r="2.6" fill="#9E4B34"/><line x1="6" y1="20" x2="24" y2="20" stroke="#8A9A78" stroke-width="2"/></g></g>
+<!-- 导览员 -->
+<g opacity=".92" transform="translate(330,300)"><ellipse cx="0" cy="0" rx="15" ry="17" fill="#241C18"/>
+<path d="M0 17 C-18 17 -27 32 -28 62 L-28 100 L28 100 L28 62 C27 32 18 17 0 17 Z" fill="#3E4A2E"/>
+<ellipse cx="0" cy="-6" rx="17" ry="7" fill="#1C1512"/></g>
+<!-- 酒杯 -->
+<g transform="translate(288,352)">
+<path d="M0 0 C0 18 5 24 5 30 L13 30 C13 24 18 18 18 0 Z" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/>
+<path d="M2 11 C3 20 6 25 6 29 L12 29 C12 25 15 20 16 11 Z" fill="#C4771F"/>
+<rect x="2" y="30" width="14" height="3" rx="1.5" fill="rgba(255,255,255,.35)"/></g>
+<!-- 笔记本 -->
+<g transform="translate(20,364)"><rect x="0" y="0" width="44" height="30" rx="3" fill="#EFE7D2" transform="rotate(-7)"/>
+<g transform="rotate(-7)" stroke="#B0A088" stroke-width="1"><line x1="6" y1="9" x2="38" y2="9"/><line x1="6" y1="16" x2="38" y2="16"/><line x1="6" y1="23" x2="30" y2="23"/></g></g>
+<!-- 小票 -->
+<g transform="translate(150,362)"><rect x="0" y="0" width="28" height="34" rx="2" fill="#F2EDE2" transform="rotate(6)"/>
+<g transform="rotate(6)" stroke="#B8AE9E" stroke-width="1"><line x1="4" y1="8" x2="24" y2="8"/><line x1="4" y1="15" x2="24" y2="15"/><line x1="4" y1="22" x2="20" y2="22"/></g></g>
+</svg>`;
+
+const SPOTS=[
+{id:"map",x:46,y:88,icon:"🗺",label:"找路",kind:"实用 · Directions",title:"Follow the track until it runs out",
+ passage:{
+  en:["Right, here's your map. Your plot is number four-four-seven-one.",
+      "Out the back gate, follow the track past the kiln, and keep going until the track runs out.",
+      "You'll come to a burn — that's a stream — with a plank over it. Cross that.",
+      "Your row is the fourth one up from the water. Count the markers.",
+      "It's about a ten-minute walk, and it'll be wetter than it looks.",
+      "If you get lost, the distillery's behind you and the sea's on your right. You can't really go wrong."],
+  zh:"好，地图给你。你那块地是 4471 号。<br>从后门出去，沿着小路走过烘窑，一直走到路走完为止。<br>你会碰到一条 burn——就是小溪——上面有块木板。过去。<br>你那一排是从水边数上来第四排。数标记就行。<br>大概走十分钟，而且会比看起来湿。<br>要是迷路了，酒厂在你背后，海在你右手边。你其实走不丢。",
+  tip:"<b>burn</b> ＝ 小溪，是苏格兰词，在英国地图上到处都是（Bannockburn、Burnside）。他自己都顺口解释了一句 <i>that's a stream</i>——说明他知道外地人听不懂。"},
+ build(b){
+  b.appendChild(E("h3",null,"指路英语的六个零件"));
+  WM.chips(b,[
+   {en:"Follow the track past the kiln.",zh:"沿着小路走过烘窑。｜ past ＝ 经过（不是 pass，那是动词）"},
+   {en:"Keep going until the track runs out.",zh:"一直走到路走完。｜ run out ＝ 到头了、没了"},
+   {en:"You'll come to a burn.",zh:"你会碰到一条小溪。｜ come to ＝ 走着走着遇到"},
+   {en:"The fourth one up from the water.",zh:"从水边数上来第四个。｜ up from ＝ 从……往上数"},
+   {en:"It's about a ten-minute walk.",zh:"大概十分钟路程。｜ a ten-minute walk：连字符 + minute 不加 s"},
+   {en:"You can't really go wrong.",zh:"你其实走不丢。｜ go wrong ＝ 出错、走岔"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>a ten-minute walk</b> 这个写法要单独记<br><br>· 名词当形容词用时<b>永远单数</b>，而且要连字符：<br>　<i>a ten-<b>minute</b> walk</i>（不是 minutes）<br>　<i>a five-<b>year</b>-old whisky</i>（不是 years）<br>　<i>a two-<b>hour</b> tour</i>（不是 hours）<br><br>· 但作正常名词时要复数：<i>The walk takes ten <b>minutes</b>.</i><br><br><b>这条规则中国学习者错得极多</b>，而且一错就很明显。</p>"));
+  b.appendChild(E("h3",null,"苏格兰地名里的常见词（地图上到处是）"));
+  WM.vocab(b,[
+   {w:"burn",ipa:"/bɜːn/",zh:"小溪（苏格兰语）",ja:"小川"},
+   {w:"track",ipa:"/træk/",zh:"土路、小径",ja:"小道"},
+   {w:"glen",ipa:"/ɡlen/",zh:"狭谷（Glenfiddich、Glenlivet 的 Glen）",ja:"渓谷"},
+   {w:"loch",ipa:"/lɒx/",zh:"湖 / 海湾（结尾是喉音）",ja:"湖"},
+   {w:"ben",ipa:"/ben/",zh:"山（Ben Nevis）",ja:"山"},
+   {w:"kyle / caol",ipa:"/kaɪl/",zh:"海峡（Caol Ila ＝ 艾雷海峡）",ja:"海峡"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>知道这六个词，苏格兰地图你就能读一半。</b><br><br>而且它们全在酒名里：<b>Glen</b>fiddich（鹿之谷）、<b>Loch</b> Lomond、<b>Ben</b> Nevis、<b>Caol</b> Ila（艾雷海峡）、Bannock<b>burn</b>。<br><br>下次看酒标，你看到的不再是一串怪拼写，而是一张地形图。</div>"));
+ },
+ check:{q:"他说 <b>“keep going until the track runs out”</b>，run out 是什么意思？",
+  opts:["路到头了、没有了","路上有人在跑","路开始下坡","要跑起来才行"],a:0,
+  exp:"<b>run out</b> ＝ 用完、到头。<br>· <i>The track runs out.</i> 路到此为止<br>· <i>We've run out of milk.</i> 牛奶没了<br>· <i>Time's running out.</i> 时间不多了<br><br>跟「跑」一点关系都没有。<b>run 是英语里意思最多的动词之一</b>（run a company 经营公司 / run a bath 放洗澡水 / my nose is running 流鼻涕），全靠后面的小品词和宾语分辨。"}},
+
+{id:"bog",x:36,y:56,icon:"🥾",label:"泥煤地",kind:"地理 · The bog",title:"这不是地，是被死掉的植物撑住的水",
+ passage:{cap:"English first · 书面说明体",
+  en:["This is peat bog, and it is not solid ground. It is water held up by dead plants.",
+      "Step on the bright green moss and you will go in up to your knee. Step on the heather and it will hold you.",
+      "Those brown stripes over there are peat banks, cut by hand with a special spade.",
+      "One bank takes a family a week to cut, and it will heat a house for a year.",
+      "Higher up, where it is drier, that is moor.",
+      "Down by the shore, that flat grassy ground is machair — shell sand blown inland, and in June it is full of flowers."],
+  zh:"这是泥煤沼，它不是实地。它是被死掉的植物撑住的水。<br>踩在鲜绿的苔藓上，你会陷到膝盖。踩在石南上，它会托住你。<br>那边那些褐色的条纹是泥煤切面，用一种特制的铁锹手工切下来的。<br>一家人切一条要一星期，而它能给一栋房子供一年的暖。<br>再往上、干一些的地方，那叫 moor（荒原）。<br>靠海那边平坦的草地叫 machair——被风吹到内陆的贝壳沙，六月里开满花。",
+  tip:"<b>It is water held up by dead plants.</b> ——一句话定义泥煤，没有一个专业术语。这就是好的说明文。"},
+ build(b){
+  b.appendChild(E("h3",null,"四种地貌，四个词"));
+  WM.vocab(b,[
+   {w:"bog",ipa:"/bɒɡ/",zh:"沼泽、泥煤沼（软、含水）",ja:"湿原／泥炭地"},
+   {w:"moor",ipa:"/mʊə/",zh:"荒原（高一点、干一点）",ja:"荒野／ムーア"},
+   {w:"heather",ipa:"/ˈheðə/",zh:"石南（紫色小花，能承重）",ja:"ヘザー／エリカ"},
+   {w:"moss",ipa:"/mɒs/",zh:"苔藓（鲜绿，踩上去会陷）",ja:"コケ"},
+   {w:"machair",ipa:"/ˈmæxər/",zh:"马海尔（贝壳沙草地，赫布里底特有）",ja:"マハール（貝殻砂草原）"},
+   {w:"peat bank",ipa:"—",zh:"泥煤切面（一条条切下来的断面）",ja:"ピートバンク"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>一条保命的常识：绿的别踩，紫的能踩。</b><br><br>· <b>鲜绿的苔藓（moss）</b>＝ 下面是水，一脚下去到膝盖<br>· <b>石南（heather）</b>＝ 根系密实，能托住你<br><br>这不是比喻。艾雷岛每年都有游客陷进去。<b>去的时候真的按这条走。</b></p>"));
+  b.appendChild(E("h3",null,"祈使句 + and：一个特别好用的结构"));
+  b.appendChild(E("div","box flat","<div class='small'><i><b>Step</b> on the moss <b>and</b> you will go in up to your knee.</i><br>「踩在苔藓上，你就会陷到膝盖」<br><br><b>祈使句 + and + 结果</b> ＝ 如果……就会……<br>· <i>Ask him and he'll tell you.</i> 问他他就会告诉你<br>· <i>Add water and it opens up.</i>（段 5 那杯酒！）<br><br>还有反过来的 <b>祈使句 + or</b>：<br>· <i>Take the wellies, or you'll get wet feet.</i> 穿雨靴，不然会湿脚<br><br><b>比 if 从句短一半，而且更有力。</b>口语里母语者大量使用。</div>"));
+  b.appendChild(E("div","box flat","<div class='small'><b>machair</b> /ˈmæxər/ 是盖尔语借词，指赫布里底群岛西岸特有的一种地貌：海风把贝壳碎屑吹到内陆，混进酸性泥煤土里，中和出一片肥沃的碱性草地。<br><br>六月开满野花，是欧洲最稀有的栖息地之一。<b>英语里没有别的词能代替它</b>——所以直接借了。</div>"));
+ },
+ check:{q:"在泥煤地上，踩哪里是安全的？",
+  opts:["石南（heather）——根系密实，能托住人","鲜绿的苔藓（moss）——看起来最结实","褐色的泥煤切面——已经被挖过了","哪里都一样，反正是地"],a:0,
+  exp:"<b>Step on the heather and it will hold you.</b> —— 石南的根系密实，能承重。<br><b>Step on the bright green moss and you will go in up to your knee.</b> —— 鲜绿苔藓下面全是水。<br><br>记住这个反直觉的规律：<b>看起来最柔软鲜嫩的地方最危险。</b><br><br>顺带注意 <b>up to your knee</b>（到膝盖那么深）——<b>up to</b> 表示程度上限，这个词组在数字、时间、深度上都用：<i>up to ten people / up to three hours</i>。"}},
+
+{id:"flag",x:66,y:60,icon:"🚩",label:"你的一平方英尺",kind:"仪式 · Your plot",title:"苏格兰唯一用威士忌付租金的租约",
+ passage:{
+  en:["This is your square foot.",
+      "Traditionally you plant a flag on it, write your number on it, and take a photograph. People have been doing that here since 1994.",
+      "The scheme was reorganised a few years back and the paperwork is different now, so ask at the visitor centre before you walk out.",
+      "What hasn't changed is the rent.",
+      "You hold a square foot of Islay, and the rent Laphroaig owes you is one dram a year, collected in person.",
+      "As far as anybody knows, it is the only lease in Scotland that is paid in whisky."],
+  zh:"这就是你那一平方英尺。<br>按传统你会在上面插一面旗，写上你的编号，拍张照。从 1994 年起人们就一直这么做。<br>这个计划几年前改组过，手续跟以前不一样了，所以出门之前先在游客中心问一句。<br>没变的是租金。<br>你持有艾雷岛的一平方英尺，而拉弗格欠你的租金是每年一杯酒，本人亲自来领。<br>据大家所知，这是苏格兰唯一一份用威士忌支付的租约。",
+  tip:"<b>⚑ 我要标一下：</b>插旗那套仪式在较早的访客记述里都有，但 2021 年改成积分制后官网只写「1 平方英尺终身租约 + GPS 坐标证书 + 到访领一杯 dram」，<b>没提旗子</b>。去之前问一句。"},
+ build(b){
+  b.appendChild(E("h3",null,"现在完成进行时：people have been doing that since 1994"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>have been + V-ing</b> ＝ 从过去某点<b>一直做到现在，而且还在做</b>。<br><br>· <i>People <b>have been doing</b> that since 1994.</i> 从 1994 年做到现在<br>· <i>I've been learning English for years.</i> 学了好多年，还在学<br>· <i>It's been raining all morning.</i> 下了一早上，还在下<br><br><b>关键搭配：since（自从某一点）＋ for（持续多久）</b><br>· since 1994 / since Monday / since I arrived<br>· for ten years / for a week / for ages<br><br><b>中文没有时态，所以这个结构必须靠句型记，不能靠语感。</b></p>"));
+  b.appendChild(E("h3",null,"What hasn't changed is…"));
+  b.appendChild(E("div","box flat","<div class='small'><i><b>What hasn't changed is</b> the rent.</i>「没变的是租金。」<br><br>又是那个 <b>What … is …</b> 强调框架——段 5 你写过 <i>what I love about whisky is the variety</i>，就是同一个。<br><br>这次是否定版：<br>· <i>What hasn't changed is…</i> 没变的是……<br>· <i>What I don't understand is…</i> 我不懂的是……<br>· <i>What nobody tells you is…</i> 没人会告诉你的是……<br><br><b>这个框架你已经撞第二次了。</b>它能把任何一句平淡的话变成有重点的话，写邮件、做汇报都好用。</div>"));
+  b.appendChild(E("h3",null,"三个法律味的词，但都很常用"));
+  WM.vocab(b,[
+   {w:"a lease",ipa:"/liːs/",zh:"租约",ja:"賃貸借契約／リース"},
+   {w:"rent",ipa:"/rent/",zh:"租金",ja:"賃料／家賃"},
+   {w:"to hold (land)",ipa:"/həʊld/",zh:"持有（土地）",ja:"保有する"},
+   {w:"paperwork",ipa:"/ˈpeɪpəwɜːk/",zh:"手续、文件工作（不可数）",ja:"書類手続き"},
+   {w:"in person",ipa:"—",zh:"本人亲自",ja:"本人が直接"},
+   {w:"as far as anybody knows",ipa:"—",zh:"据大家所知（留余地的说法）",ja:"知る限りでは"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>as far as I know / as far as anybody knows</b> ＝「据我 / 据大家所知」<br><br>这是英语里最有用的<b>留余地</b>短语之一：你不确定，但又想说出来。<br>· <i>As far as I know, they're still open.</i><br>· <i>As far as I can tell, it's the same cask.</i><br><br><b>对你特别有用</b>——你说话内容深、但不确定的时候容易干脆不说。有了这个壳，<b>不确定也能说</b>。</div>"));
+ },
+ check:{q:"<b>“People have been doing that since 1994.”</b> 这个时态在强调什么？",
+  opts:["从 1994 年一直做到现在，而且还在继续","1994 年那一年他们做过","他们打算从 1994 年开始做","1994 年之前他们做过，后来停了"],a:0,
+  exp:"<b>have been + V-ing</b>（现在完成进行时）＝ 过去开始、延续到现在、通常还没结束。<br><br>· 配 <b>since</b>：起点（since 1994）<br>· 配 <b>for</b>：时长（for thirty years）<br><br>如果说 <i>People did that in 1994</i>（一般过去时），意思就变成「只有 1994 年那次」——完全不同。<br><br><b>中文靠「一直」「还在」这些副词，英语靠时态。</b>这是中文母语者最需要刻意练的一块。"}},
+
+{id:"chat",x:87,y:76,icon:"☁️",label:"闲聊",kind:"痛点专项 · Small talk",title:"这一格是全站最难也最值钱的",
+ passage:{
+  en:["Some weather, eh?",
+      "Where've you come from, then? Oh aye? And how long are you over for?",
+      "Is this your first time on Islay? What have you managed to see so far?",
+      "Have you been round any of the others — Ardbeg, Lagavulin?",
+      "And what did you make of them?",
+      "I'll tell you what, though: you've picked a good week. Last week it never stopped."],
+  zh:"这天气啊。<br>你从哪儿来的？哦是吗？那你要待多久？<br>这是你第一次来艾雷吗？到目前为止都看了些什么？<br>别的酒厂去过吗——Ardbeg、Lagavulin？<br>那你觉得它们怎么样？<br>不过我跟你说：你挑了个好星期。上个礼拜就没停过。",
+  tip:"<b>这六句是苏格兰人搭话的标准套路，顺序几乎固定：天气 → 你从哪来 → 待多久 → 第一次吗 → 去过哪 → 觉得怎样。</b>知道套路，你就能预判下一个问题。"},
+ build(b){
+  b.appendChild(E("h3",null,"六个说法，教材上一个都没有"));
+  WM.chips(b,[
+   {en:"Some weather, eh?",zh:"这天气啊。｜ some + 名词 ＝ 感叹「够可以的」"},
+   {en:"Where've you come from, then?",zh:"你从哪儿来的？｜ 句尾 then 是软化，不是「然后」"},
+   {en:"Oh aye?",zh:"哦是吗？｜ 苏格兰的「哦？」表示在听，让你继续说"},
+   {en:"How long are you over for?",zh:"你要待多久？｜ over ＝ 从别处过来这边"},
+   {en:"What have you managed to see so far?",zh:"到现在看了些什么？｜ manage to ＝ 设法做到（暗示不容易）"},
+   {en:"What did you make of them?",zh:"你觉得它们怎么样？｜ make of ＝ 看法，比 think about 地道得多"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>What did you make of it?</b> 这一句要单独记<br><br>· <i>What did you <b>think about</b> it?</i> —— 对，但很教科书<br>· <i>What did you <b>make of</b> it?</i> —— 母语者的默认说法<br><br><b>make of</b> ＝ 你从中读出了什么、怎么理解的。它暗含「这东西有点复杂，你怎么消化的」——用在威士忌、电影、一个人身上都合适。<br><br>回答就用 <b>I made of it…</b>？<b>不</b>。回答直接说感受：<br><i>I liked it, actually. / It wasn't what I expected. / I'm still not sure.</i></p>"));
+  b.appendChild(E("h3",null,"你要准备的六句回答（把它们变成你自己的）"));
+  WM.chips(b,[
+   {en:"I'm over from China, actually.",zh:"我从中国过来的。｜ over from ＝ 从……过来"},
+   {en:"Just for a few days.",zh:"就待几天。"},
+   {en:"Aye, first time.",zh:"对，第一次。｜ 用 aye 他们会笑，但会很高兴"},
+   {en:"I've been round Ardbeg and Lagavulin so far.",zh:"目前去过 Ardbeg 和 Lagavulin。｜ been round ＝ 逛过"},
+   {en:"I liked Ardbeg best, I think — it was drier than I expected.",zh:"我最喜欢 Ardbeg——比我想的干。｜ 段 5 的比较级来了"},
+   {en:"You're right about the weather. We've been lucky.",zh:"天气你说得对。我们挺走运。｜ 把话接回去"}
+  ]);
+  b.appendChild(E("h3",null,"完整走一遍"));
+  WM.dialogue(b,[
+   {who:"g",en:"Some weather, eh? Where've you come from, then?",zh:"这天气啊。你从哪儿来的？"},
+   {who:"y",en:"<mark class='k'>I'm over from China, actually.</mark> I work in Edinburgh sometimes, so I came across for a few days.",zh:"我从中国过来的。我有时候在爱丁堡工作，所以过来待几天。"},
+   {who:"g",en:"<mark>Oh aye?</mark> That's a fair way. First time on Islay?",zh:"哦是吗？那可不近。第一次来艾雷？"},
+   {who:"y",en:"<mark class='k'>Aye, first time.</mark> I've been round Ardbeg and Lagavulin so far.",zh:"对，第一次。目前去了 Ardbeg 和 Lagavulin。"},
+   {who:"g",en:"<mark>And what did you make of them?</mark>",zh:"那你觉得怎么样？"},
+   {who:"y",en:"<mark class='k'>I liked Ardbeg best, I think</mark> — it was <mark class='k'>drier than I expected</mark>.",zh:"我想我最喜欢 Ardbeg——比我想的干。"},
+   {who:"g",en:"Aye, it is that. <mark>I'll tell you what, though</mark> — you've picked a good week. Last week it never stopped.",zh:"对，确实。不过我跟你说——你挑了个好星期。上礼拜就没停过。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>为什么说这一格最值钱：</b><br><br>你选的痛点是「开口说 / 临场反应」。而闲聊之所以难，不是词难，是<b>你不知道下一个问题是什么</b>，所以每一句都在临时反应。<br><br>但你刚看到了：<b>这个套路是固定的。</b>天气 → 从哪来 → 待多久 → 第一次吗 → 去过哪 → 怎么样。六句，顺序几乎不变。<br><br><b>把你的六句回答提前想好，闲聊就从「即兴」变成「填空」。</b>这就是这一格的全部诀窍。</div>"));
+ },
+ check:{q:"对方问 <b>“What did you make of them?”</b> 他在问什么？",
+  opts:["你觉得它们怎么样？","它们是用什么做的？","你从它们那儿买了什么？","你把它们做成了什么？"],a:0,
+  exp:"<b>make of</b> ＝ 对……有什么看法、怎么理解。跟「制造」毫无关系。<br><br>· <i>What do you make of him?</i> 你觉得这人怎么样？<br>· <i>I don't know what to make of it.</i> 我不知道该怎么看这件事。<br><br>它比 <i>what did you think</i> 更常用、更地道，而且暗含「这东西有点复杂」——用在威士忌上刚刚好。<br><br><b>回答不要用 make</b>，直接说感受：<i>I liked it. / It wasn't what I expected.</i>"}},
+
+{id:"birds",x:57,y:14,icon:"🦢",label:"天上",kind:"自然 · Wildlife",title:"冬天这岛上鹅比人多",
+ passage:{
+  en:["Look up while you're out here.",
+      "Islay has more geese than people in the winter — forty thousand barnacle geese come down from Greenland every October.",
+      "There are choughs on the cliffs, a red-billed crow you'll not see anywhere else in Britain.",
+      "And if a big bird goes over and you think that's too big to be a buzzard — it probably is. There are golden eagles here.",
+      "No snakes, no squirrels, and hardly a tree for miles.",
+      "The wind sees to that."],
+  zh:"在外面的时候记得抬头。<br>冬天艾雷岛的鹅比人多——每年十月有四万只白颊黑雁从格陵兰飞下来。<br>崖壁上有红嘴山鸦，一种红喙的鸦，全英国别的地方你都见不到。<br>要是有只大鸟飞过，你心想「这也太大了不像鵟」——那多半就是。这儿有金雕。<br>没有蛇，没有松鼠，方圆几英里几乎没有树。<br>那是风干的。",
+  tip:"<b>you'll not see</b> —— 苏格兰否定第三次出现了（段 5 / 段 1 / 这里）。还有段 3 学的 <b>too … to …</b> 也在里面。"},
+ build(b){
+  b.appendChild(E("h3",null,"最后那句才是重点"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><i><b>The wind sees to that.</b></i>「那是风干的。／风负责这件事。」<br><br><b>see to something</b> ＝ 负责搞定某事、料理某事<br>· <i>I'll see to it.</i> 我来处理。<br>· <i>Could you see to the drinks?</i> 酒水你负责一下好吗？<br>· <i>He'll see to it that you get a copy.</i> 他会确保你拿到一份。<br><br>这里是拟人用法：<b>风把树的事「料理」了</b>——所以岛上没树。<br><br>短短四个词，比 <i>because the wind is too strong for trees to grow</i> 有力十倍。<b>英语的力量常常来自把长解释压成一个短动词。</b></p>"));
+  b.appendChild(E("h3",null,"顺带三个自然词"));
+  WM.vocab(b,[
+   {w:"barnacle goose",ipa:"/ˈbɑːnəkl ɡuːs/",zh:"白颊黑雁（复数 geese）",ja:"カオジロガン"},
+   {w:"chough",ipa:"/tʃʌf/",zh:"红嘴山鸦（拼写坑：读「查夫」）",ja:"ベニハシガラス"},
+   {w:"buzzard",ipa:"/ˈbʌzəd/",zh:"鵟（英国最常见的猛禽）",ja:"ノスリ"},
+   {w:"golden eagle",ipa:"/ˈɡəʊldən ˈiːɡl/",zh:"金雕",ja:"イヌワシ"},
+   {w:"cliff",ipa:"/klɪf/",zh:"崖壁",ja:"崖"},
+   {w:"hardly",ipa:"/ˈhɑːdli/",zh:"几乎不（本身是否定词）",ja:"ほとんど〜ない"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>hardly 是个否定词</b>，别再加 not：<br>· <i>hardly a tree for miles</i> 方圆几英里几乎没树 ✓<br>· <i>There are hardly <b>any</b> trees.</i> ✓（hardly 后面接 any，不接 no）<br>· <s>There are hardly no trees.</s> ✗ 双重否定<br><br>同族的还有 <b>scarcely / barely / seldom</b>，全都自带否定。</div>"));
+  b.appendChild(E("div","box flat","<div class='small'><b>为什么艾雷岛没有树？</b>不是没长过。这岛在几千年前是有林地的，后来被砍光、被羊啃光，加上<b>大西洋常年的盐风</b>，树苗立不住。<br><br>而没有树的直接结果是：<b>植物死了以后没法分解，堆在潮湿的地上，几千年压成泥煤。</b>没有风就没有泥煤，没有泥煤就没有 Laphroaig。<br><br>——所以段 5 那句 <i>You are tasting the island</i>，往上追一层，其实是在尝这阵风。</div>"));
+ },
+ check:{q:"<b>“The wind sees to that.”</b> 是什么意思？",
+  opts:["那是风造成的／风把这事料理了","风看到了那个","风朝那个方向吹","风快要停了"],a:0,
+  exp:"<b>see to something</b> ＝ 负责、搞定、料理。跟「看见」无关。<br><br>· <i>I'll see to it.</i> 我来办。<br>· <i>See to it that the door's locked.</i> 确保门锁好。<br><br>这里是拟人：风把「树」这件事料理掉了，所以岛上没树。<br><br><b>注意它有多短。</b>英语在收尾时特别喜欢用一个极短的句子把前面一长串具体描述一锤定音——段 1 白墙、段 2 宝塔顶、段 3 酒心，全是同一个手法。你已经撞见第四次了。"}},
+
+{id:"dram",x:85,y:44,icon:"🥃",label:"领地租",kind:"场景 · Collecting your rent",title:"That's you paid up for the year",
+ passage:{
+  en:["You made it back, then. Wet enough for you?",
+      "Right — you'll be after your rent.",
+      "Pop your certificate on the bar and I'll pour you your dram.",
+      "Ten-year-old alright, or would you rather try something else?",
+      "There you are. Water? There's a jug at the end of the bar.",
+      "Slàinte. And that's you paid up for the year."],
+  zh:"你回来了啊。够湿了吧？<br>好——你是来领租金的吧。<br>把证书往吧台上一放，我给你倒。<br>10 年的可以吗，还是你想换一个试试？<br>给你。要水吗？吧台那头有壶。<br>Slàinte。这样你这一年的租就付清了。",
+  tip:"最后一句 <b>that's you paid up</b> —— 段 5 的 <i>that's you sorted</i>、段 1 的 <i>that's you checked in</i>，<b>第三次了</b>。现在你应该不用想就知道它什么意思。"},
+ build(b){
+  b.appendChild(E("h3",null,"That's you + 过去分词"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'>这是苏格兰的招牌结构，标准英语里没有：<br><br>· <i>That's you <b>sorted</b>.</i> 你这边搞定了（段 5）<br>· <i>That's you <b>checked in</b>.</i> 你登记好了（段 1）<br>· <i>That's you <b>paid up</b>.</i> 你付清了（这里）<br>· <i>That's you <b>done</b>.</i> 你完事了<br>· <i>That's us <b>finished</b>.</i> 我们弄完了<br><br><b>公式：That's + 人称 + 过去分词</b> ＝「某人这边算是完成了」。<br><br>一个礼拜在苏格兰你能听到几十次。<b>它是这一整站里回收次数最多的一句话——因为它真的就是那么常用。</b></p>"));
+  b.appendChild(E("h3",null,"另外五个"));
+  WM.chips(b,[
+   {en:"You made it back, then.",zh:"你回来了啊。｜ make it back ＝ 成功回来（带点调侃）"},
+   {en:"Wet enough for you?",zh:"够湿了吧？｜ 英式反讽，形式是问句，其实是打趣"},
+   {en:"You'll be after your rent.",zh:"你是来领租金的吧。｜ be after ＝ 想要、来拿"},
+   {en:"Pop it on the bar.",zh:"往吧台上一放。｜ pop ＝ 随手放（英式高频，非常随意）"},
+   {en:"Would you rather try something else?",zh:"你更想试点别的吗？｜ would rather + 动词原形"},
+   {en:"There you are.",zh:"给你。｜ 递东西时说，不是 here you are 也行"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>pop 这个词值得单说。</b>英国人用它表示「轻快随手地做一下」，几乎能配任何动作：<br>· <i>Pop it on the bar.</i> 随手放吧台上<br>· <i>I'll pop out for a minute.</i> 我出去一下<br>· <i>Pop your name down here.</i> 名字写这儿<br>· <i>Pop the kettle on.</i> 烧壶水<br><br>它让句子听起来<b>轻松、不郑重</b>——这正是英国人日常说话的默认调门。你要是能自然地用出一次 pop，对方会立刻觉得你「在这儿待过」。</div>"));
+  b.appendChild(E("h3",null,"你要说的（三句就够）"));
+  WM.dialogue(b,[
+   {who:"y",en:"Made it. <mark class='k'>It's soaking out there.</mark>",zh:"回来了。外面湿透了。"},
+   {who:"g",en:"Aye, it usually is. You'll be after your rent?",zh:"对，一向如此。来领租金？"},
+   {who:"y",en:"<mark class='k'>Yes please. Here's my certificate.</mark>",zh:"是的，谢谢。这是我的证书。"},
+   {who:"g",en:"Ten-year-old alright, or would you rather try something else?",zh:"10 年的可以吗，还是想换一个？"},
+   {who:"y",en:"<mark class='k'>I'd rather try the Quarter Cask, if that's alright.</mark>",zh:"我想试试 Quarter Cask，方便的话。"},
+   {who:"g",en:"No bother at all. There you are. Slàinte.",zh:"完全没问题。给你。Slàinte。"},
+   {who:"y",en:"<mark class='k'>Slàinte mhath.</mark>",zh:"Slàinte mhath。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>I'd rather … , if that's alright.</b> 这一句要背下来。<br><br>· <b>would rather + 动词原形</b>（不加 to）：<i>I'd rather try the Quarter Cask.</i><br>· <b>if that's alright</b> 放句尾 ＝ 「方便的话」，把一个要求软化成一个请求<br><br>你在英国点单、改主意、提要求，这一整句能用一辈子。<b>而且它完全不需要生词。</b></div>"));
+ },
+ check:{q:"<b>“That's you paid up for the year.”</b> 是什么意思？",
+  opts:["你这一年的租金付清了","你今年被收费了","你要为这一年付款","你的账户被冻结了"],a:0,
+  exp:"<b>That's + 人称 + 过去分词</b> ＝ 苏格兰的「某人这边算完成了」。<br><br>你已经撞见三次了：<br>· 段 5 <i>That's you <b>sorted</b></i>（杯子给你了）<br>· 段 1 <i>That's you <b>checked in</b></i>（登记好了）<br>· 这里 <i>That's you <b>paid up</b></i>（付清了）<br><br><b>注意方向：付租金的是酒厂，不是你。</b>你是地主，他们欠你一杯酒——倒完这杯，他们这一年的租就付清了。所以 <i>that's you paid up</i> 说的是「你（作为收租方）这一年的事了结了」。<br><br>这个玩笑正是 Friends of Laphroaig 的全部乐趣所在。"}},
+
+{id:"notes",x:14,y:88,icon:"📓",label:"本场笔记",kind:"写作 · Your notes for this scene",title:"这一场，你自己写",
+ notes:{
+  taskTitle:"把闲聊的六个回答提前写好",
+  task:"苏格兰人搭话的套路是固定的。<b>现在就把你的答案写出来</b>，到时候就不是即兴，是填空。<br><br><b>回答这六个问题（每个一到两句）：</b><br>① Where've you come from, then?<br>② How long are you over for?<br>③ Is this your first time on Islay?<br>④ What have you managed to see so far?<br>⑤ Have you been round any of the others?<br>⑥ And what did you make of them?<br><br><b>第 ⑥ 题必须用一个比较</b>（<i>…er than I expected</i> 或 <i>not as … as…</i>）。",
+  placeholder:"I'm over from China, actually…",
+  minHeight:"160px",
+  checklist:["<b>现在完成时</b>：I'<b>ve been</b> round Ardbeg（去过，经历）— 别写成 I went，除非带明确的过去时间",
+   "<b>完成时不能带明确过去时间</b>：I visited Ardbeg <b>yesterday</b>（过去时）／ I'<b>ve</b> visited Ardbeg（完成时，不加 yesterday）",
+   "<b>for + 时长</b>：I've been here <b>for</b> three days（不是 since three days）",
+   "<b>very 不能修饰动词</b>：I <b>really</b> like it（不是 I very like it）",
+   "<b>冠词</b>：a few days / the others / an eagle",
+   "<b>比较级</b>：drier than I expected ／ not as peaty as I expected —— than 配比较级，as 配原级"],
+  ref:"I'm over from China, actually — I work in Edinburgh sometimes, so I came across for a few days. Just three days on Islay. Aye, first time. I've been round Ardbeg and Lagavulin so far, and I walked out to the peat banks this morning. I liked Ardbeg best, I think — it was drier than I expected, and not as sweet as the Laphroaig. You're right about the weather, though. We've been lucky.",
+  refNote:"用到：<b>over from</b>（从别处过来）／<b>came across</b>（过来一趟）／<b>I've been round … so far</b>（完成时 + so far）／<b>I walked out … this morning</b>（有明确时间 → 过去时）／<b>drier than I expected</b> 和 <b>not as sweet as</b>（两种比较，一个 than 一个 as）／<b>though</b> 放句尾表转折。<br><br><b>注意完成时和过去时是怎么分工的</b>：<i>I've been round Ardbeg</i>（经历，不说什么时候）vs <i>I walked out this morning</i>（有 this morning，必须过去时）。这是这一整段最值得练的一条。"
+ }},
+
+{id:"outro",x:32,y:88,icon:"🧾",label:"过关",kind:"过关 · Produce, don't pick",title:"这一关要你真的写英语",outro:true}
+];
+
+WM.boot({
+ sceneKey:"s4",
+ progressKey:"whiskymap.laphroaig.s4.v1",
+ sub:"ISLAY · 第 4 段 COLLECTING YOUR RENT",
+ crumbs:[{n:1,t:"报到",href:"laphroaig-1-arrival.html"},{n:2,t:"发麦",href:"laphroaig-2-malting.html"},
+         {n:3,t:"蒸馏",href:"laphroaig-3-stills.html"},{n:4,t:"地租",on:true},
+         {n:5,t:"品鉴",href:"laphroaig-5-tasting.html"}],
+ svg:SVG,spots:SPOTS,
+ note:"<b>这一段的英语重点：</b>指路动词、地貌词、<b>现在完成（进行）时 vs 过去时</b>、祈使句+and、see to／be after／pop，以及<b>一整格闲聊套路</b>——全站最难也最值钱的一格。<br><b>跨场回收：</b><i>That's you + 过去分词</i> 第三次；苏格兰否定 <i>you'll not</i> 第三次；<i>What … is …</i> 强调框架第二次；<i>too … to …</i> 再现。",
+ doneMsg:"🥃 <b>Slàinte mhath! 五场全部走完了。</b>",
+ exportTitle:"Laphroaig · 第 4 段 Collecting Your Rent · 我的笔记",
+ dict:["You'll come to a burn — that's a stream — with a plank over it.",
+       "Where've you come from, then? And how long are you over for?",
+       "You'll be after your rent. Pop your certificate on the bar."],
+ comp:[
+  {sit:"对方问你 <b>Where've you come from, then?</b>",need:["用 <b>over from</b>","加一句为什么来"],
+   ref:"I'm over from China, actually. I work in Edinburgh sometimes, so I came across for a few days."},
+  {sit:"对方问 <b>What did you make of Ardbeg?</b>",need:["说你的看法","必须用一个<b>比较</b>（…er than 或 not as … as）"],
+   ref:"I liked it, actually — it was drier than I expected."},
+  {sit:"你想说你目前去过两家酒厂了。",need:["用<b>现在完成时</b>","加 <b>so far</b>"],
+   ref:"I've been round Ardbeg and Lagavulin so far."},
+  {sit:"服务员问你要 10 年还是别的，你想换 Quarter Cask。",need:["用 <b>I'd rather</b> + 动词原形","句尾加 <b>if that's alright</b>"],
+   ref:"I'd rather try the Quarter Cask, if that's alright."}],
+ fix:[
+  {bad:"It's my first time to come to Islay.",good:"It's my first time on Islay.",why:"<b>first time</b> 后面不接 to do。要么直接跟地点（first time <b>on</b> Islay / <b>in</b> Japan），要么跟从句（the first time I've been here）。"},
+  {bad:"I have came from China.",good:"I've come from China.",why:"完成时用<b>过去分词</b>：come 的三态是 come–came–<b>come</b>。came 是过去式，不能跟在 have 后面。"},
+  {bad:"I am here since three days.",good:"I've been here for three days.",why:"两处：① 持续到现在要用<b>完成时</b>；② <b>时长用 for</b>，since 后面跟的是<b>时间点</b>（since Monday）。"},
+  {bad:"I very like Ardbeg.",good:"I really like Ardbeg.",why:"<b>very 不能修饰动词</b>，只能修饰形容词和副词（very good / very quickly）。修饰动词用 <b>really</b> 或 <b>very much</b>（I like it very much）。"},
+  {bad:"There are hardly any tree for miles.",good:"There are hardly any trees for miles.",why:"<b>any + 可数名词</b>在这里要用复数：any trees。（hardly 本身已是否定，后面配 any 是对的。）"},
+  {bad:"I have visited Ardbeg yesterday.",good:"I visited Ardbeg yesterday.",why:"<b>现在完成时不能带明确的过去时间点</b>（yesterday / last week / in 2019）。有具体时间就用<b>一般过去时</b>。"}]
+});
+</script>
+</body>
+</html>

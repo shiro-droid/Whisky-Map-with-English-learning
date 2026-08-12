@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Laphroaig 3 · 蒸馏室 | Whisky Map</title>
+<link rel="stylesheet" href="wm.css">
+</head>
+<body><div id="app"></div>
+<script src="wm.js"></script>
+<script>
+const E=WM.el;
+
+const SVG=`<svg class="bg" viewBox="0 0 375 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D8D2C4"/><stop offset="1" stop-color="#A8A091"/></linearGradient>
+<linearGradient id="cu" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7A3E1C"/><stop offset=".28" stop-color="#E09048"/><stop offset=".5" stop-color="#C86E28"/><stop offset=".78" stop-color="#A0501C"/><stop offset="1" stop-color="#6E3414"/></linearGradient>
+<linearGradient id="cu2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6E3414"/><stop offset=".3" stop-color="#D08040"/><stop offset=".55" stop-color="#B05F22"/><stop offset="1" stop-color="#5E2C10"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A6636"/><stop offset="1" stop-color="#5A4020"/></linearGradient>
+<linearGradient id="brass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8E7024"/><stop offset=".4" stop-color="#E4C264"/><stop offset="1" stop-color="#8A6C22"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(214,232,236,.75)"/><stop offset="1" stop-color="rgba(150,190,200,.6)"/></linearGradient>
+</defs>
+<rect width="375" height="400" fill="url(#wallG)"/>
+<g opacity=".22" stroke="#8A8172" stroke-width="1">
+<line x1="0" y1="40" x2="375" y2="40"/><line x1="0" y1="82" x2="375" y2="82"/><line x1="0" y1="124" x2="375" y2="124"/>
+<line x1="62" y1="0" x2="62" y2="248"/><line x1="188" y1="0" x2="188" y2="248"/><line x1="314" y1="0" x2="314" y2="248"/></g>
+<!-- 高窗 -->
+<g><rect x="18" y="24" width="62" height="46" rx="3" fill="#BFD2D2" stroke="#6E6558" stroke-width="4"/>
+<line x1="49" y1="24" x2="49" y2="70" stroke="#6E6558" stroke-width="3"/><line x1="18" y1="47" x2="80" y2="47" stroke="#6E6558" stroke-width="3"/></g>
+<!-- 管道 -->
+<g stroke="#7E7466" stroke-width="7" fill="none" stroke-linecap="round">
+<path d="M96 18 L300 18"/><path d="M300 18 L300 92"/><path d="M120 18 L120 96"/></g>
+<g stroke="#9A8F7E" stroke-width="2" fill="none"><path d="M96 14 L300 14"/></g>
+<!-- 仪表盘 -->
+<g transform="translate(96,40)">
+<rect x="0" y="0" width="76" height="52" rx="4" fill="#3E4A44" stroke="#2A322E" stroke-width="3"/>
+<circle cx="21" cy="26" r="13" fill="#E8E4D6" stroke="#2A322E" stroke-width="2"/>
+<line x1="21" y1="26" x2="28" y2="18" stroke="#9E4B34" stroke-width="2"/><circle cx="21" cy="26" r="2" fill="#241F1B"/>
+<circle cx="55" cy="26" r="13" fill="#E8E4D6" stroke="#2A322E" stroke-width="2"/>
+<line x1="55" y1="26" x2="49" y2="17" stroke="#9E4B34" stroke-width="2"/><circle cx="55" cy="26" r="2" fill="#241F1B"/></g>
+<!-- 糖化槽 mash tun -->
+<g transform="translate(14,150)">
+<ellipse cx="52" cy="16" rx="52" ry="15" fill="#B8B0A0"/>
+<path d="M0 16 L0 78 a52 20 0 0 0 104 0 L104 16 Z" fill="#9E968A"/>
+<ellipse cx="52" cy="16" rx="44" ry="12" fill="#7E7668"/>
+<rect x="46" y="-16" width="12" height="24" fill="#8A8274"/><ellipse cx="52" cy="-16" rx="14" ry="5" fill="#A8A091"/>
+<g opacity=".3" stroke="#6E6658" stroke-width="1.5"><line x1="0" y1="40" x2="104" y2="40"/><line x1="0" y1="62" x2="104" y2="62"/></g>
+<text x="52" y="56" font-family="Georgia,serif" font-size="9" fill="#3E382E" text-anchor="middle">MASH TUN</text></g>
+<!-- 发酵槽 washbacks -->
+<g transform="translate(132,138)">
+<ellipse cx="34" cy="12" rx="34" ry="11" fill="url(#wood)"/>
+<ellipse cx="34" cy="12" rx="27" ry="8" fill="#3E2E18"/>
+<ellipse cx="34" cy="11" rx="24" ry="6.5" fill="#C4B478" opacity=".55"/>
+<path d="M0 12 L2 74 a32 12 0 0 0 64 0 L68 12 Z" fill="url(#wood)"/>
+<g fill="#6E6658"><rect x="0" y="30" width="68" height="4"/><rect x="1" y="56" width="66" height="4"/></g>
+<ellipse cx="98" cy="14" rx="30" ry="10" fill="url(#wood)"/>
+<ellipse cx="98" cy="14" rx="24" ry="7" fill="#3E2E18"/>
+<path d="M68 14 L70 70 a28 11 0 0 0 56 0 L128 14 Z" fill="url(#wood)" opacity=".9"/></g>
+<!-- 蒸馏器 -->
+<g transform="translate(228,96)">
+<path d="M22 148 L22 92 q0 -34 30 -44 q-14 -10 -14 -26 L38 6 L64 6 L64 22 q0 16 -14 26 q30 10 30 44 L80 148 Z" fill="url(#cu)"/>
+<path d="M38 6 L64 6 L64 -4 q-13 -6 -26 0 Z" fill="#B8672A"/>
+<path d="M64 14 q40 6 46 46 q4 34 -6 60" fill="none" stroke="url(#cu2)" stroke-width="9" stroke-linecap="round"/>
+<ellipse cx="51" cy="148" rx="29" ry="8" fill="#5E2C10"/>
+<rect x="18" y="146" width="66" height="8" rx="2" fill="#4A2410"/>
+<ellipse cx="51" cy="60" rx="18" ry="7" fill="#E8A860" opacity=".35"/></g>
+<g transform="translate(300,120)">
+<path d="M14 124 L14 78 q0 -28 22 -36 q-10 -8 -10 -20 L26 6 L46 6 L46 22 q0 12 -10 20 q22 8 22 36 L58 124 Z" fill="url(#cu2)"/>
+<path d="M26 6 L46 6 L46 -2 q-10 -5 -20 0 Z" fill="#A85C22"/>
+<ellipse cx="36" cy="124" rx="22" ry="6" fill="#4A2410"/>
+<rect x="10" y="122" width="52" height="7" rx="2" fill="#3E1E0C"/></g>
+<!-- 地面 -->
+<rect x="0" y="248" width="375" height="152" fill="#6E6658"/>
+<g opacity=".3" stroke="#575044" stroke-width="1.5">
+<line x1="0" y1="278" x2="375" y2="278"/><line x1="0" y1="312" x2="375" y2="312"/><line x1="0" y1="350" x2="375" y2="350"/>
+<line x1="94" y1="248" x2="94" y2="400"/><line x1="188" y1="248" x2="188" y2="400"/><line x1="282" y1="248" x2="282" y2="400"/></g>
+<rect x="0" y="244" width="375" height="6" fill="#8A8274"/>
+<!-- Spirit safe -->
+<g transform="translate(268,252)">
+<rect x="10" y="46" width="8" height="52" fill="#5E5648"/><rect x="72" y="46" width="8" height="52" fill="#5E5648"/>
+<rect x="0" y="0" width="90" height="50" rx="4" fill="url(#brass)"/>
+<rect x="7" y="7" width="76" height="36" rx="2" fill="url(#glass)"/>
+<g stroke="#8E7024" stroke-width="2.5"><line x1="45" y1="7" x2="45" y2="43"/></g>
+<g fill="#C8DCE0" opacity=".8"><rect x="20" y="16" width="4" height="22" rx="2"/><rect x="62" y="14" width="4" height="24" rx="2"/></g>
+<circle cx="45" cy="50" r="7" fill="#8E7024"/><rect x="42" y="50" width="6" height="9" rx="2" fill="#6E5418"/>
+<text x="45" y="-6" font-family="Georgia,serif" font-size="8" fill="#3E382E" text-anchor="middle">SPIRIT SAFE</text></g>
+<!-- 导览员 -->
+<g opacity=".9" transform="translate(196,268)"><ellipse cx="0" cy="0" rx="15" ry="17" fill="#241C18"/>
+<path d="M0 17 C-17 17 -26 32 -27 60 L-27 100 L27 100 L27 60 C26 32 17 17 0 17 Z" fill="#2E2420"/>
+<ellipse cx="0" cy="-6" rx="16" ry="7" fill="#1C1512"/></g>
+<!-- 笔记本 -->
+<g transform="translate(24,354)"><rect x="0" y="0" width="48" height="32" rx="3" fill="#EFE7D2" transform="rotate(-7)"/>
+<g transform="rotate(-7)" stroke="#B0A088" stroke-width="1"><line x1="6" y1="9" x2="41" y2="9"/><line x1="6" y1="16" x2="41" y2="16"/><line x1="6" y1="23" x2="33" y2="23"/></g>
+<rect x="-2" y="-2" width="5" height="36" rx="2" fill="#9E4B34" transform="rotate(-7)"/></g>
+<!-- 小票 -->
+<g transform="translate(158,354)"><rect x="0" y="0" width="30" height="38" rx="2" fill="#F2EDE2" transform="rotate(6)"/>
+<g transform="rotate(6)" stroke="#B8AE9E" stroke-width="1"><line x1="4" y1="8" x2="26" y2="8"/><line x1="4" y1="15" x2="26" y2="15"/><line x1="4" y1="22" x2="21" y2="22"/><line x1="4" y1="29" x2="26" y2="29"/></g></g>
+</svg>`;
+
+const SPOTS=[
+{id:"mash",x:18,y:47,icon:"🌡",label:"糖化槽",kind:"工序 · Mashing",title:"把糖洗出来",
+ passage:{
+  en:["This is the mash tun. The malt is ground down and mixed with hot water in here.",
+      "We do it three times, and each water is hotter than the one before.",
+      "The first two pull the sugar out. The third is too weak to use on its own, so it goes back in to start the next batch.",
+      "What comes out is called wort. It's sweet, it's cloudy, and it tastes like weak beer without the bitterness.",
+      "No hops here. Just barley, water and time."],
+  zh:"这是糖化槽。麦芽在这儿被磨碎，跟热水混在一起。<br>我们做三次，每一道水都比前一道热。<br>前两道把糖洗出来。第三道太稀了单独用不了，所以回去当下一批的第一道水。<br>出来的东西叫 wort（麦汁）。它是甜的、浑的，尝起来像不带苦味的淡啤酒。<br>这里没有啤酒花。只有大麦、水和时间。",
+  tip:"最后一句又是段 2 那个 <b>“No X, no Y”</b> 家族的省略句：<i>No hops here. Just barley, water and time.</i>"},
+ build(b){
+  b.appendChild(E("h3",null,"too … to … 是这一段的骨架"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><i>The third is <b>too weak to use</b> on its own.</i>「第三道太稀，用不了」<br><br><b>too + 形容词 + to + 动词原形</b> ＝ 太……以至于不能……<br>· <i>too hot to drink</i> 太烫喝不了<br>· <i>too small to see</i> 太小看不见<br><br><b>两个坑：</b><br>① 后面的动词<b>不带宾语</b>：too weak to use ✓ / too weak to use <s>it</s> ✗（it 已经是主语了）<br>② <b>不能用 for</b>：too weak <s>for use it</s> ✗<br><br>这两个错中国学习者几乎都犯过。</p>"));
+  b.appendChild(E("h3",null,"the one before"));
+  b.appendChild(E("div","box flat","<div class='small'><i>each water is hotter than <b>the one before</b></i><br><br><b>the one before</b> ＝ 前一个（省略了 water）。同类还有：<br><i>the one after / the one below / the one on the left / the ones we tried</i><br><br><b>one</b> 在英语里是万能替代词，专门用来避免重复名词。中文没有这个习惯，所以中国学习者要么重复名词，要么用 it（但 it 指的是同一个东西，one 指的是同类的另一个）——<b>这个区别很关键</b>。</div>"));
+  b.appendChild(E("h3",null,"这一段的词"));
+  WM.vocab(b,[
+   {w:"mash tun",ipa:"/mæʃ tʌn/",zh:"糖化槽",ja:"マッシュタン／糖化槽"},
+   {w:"to grind (ground)",ipa:"/ɡraɪnd/ /ɡraʊnd/",zh:"磨碎（不规则动词）",ja:"挽く"},
+   {w:"grist",ipa:"/ɡrɪst/",zh:"磨好的麦芽粉",ja:"グリスト"},
+   {w:"wort",ipa:"/wɜːt/",zh:"麦汁（注意读 /wɜːt/，不读 wort）",ja:"ウォート／麦汁"},
+   {w:"batch",ipa:"/bætʃ/",zh:"一批",ja:"バッチ／一回分"},
+   {w:"hops",ipa:"/hɒps/",zh:"啤酒花（威士忌不用）",ja:"ホップ"}
+  ]);
+ },
+ check:{q:"「这水太稀，用不了」哪句对？",
+  opts:["It's too weak to use.","It's too weak to use it.","It's too weak for use it.","It's too weak that we can't use."],a:0,
+  exp:"<b>too + 形容词 + to + 动词原形</b>，而且后面的动词<b>不再带宾语</b>——因为宾语就是句子的主语（it）。<br><br>· <i>The tea is too hot to drink.</i> ✓（不是 to drink it）<br>· <i>The box is too heavy to lift.</i> ✓<br><br>B 和 C 是中国学习者最常见的两种写法，都错。D 是把中文「太……以至于」直译过来的结构。"}},
+
+{id:"wash",x:41,y:38,icon:"🫧",label:"发酵槽",kind:"工序 · Fermentation",title:"它在里面自己响",
+ passage:{
+  en:["These are the washbacks. We add yeast, and then we leave it alone for about three days.",
+      "Come in here on the second day and you'll hear it working. It hisses, and it climbs up the sides.",
+      "The yeast eats the sugar and gives off alcohol, carbon dioxide and a lot of heat.",
+      "What's in there at the end is called wash. It's about eight per cent, and it really does taste like beer.",
+      "Sour beer, mind. Nobody's ever asked for a second glass."],
+  zh:"这些是发酵槽。我们加酵母，然后放着不管，大约三天。<br>第二天进来你能听见它在工作。它嘶嘶响，还会顺着桶壁往上爬。<br>酵母吃糖，放出酒精、二氧化碳和大量的热。<br>最后里面的东西叫 wash（酒醪）。大约八度，而且它<b>确实</b>尝起来像啤酒。<br>酸啤酒，注意。从来没有人要过第二杯。",
+  tip:"<b>it really does taste like beer</b> ——这个 does 不是错，是<b>强调</b>。下面讲。"},
+ build(b){
+  b.appendChild(E("h3",null,"does 强调式：中国学习者几乎不用的一招"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'>正常说：<i>It tastes like beer.</i><br>强调说：<i>It <b>does</b> taste like beer.</i>「它<b>确实</b>尝起来像啤酒」<br><br>规则：在动词前加 <b>do / does / did</b>，后面的动词回到<b>原形</b>。<br>· <i>I <b>do</b> like it.</i> 我是真喜欢<br>· <i>He <b>did</b> say that.</i> 他确实这么说了<br>· <i>It <b>does</b> get cold here.</i> 这儿是真的会冷<br><br><b>什么时候用？</b>对方怀疑、或者你要反驳一个预期的时候。这里导览员知道你不信「威士忌半成品像啤酒」，所以加了 does。<br><br><b>这一招几乎不需要新词汇，但一用出来就非常像母语者。</b></p>"));
+  b.appendChild(E("h3",null,"给声音配动词"));
+  WM.chips(b,[
+   {en:"It hisses.",zh:"它嘶嘶响。｜ hiss ＝ 气体逸出的声音"},
+   {en:"It climbs up the sides.",zh:"它顺着桶壁往上爬。｜ 拟人，非常生动"},
+   {en:"It gives off a lot of heat.",zh:"它放出大量的热。｜ give off ＝ 散发（烟/味/热）"},
+   {en:"It bubbles away for three days.",zh:"它咕嘟咕嘟冒三天泡。｜ away ＝ 持续不停地"},
+   {en:"We leave it alone.",zh:"我们不去管它。｜ 段 2 的 let it get on with it 同义"}
+  ]);
+  b.appendChild(E("h3",null,"这一段的词"));
+  WM.vocab(b,[
+   {w:"washback",ipa:"/ˈwɒʃbæk/",zh:"发酵槽",ja:"ウォッシュバック／発酵槽"},
+   {w:"yeast",ipa:"/jiːst/",zh:"酵母",ja:"酵母／イースト"},
+   {w:"to ferment",ipa:"/fəˈment/",zh:"发酵",ja:"発酵する"},
+   {w:"wash",ipa:"/wɒʃ/",zh:"酒醪（发酵完的液体，约 8%）",ja:"ウォッシュ／もろみ"},
+   {w:"sour",ipa:"/ˈsaʊə/",zh:"酸的",ja:"酸っぱい"},
+   {w:"carbon dioxide",ipa:"/ˈkɑːbən daɪˈɒksaɪd/",zh:"二氧化碳",ja:"二酸化炭素"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>Mind 第四次。</b><i>Sour beer, mind.</i> ——句尾的 mind ＝「注意啊、话说回来」。<br>段 5 <i>Just a drop, mind</i> / 段 2 <i>Mind your back</i> / 段 2 <i>Mind your eyes</i> / 这里。<br><br><b>撞四次之后，你应该已经不需要翻译它了。</b>这就是这个项目的做法：不背，靠撞。</div>"));
+ },
+ check:{q:"<b>“it really does taste like beer”</b> 里的 does 是干什么的？",
+  opts:["强调「确实」，后面动词回原形","是语法错误，应该删掉","表示疑问","表示过去时"],a:0,
+  exp:"<b>do / does / did + 动词原形</b> ＝ 强调式，中文的「确实、真的、就是」。<br><br>注意 taste 回到了<b>原形</b>（不是 tastes）——强调的重量转移到 does 上了。<br><br>· <i>I <b>do</b> like it.</i><br>· <i>She <b>did</b> tell me.</i><br>· <i>It <b>does</b> work.</i><br><br><b>这一招零成本、效果大</b>，你在爱丁堡办公室反驳同事时立刻能用：<i>We did send it last week.</i>"}},
+
+{id:"stills",x:70,y:40,icon:"🥃",label:"蒸馏器",kind:"设备 · The stills",title:"七个，而且配不成对",
+ passage:{
+  en:["Seven stills: three wash stills and four spirit stills.",
+      "That's an odd arrangement — most distilleries pair them up. Ours have never matched, and we've never changed it.",
+      "The shape matters more than you'd think.",
+      "A tall still lets only the lightest vapour over the top. A short, fat one lets more through, and that gives you a heavier spirit.",
+      "And copper is not just for looks. It strips the sulphur out.",
+      "In steel you'd get something you couldn't drink."],
+  zh:"七个蒸馏器：三个初馏器，四个再馏器。<br>这是个奇怪的配置——大部分酒厂是成对的。我们的从来就配不成对，而我们也从来没改过。<br>形状比你想的重要得多。<br>高的蒸馏器只让最轻的蒸汽翻过顶部。矮胖的让更多东西过去，给你更重的酒体。<br>而铜不只是为了好看。它把硫剥掉。<br>用不锈钢的话，你会得到一种没法喝的东西。",
+  tip:"注意 <b>odd</b> 这里是「奇数」和「奇怪」的双关——七个本来就是奇数，配置也确实奇怪。"},
+ build(b){
+  b.appendChild(E("h3",null,"两个能直接搬走的说法"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>① more than you'd think</b> ＝ 比你以为的多<br><i>The shape matters more than you'd think.</i><br>同族：<i>harder than you'd think / cheaper than you'd expect / closer than it looks</i><br>（段 2 的 <i>heavier than it looks</i> 是同一个家族）<br><br><b>② not just for looks</b> ＝ 不只是为了好看<br><i>Copper is not just for looks.</i><br>这个说法专门用来「先否定一个表面理由，再给真理由」，写文案和做汇报都好用。</p>"));
+  b.appendChild(E("h3",null,"strip out：一个非常有用的动词"));
+  b.appendChild(E("div","box flat","<div class='small'><b>strip out</b> ＝ 剥离、去掉（把不要的东西拿走）<br>· <i>Copper strips the sulphur out.</i> 铜把硫去掉<br>· <i>They stripped out all the jargon.</i> 他们把行话全删了<br>· <i>strip a room</i> 把房间清空<br><br>技术、装修、写作都用它。<b>你做技术工作，这个词迟早会碰上。</b></div>"));
+  b.appendChild(E("h3",null,"设备词"));
+  WM.vocab(b,[
+   {w:"pot still",ipa:"/pɒt stɪl/",zh:"壶式蒸馏器",ja:"ポットスチル"},
+   {w:"wash still",ipa:"—",zh:"初馏器（第一次蒸馏）",ja:"初留釜"},
+   {w:"spirit still",ipa:"—",zh:"再馏器（第二次蒸馏）",ja:"再留釜"},
+   {w:"vapour",ipa:"/ˈveɪpə/",zh:"蒸汽（英式拼写带 u）",ja:"蒸気"},
+   {w:"copper",ipa:"/ˈkɒpə/",zh:"铜",ja:"銅"},
+   {w:"sulphur",ipa:"/ˈsʌlfə/",zh:"硫（英式；美式 sulfur）",ja:"硫黄"},
+   {w:"the lyne arm",ipa:"/laɪn ɑːm/",zh:"林恩臂（蒸馏器顶部的导管）",ja:"ラインアーム"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>为什么形状决定味道：</b>蒸汽在铜壁上冷凝又蒸发，这叫 <b>reflux（回流）</b>。蒸馏器越高，回流越多，只有最轻的分子能翻过顶部 → 酒体轻盈。矮胖的回流少 → 酒体厚重油润。<br><br><b>所以 Laphroaig 的七个不对称蒸馏器，本身就是它风味的一部分</b>——换掉任何一个，酒就不是它了。这也是酒厂修蒸馏器时会照着旧的凹痕一起复制的原因。</div>"));
+ },
+ check:{q:"为什么蒸馏器一定要用铜，不能用不锈钢？",
+  opts:["铜会把硫剥掉，钢做不到","铜导热快，省燃料","铜比较便宜","铜好看，是传统"],a:0,
+  exp:"<b>It strips the sulphur out.</b> —— 铜和硫化物发生反应，把那股臭鸡蛋味吸走。这是化学，不是传统。<br><br>原文那句反驳得很利落：<i>copper is <b>not just for looks</b></i>——先把「好看」这个表面理由否掉，再给真理由。<br><br>另外注意 <b>In steel you'd get something you couldn't drink.</b> 用了虚拟：<b>you'd（would）</b>＋<b>couldn't</b>，因为这是假设，不是事实。"}},
+
+{id:"safe",x:87,y:66,icon:"🔒",label:"取酒箱",kind:"核心 · The cut",title:"一个上锁的黄铜箱子",
+ passage:{cap:"English first · 书面说明体",
+  en:["This brass and glass box is the spirit safe, and it is locked.",
+      "For nearly two hundred years the excise officer held the only key, and the distiller could not touch his own spirit.",
+      "The stillman works through it by sight alone. He watches the spirit run, and he decides where to make the cut.",
+      "The first part off the still is too harsh; the last part is oily and dull. Neither of them goes into the cask.",
+      "Only the middle is kept, and that middle is called the heart.",
+      "When to cut, and where — that is the one decision that makes a distillery taste like itself."],
+  zh:"这个黄铜加玻璃的箱子叫 spirit safe（取酒箱），而且它是锁着的。<br>将近两百年里，钥匙只有税务官有一把，酿酒师碰不到自己酿的酒。<br>蒸馏师只能隔着玻璃靠眼睛判断。他看着酒液流过，决定在哪里下刀。<br>最先流出来的那段太冲；最后那段油腻而沉闷。两段都不进桶。<br>只有中间那段留下来，那一段叫 <b>the heart</b>（酒心）。<br>什么时候切、切在哪里——这是让一家酒厂尝起来像它自己的那一个决定。",
+  tip:"最后一句又是<b>段 1 白墙、段 2 宝塔顶</b>那个收尾家族：破折号 + 一句抽象的总结。"},
+ build(b){
+  b.appendChild(E("h3",null,"三段酒的英文名"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>foreshots</b> /ˈfɔːʃɒts/ ——最先流出的，酒精度极高、含甲醇和杂味，太冲。也叫 <b>the heads</b>。<br><br><b>the heart</b> ——中间那段，唯一进桶的。也叫 <b>the middle cut</b>。<br><br><b>feints</b> /feɪnts/ ——最后流出的，油腻、沉闷。也叫 <b>the tails</b>。<br><br>前后两段不会浪费，会回到下一批重蒸。<b>「切在哪里」是每家酒厂最核心的机密</b>——同样的麦芽、同样的桶，切法不同，酒就完全不同。</p>"));
+  b.appendChild(E("h3",null,"为什么箱子要上锁：一段税务史"));
+  b.appendChild(E("div","box flat","<div class='small'>1823 年之后，英国政府对威士忌按产量征税，于是派 <b>excise officer</b>（税务官）常驻每一家酒厂，钥匙只有他有。酿酒师只能<b>隔着玻璃看</b>，用箱子上的阀门取样，全靠眼睛判断酒液的清浊和挂杯。<br><br>这个制度到 1983 年才取消，但<b>所有酒厂都保留了这个箱子</b>——因为一代代蒸馏师就是这么练出来的。<br><br>顺带：<b>excise</b> /ˈeksaɪz/ ＝ 国内消费税（跟进口关税 customs 相对）。英国税务局至今叫 <b>HMRC</b>（HM Revenue &amp; Customs）。</div>"));
+  b.appendChild(E("h3",null,"by sight alone"));
+  b.appendChild(E("div","box flat","<div class='small'><b>名词 + alone</b> ＝ 仅凭……<br>· <i>by sight alone</i> 仅凭肉眼<br>· <i>by memory alone</i> 全凭记忆<br>· <i>Time alone will tell.</i> 只有时间能证明<br><br>注意语序：<b>alone 放在名词后面</b>，不是前面。放前面（<i>alone by sight</i>）就完全不对了。<br><br>这个小结构很短，但一用就显得英语成熟。</div>"));
+  WM.vocab(b,[
+   {w:"spirit safe",ipa:"—",zh:"取酒箱",ja:"スピリッツセーフ"},
+   {w:"the cut",ipa:"/kʌt/",zh:"切取点（决定留哪一段）",ja:"カットポイント"},
+   {w:"foreshots / heads",ipa:"/ˈfɔːʃɒts/",zh:"酒头",ja:"ヘッド／前留"},
+   {w:"the heart",ipa:"/hɑːt/",zh:"酒心（中段，唯一进桶）",ja:"ハート／中留"},
+   {w:"feints / tails",ipa:"/feɪnts/",zh:"酒尾",ja:"テール／後留"},
+   {w:"excise officer",ipa:"/ˈeksaɪz/",zh:"税务官",ja:"収税官"}
+  ]);
+ },
+ check:{q:"<b>the heart</b> 指的是什么？",
+  opts:["中段酒液，唯一进桶的那一段","蒸馏器最中心的部位","酒厂最古老的那栋楼","酒心形状的取酒阀"],a:0,
+  exp:"三段：<b>foreshots（酒头，太冲）→ heart（酒心，留下）→ feints（酒尾，油腻）</b>。只有 heart 进桶。<br><br>原文那句 <i>Neither of them goes into the cask</i> 值得注意：<b>neither of them 后面用单数动词 goes</b>——neither/either/each 在正式英语里都当单数。<br><br>而最后一句 <i>the one decision that makes a distillery taste like itself</i>，<b>the one</b>（不是 the only）＝「就是那一个」，比 only 更有分量。"}},
+
+{id:"numbers",x:30,y:16,icon:"📊",label:"数字",kind:"听力专项 · Numbers",title:"数字是听力里最容易崩的地方",
+ passage:{
+  en:["The wash goes in at about eight per cent, and it comes off the second still at around seventy.",
+      "We cut it back to sixty-three point five before it goes into the cask.",
+      "The ten-year-old is bottled at forty. The Quarter Cask is forty-eight.",
+      "Cask strength varies with the year, but it usually lands somewhere in the fifties.",
+      "And a cask loses about two per cent a year to evaporation — the angels' share.",
+      "Over ten years, that adds up."],
+  zh:"酒醪进去大约八度，从第二个蒸馏器出来大约七十度。<br>进桶之前我们把它降到 63.5 度。<br>10 年款按 40 度装瓶。Quarter Cask 是 48 度。<br>桶强每年不一样，但通常落在五十几度。<br>而一个桶每年因蒸发损失大约百分之二——这就是「天使的份额」。<br>十年下来，那可不是小数目。",
+  tip:"整段全是数字。<b>先不看文本听三遍</b>，你会发现听不清的永远是数字，不是单词。"},
+ build(b){
+  b.appendChild(E("h3",null,"小数点怎么念"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>63.5</b> → <i>sixty-three <b>point</b> five</i><br><b>0.5</b> → <i><b>nought</b> point five</i>（英式）／<i>zero point five</i>（美式）<br><b>58.4%</b> → <i>fifty-eight point four per cent</i><br><br><b>规则：小数点后一位一位念</b>，不合成数字。<br>· 3.14 → three point <b>one four</b>（不是 fourteen）<br><br>威士忌度数几乎都是一位小数，这个念法你会用一辈子。</p>"));
+  b.appendChild(E("h3",null,"per cent 的三个坑"));
+  b.appendChild(E("div","box flat","<div class='small'>① <b>永远不加 s</b>：eight per cent ✓ / eight per cent<s>s</s> ✗<br>② 英式写成两个词 <b>per cent</b>，美式一个词 percent。名词形式是 <b>percentage</b>。<br>③ 说酒的度数时，英国人经常<b>把 per cent 省掉</b>：<i>It's bottled at forty.</i>「装瓶 40 度」——数字后面什么都不加。<b>这个省略会让你听懵，但一旦知道就再也不会错。</b></div>"));
+  b.appendChild(E("h3",null,"in the fifties：一个模糊范围的说法"));
+  b.appendChild(E("div","box flat","<div class='small'><b>in the fifties</b> ＝ 五十几（50–59）<br>· <i>It lands somewhere in the fifties.</i> 落在五十几度<br>· <i>He's in his forties.</i> 他四十几岁<br>· <i>Temperatures in the twenties.</i> 二十几度<br><br><b>数字 + s + 定冠词 the</b>，专门表示一个十位区间。中文说「五十几」很自然，英语必须用这个结构，直译不出来。</div>"));
+  b.appendChild(E("h3",null,"另外三个动词"));
+  WM.chips(b,[
+   {en:"We cut it back to sixty-three point five.",zh:"我们把它降到 63.5。｜ cut back to ＝ 降到"},
+   {en:"It varies with the year.",zh:"每年不一样。｜ vary with ＝ 随……变化"},
+   {en:"It lands somewhere in the fifties.",zh:"落在五十几。｜ land ＝ 最终落在（很口语）"},
+   {en:"Over ten years, that adds up.",zh:"十年下来，累积起来就不少了。｜ add up ＝ 累积、积少成多"},
+   {en:"the angels' share",zh:"天使的份额（陈年蒸发损耗）｜ 注意撇号在 s 后面，天使是复数"}
+  ]);
+ },
+ check:{q:"<b>63.5%</b> 英语怎么念？",
+  opts:["sixty-three point five per cent","sixty-three comma five per cent","sixty-three point fifth per cent","sixty-three and a half per cents"],a:0,
+  exp:"小数点念 <b>point</b>（不是 comma——那是德语、法语、西班牙语的习惯，英语从不用）。<br><br>小数点后<b>一位一位念</b>，用基数词（five），不是序数（fifth）。<br><br><b>per cent 永远不加 s。</b><br><br>而 D 的 <i>and a half</i> 虽然数学上对（63.5 ＝ 63 又二分之一），但说酒精度<b>没人这么讲</b>——酒标上是 63.5%，就念 point five。"}},
+
+{id:"confirm",x:57,y:70,icon:"❓",label:"15 还是 50",kind:"痛点专项 · Confirming",title:"fifteen 和 fifty 谁都分不清",
+ passage:{
+  en:["Sorry — was that fifty or fifteen?",
+      "Don't be embarrassed. I ask people that myself. The two sound almost the same, and it's noisy in here.",
+      "The trick is the stress. fifTEEN has it at the end; FIFty has it at the start.",
+      "And if you're still not sure, just say the number back to them: 'sixty-three, did you say?'",
+      "If it's a name or a word you don't know, ask them to spell it.",
+      "Nobody has ever minded. Not once."],
+  zh:"抱歉——刚才是 50 还是 15？<br>别不好意思。这个问题我自己也问别人。这两个听起来几乎一样，而且这里很吵。<br>诀窍在重音。fifTEEN 重音在后面；FIFty 重音在前面。<br>要是还不确定，就把数字复述回去：「63，你是说吗？」<br>要是遇到人名或者不认识的词，就请对方拼出来。<br>从来没有人介意过。一次都没有。",
+  tip:"这一格跟段 2 的「敢提问」是一对：<b>那一格解决「不敢开口」，这一格解决「听到了但不确定」。</b>"},
+ build(b){
+  b.appendChild(E("h3",null,"-teen 和 -ty 的重音"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'>这是英语听力里最经典的一对陷阱，而区别<b>只在重音</b>：<br><br>· <b>thirTEEN</b> / <b>THIRty</b><br>· <b>fourTEEN</b> / <b>FORty</b><br>· <b>fifTEEN</b> / <b>FIFty</b><br>· <b>sixTEEN</b> / <b>SIXty</b><br><br><b>-teen 重音在后，-ty 重音在前。</b><br><br>但现实是：说快了、环境吵，母语者自己也分不清——<b>所以他们的解决办法不是听得更准，是复述确认。</b></p>"));
+  const P=["thirteen or thirty","fourteen or forty","fifteen or fifty","sixteen or sixty","seventeen or seventy"];
+  const r=E("div","btnrow");
+  P.forEach(x=>{const btn=E("button","btn sm","▶︎ "+x);btn.onclick=()=>WM.speak(x,0.62);r.appendChild(btn)});
+  b.appendChild(E("p","small","点一下慢速听对比："));
+  b.appendChild(r);
+  b.appendChild(E("h3",null,"四句确认，学会就再也不慌"));
+  WM.chips(b,[
+   {en:"Sorry, was that fifteen or fifty?",zh:"抱歉，是 15 还是 50？｜ 直接给两个选项，最快"},
+   {en:"Sixty-three, did you say?",zh:"63，你是说吗？｜ 把数字复述回去，最稳"},
+   {en:"Sorry, how do you spell that?",zh:"抱歉，那怎么拼？｜ 人名地名专用"},
+   {en:"Could you write that down for me?",zh:"能帮我写下来吗？｜ 终极方案，没人会拒绝"}
+  ]);
+  b.appendChild(E("h3",null,"完整走一遍"));
+  WM.dialogue(b,[
+   {who:"g",en:"…and it comes off the still at about seventy per cent.",zh:"……然后从蒸馏器出来大约七十度。"},
+   {who:"y",en:"<mark class='k'>Sorry, was that seventeen or seventy?</mark>",zh:"抱歉，是 17 还是 70？"},
+   {who:"g",en:"Seventy. Seven-oh.",zh:"七十。七、零。"},
+   {who:"y",en:"<mark class='k'>Seventy, right.</mark> And then you cut it back to—",zh:"七十，好。然后你们把它降到——"},
+   {who:"g",en:"Sixty-three point five.",zh:"63.5。"},
+   {who:"y",en:"<mark class='k'>Sixty-three point five, did you say?</mark>",zh:"63.5，你是说吗？"},
+   {who:"g",en:"Aye, that's the one. Standard filling strength.",zh:"对，就是它。标准入桶度数。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>注意他怎么回答的：Seventy. Seven-oh.</b><br><br>母语者知道数字容易混，所以会<b>主动再拆一遍</b>：<i>Seven-oh</i>（七、零）。同理 15 会说成 <i>one-five</i>，50 会说成 <i>five-oh</i>。<br><br><b>你也可以这么做</b>——报手机号、房间号、预约编号的时候，一位一位念比整体念安全得多。（英式把 0 念作 <b>oh</b> 或 <b>nought</b>，不念 zero。）</div>"));
+ },
+ check:{q:"<b>fifTEEN</b> 和 <b>FIFty</b> 的区别在哪？",
+  opts:["重音位置：-teen 在后，-ty 在前","元音长度：teen 比 ty 长","第一个音不同","没有区别，全靠上下文"],a:0,
+  exp:"<b>-teen 重音在词尾，-ty 重音在词首。</b>这是唯一可靠的区别。<br><br>但更重要的是这一格真正的结论：<b>母语者自己也常听不清，所以他们靠复述确认，而不是靠听力更强。</b><br><br>你需要的不是练到能分辨，而是养成一个习惯：<b>凡是重要数字，一律复述一遍。</b><i>Sixty-three, did you say?</i> 这一句能帮你避开无数麻烦。"}},
+
+{id:"notes",x:14,y:88,icon:"📓",label:"本场笔记",kind:"写作 · Your notes for this scene",title:"这一场，你自己写",
+ notes:{
+  taskTitle:"用英语写一瓶酒的「身份证」",
+  task:"拿你手上任意一瓶酒（<b>最好就是那瓶 SMWS 24.xxx</b>），把酒标上的信息用英语写成 <b>三到四句</b>。<br><br><b>必须包含至少三个数字：</b><br>· 酒精度（用 <b>point</b> 念的小数）<br>· 年份或年数<br>· 桶号 / 瓶数 / 其中之一<br><br><b>还必须用到：</b><br>· 一次 <b>bottled at …</b> 或 <b>bottled by …</b>（被动，段 5 的老错）<br>· 一次 <b>per cent</b>（<b>别加 s</b>）",
+  placeholder:"This is a Macallan bottled by SMWS…",
+  minHeight:"120px",
+  checklist:["<b>per cent 不加 s</b>：fifty-eight point four per cent",
+   "<b>小数点念 point</b>，后面一位一位念（point four，不是 point fourth）",
+   "<b>被动分词</b>：bottl<b>ed</b> by / distill<b>ed</b> in（不是 bottling / distilling）",
+   "<b>冠词</b>：a Macallan / the cask / an eleven-year-old",
+   "<b>复合形容词用连字符且不加 s</b>：an eleven-<b>year</b>-old cask（不是 years）",
+   "<b>数字上千的写法</b>：two hundred <b>and</b> forty-six（英式必须有 and）"],
+  ref:"This is a Macallan bottled by SMWS — cask 24.198, distilled in 2011 and bottled at fifty-eight point four per cent. It spent eleven years in a refill sherry hogshead. There were only two hundred and forty-six bottles. It's the most vinous thing I own.",
+  refNote:"用到：<b>bottled by / distilled in / bottled at</b>（三个被动分词，正好治你上次的 <i>bottling by smws</i>）／<b>point four</b>（小数）／<b>per cent</b> 不加 s／<b>two hundred and forty-six</b>（英式必须有 and）／段 5 学的 <b>vinous</b>。<br><br><b>最后一句是加分项</b>：写完客观信息，加一句主观的。SMWS 的笔记全是这么干的。"
+ }},
+
+{id:"outro",x:46,y:88,icon:"🧾",label:"过关",kind:"过关 · Produce, don't pick",title:"这一关要你真的写英语",outro:true}
+];
+
+WM.boot({
+ sceneKey:"s3",
+ progressKey:"whiskymap.laphroaig.s3.v1",
+ sub:"ISLAY · 第 3 段 MASH, WASH &amp; SPIRIT",
+ crumbs:[{n:1,t:"报到",href:"laphroaig-1-arrival.html"},{n:2,t:"发麦",href:"laphroaig-2-malting.html"},
+         {n:3,t:"蒸馏",on:true},{n:4,t:"地租",href:"laphroaig-4-plot.html"},
+         {n:5,t:"品鉴",href:"laphroaig-5-tasting.html"}],
+ svg:SVG,spots:SPOTS,
+ note:"<b>这一段的英语重点：</b>too…to 结构、<b>does 强调式</b>、by sight alone、以及两整格数字专项（小数 point、per cent 不加 s、in the fifties、fifteen ↔ fifty）。<br><b>跨场回收：</b><i>mind</i> 第四次；<i>No X, no Y</i> 省略句、<i>比较级 + than you'd think</i> 再次出现。",
+ doneMsg:"🥃 <b>这一场走完了。下一场：走出去领你的地租。</b>",
+ exportTitle:"Laphroaig · 第 3 段 Mash, Wash & Spirit · 我的笔记",
+ dict:["We cut it back to sixty-three point five before it goes into the cask.",
+       "It really does taste like beer. Sour beer, mind.",
+       "Sorry, was that fifty or fifteen?"],
+ comp:[
+  {sit:"你想问这瓶酒是多少度。",need:["用 <b>What … bottled at?</b> 或 <b>What strength …?</b>","别用 How many degrees"],
+   ref:"What strength is it bottled at?"},
+  {sit:"对方说了一个数字，你不确定是 17 还是 70。",need:["用 <b>was that … or …?</b>","前面加 Sorry"],
+   ref:"Sorry, was that seventeen or seventy?"},
+  {sit:"同事不信你，你要强调「我们上周确实寄出去了」。",need:["用 <b>did</b> 强调式","动词回原形"],
+   ref:"We did send it last week."},
+  {sit:"你想说这瓶是 58.4 度、2011 年蒸馏的。",need:["小数点用 <b>point</b>","用 <b>distilled in</b>（被动分词）"],
+   ref:"It's fifty-eight point four per cent, distilled in twenty eleven."}],
+ fix:[
+  {bad:"The wash is about eight percents.",good:"The wash is about eight per cent.",why:"<b>per cent 永远不加 s。</b>英式还写成两个词。名词形式才是 percentage。"},
+  {bad:"It really do taste like beer.",good:"It really does taste like beer.",why:"强调式的助动词也要跟主语一致：it → <b>does</b>。后面的动词保持原形 taste。"},
+  {bad:"A cask loses about two per cent every years.",good:"A cask loses about two per cent every year.",why:"<b>every / each 后面永远接单数名词</b>：every year / each cask。"},
+  {bad:"This spirit is more heavier than the other one.",good:"This spirit is heavier than the other one.",why:"<b>双重比较级。</b>单音节和部分双音节形容词加 -er 就够了，不能再加 more。"},
+  {bad:"The third water is too weak for use it.",good:"The third water is too weak to use.",why:"结构是 <b>too + 形容词 + to + 动词原形</b>，而且后面的动词<b>不带宾语</b>。"},
+  {bad:"Neither of them go into the cask.",good:"Neither of them goes into the cask.",why:"<b>neither / either / each 作主语时当单数</b>，动词用第三人称单数 goes。"}]
+});
+</script>
+</body>
+</html>

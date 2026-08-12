@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Laphroaig 5 · 品鉴室 | Whisky Map</title>
+<link rel="stylesheet" href="wm.css">
+</head>
+<body><div id="app"></div>
+<script src="wm.js"></script>
+<script>
+const E=WM.el;
+
+const SVG=`<svg class="bg" viewBox="0 0 375 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A3A31"/><stop offset="1" stop-color="#2A211D"/></linearGradient>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB4C4"/><stop offset=".55" stop-color="#B7CBD2"/><stop offset="1" stop-color="#D6DFDC"/></linearGradient>
+<linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E6C78"/><stop offset="1" stop-color="#28505C"/></linearGradient>
+<linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A5433"/><stop offset=".35" stop-color="#5E3F26"/><stop offset="1" stop-color="#3E2A19"/></linearGradient>
+<linearGradient id="whisky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E0A24A"/><stop offset="1" stop-color="#A85F1E"/></linearGradient>
+<radialGradient id="lamp" cx=".5" cy=".2" r=".9"><stop offset="0" stop-color="rgba(255,214,140,.4)"/><stop offset="1" stop-color="rgba(255,214,140,0)"/></radialGradient>
+</defs>
+<rect width="375" height="400" fill="url(#wall)"/>
+<g opacity=".16" stroke="#1A1310" stroke-width="1.2">
+<line x1="0" y1="0" x2="0" y2="285"/><line x1="62" y1="0" x2="62" y2="285"/><line x1="124" y1="0" x2="124" y2="285"/>
+<line x1="186" y1="0" x2="186" y2="285"/><line x1="248" y1="0" x2="248" y2="285"/><line x1="310" y1="0" x2="310" y2="285"/></g>
+<ellipse cx="187" cy="10" rx="190" ry="120" fill="url(#lamp)"/>
+<g><rect x="232" y="34" width="118" height="92" rx="5" fill="url(#sky)"/>
+<path d="M232 92 L262 74 L280 84 L300 62 L322 80 L350 70 L350 92 Z" fill="#4A5A63" opacity=".85"/>
+<rect x="232" y="92" width="118" height="34" fill="url(#seaG)"/>
+<g stroke="#8FB6BF" stroke-width="1" opacity=".5"><line x1="240" y1="101" x2="272" y2="101"/><line x1="286" y1="107" x2="330" y2="107"/>
+<line x1="246" y1="114" x2="290" y2="114"/><line x1="304" y1="119" x2="342" y2="119"/></g>
+<rect x="232" y="34" width="118" height="92" rx="5" fill="none" stroke="#6A4A30" stroke-width="6"/>
+<line x1="291" y1="34" x2="291" y2="126" stroke="#6A4A30" stroke-width="4"/>
+<line x1="232" y1="80" x2="350" y2="80" stroke="#6A4A30" stroke-width="4"/></g>
+<g><rect x="18" y="96" width="152" height="7" rx="2" fill="#6A4A30"/><rect x="18" y="152" width="152" height="7" rx="2" fill="#6A4A30"/>
+<rect x="28" y="60" width="15" height="36" rx="3" fill="#4C6B4A"/><rect x="32" y="50" width="7" height="12" fill="#4C6B4A"/>
+<rect x="49" y="66" width="16" height="30" rx="3" fill="url(#whisky)"/><rect x="53" y="56" width="7" height="12" fill="#8A5A26"/>
+<rect x="71" y="58" width="15" height="38" rx="3" fill="#2E3A44"/><rect x="75" y="48" width="7" height="12" fill="#2E3A44"/>
+<rect x="92" y="68" width="17" height="28" rx="3" fill="#B8722A"/><rect x="96" y="58" width="8" height="12" fill="#7A4A18"/>
+<rect x="115" y="62" width="15" height="34" rx="3" fill="#6B4A5E"/><rect x="119" y="52" width="7" height="12" fill="#6B4A5E"/>
+<rect x="136" y="70" width="16" height="26" rx="3" fill="#8A6B3A"/><rect x="140" y="60" width="7" height="12" fill="#8A6B3A"/>
+<g opacity=".9"><rect x="30" y="120" width="16" height="32" rx="3" fill="#7A3A2A"/><rect x="34" y="112" width="7" height="10" fill="#5A2A1E"/>
+<rect x="53" y="124" width="15" height="28" rx="3" fill="url(#whisky)"/><rect x="57" y="116" width="7" height="10" fill="#8A5A26"/>
+<rect x="75" y="118" width="16" height="34" rx="3" fill="#3E5A5E"/><rect x="79" y="110" width="7" height="10" fill="#3E5A5E"/></g></g>
+<g><rect x="104" y="176" width="96" height="66" rx="3" fill="#2A3230" stroke="#6A4A30" stroke-width="4"/>
+<g stroke="#B8C4BC" stroke-width="1.6" opacity=".55" stroke-linecap="round"><line x1="116" y1="192" x2="176" y2="192"/>
+<line x1="116" y1="204" x2="188" y2="204"/><line x1="116" y1="216" x2="164" y2="216"/><line x1="116" y1="228" x2="182" y2="228"/></g></g>
+<g><rect x="16" y="182" width="76" height="30" rx="4" fill="#5E4326" stroke="#3E2A16" stroke-width="2"/>
+<text x="54" y="202" font-family="Georgia,serif" font-size="12" font-style="italic" fill="#E8CFA0" text-anchor="middle">Slàinte</text></g>
+<g opacity=".92"><ellipse cx="316" cy="176" rx="17" ry="19" fill="#241C18"/>
+<path d="M316 195 C296 195 286 212 284 246 L284 286 L348 286 L348 246 C346 212 336 195 316 195 Z" fill="#2E2420"/>
+<path d="M300 200 L300 240" stroke="#3E332C" stroke-width="3"/><ellipse cx="316" cy="170" rx="18" ry="8" fill="#1C1512"/></g>
+<rect x="0" y="266" width="375" height="16" rx="3" fill="url(#bar)"/>
+<rect x="0" y="280" width="375" height="120" fill="#33241A"/>
+<g opacity=".25" stroke="#1A1008" stroke-width="1"><line x1="0" y1="300" x2="375" y2="300"/><line x1="0" y1="330" x2="375" y2="330"/><line x1="0" y1="362" x2="375" y2="362"/></g>
+<rect x="0" y="264" width="375" height="4" fill="#9A7048" opacity=".55"/>
+<g><g transform="translate(140,0)"><path d="M0 232 C0 250 5 256 5 262 L13 262 C13 256 18 250 18 232 Z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.3)"/>
+<path d="M2 244 C3 252 6 256 6 261 L12 261 C12 256 15 252 16 244 Z" fill="url(#whisky)" opacity=".92"/><rect x="2" y="262" width="14" height="3" rx="1.5" fill="rgba(255,255,255,.22)"/></g>
+<g transform="translate(168,0)"><path d="M0 230 C0 249 5 256 5 262 L13 262 C13 256 18 249 18 230 Z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.3)"/>
+<path d="M2 242 C3 251 6 256 6 261 L12 261 C12 256 15 251 16 242 Z" fill="url(#whisky)"/><rect x="2" y="262" width="14" height="3" rx="1.5" fill="rgba(255,255,255,.22)"/></g>
+<g transform="translate(196,0)"><path d="M0 232 C0 250 5 256 5 262 L13 262 C13 256 18 250 18 232 Z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.3)"/>
+<path d="M2 240 C3 250 6 256 6 261 L12 261 C12 256 15 250 16 240 Z" fill="#C4771F"/><rect x="2" y="262" width="14" height="3" rx="1.5" fill="rgba(255,255,255,.22)"/></g></g>
+<g transform="translate(52,8)"><path d="M0 228 C0 252 7 260 7 268 L19 268 C19 260 26 252 26 228 Z" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.36)" stroke-width="1.2"/>
+<path d="M3 243 C4 254 9 261 9 267 L17 267 C17 261 22 254 23 243 Z" fill="url(#whisky)"/><rect x="3" y="268" width="20" height="4" rx="2" fill="rgba(255,255,255,.26)"/></g>
+<g transform="translate(238,0)"><path d="M0 238 L0 264 C0 268 3 270 7 270 L21 270 C25 270 28 268 28 264 L28 238 Z" fill="rgba(190,220,230,.3)" stroke="rgba(220,240,245,.5)" stroke-width="1.2"/>
+<path d="M2 250 L2 264 C2 267 4 268 7 268 L21 268 C24 268 26 267 26 264 L26 250 Z" fill="rgba(150,200,215,.45)"/>
+<path d="M28 244 C36 246 36 258 28 258" fill="none" stroke="rgba(220,240,245,.5)" stroke-width="2"/><rect x="-2" y="234" width="32" height="5" rx="2" fill="rgba(220,240,245,.4)"/></g>
+<g transform="translate(30,286)"><rect x="0" y="0" width="52" height="34" rx="3" fill="#E8DCC4" transform="rotate(-6)"/>
+<g transform="rotate(-6)" stroke="#B0A088" stroke-width="1" opacity=".8"><line x1="7" y1="10" x2="44" y2="10"/><line x1="7" y1="17" x2="44" y2="17"/><line x1="7" y1="24" x2="36" y2="24"/></g>
+<rect x="-2" y="-2" width="6" height="38" rx="2" fill="#9E4B34" transform="rotate(-6)"/></g>
+<g transform="translate(152,290)"><rect x="6" y="0" width="11" height="19" rx="5.5" fill="#4A4038"/>
+<path d="M2 13 C2 24 21 24 21 13" fill="none" stroke="#4A4038" stroke-width="2"/><line x1="11.5" y1="24" x2="11.5" y2="30" stroke="#4A4038" stroke-width="2"/>
+<rect x="4" y="30" width="15" height="3" rx="1.5" fill="#4A4038"/></g>
+<g transform="translate(288,288)"><rect x="0" y="0" width="34" height="42" rx="2" fill="#F2EDE2" transform="rotate(5)"/>
+<g transform="rotate(5)" stroke="#B8AE9E" stroke-width="1"><line x1="5" y1="9" x2="29" y2="9"/><line x1="5" y1="16" x2="29" y2="16"/><line x1="5" y1="23" x2="24" y2="23"/><line x1="5" y1="30" x2="29" y2="30"/></g></g>
+<g transform="translate(214,222)"><rect x="0" y="12" width="18" height="42" rx="3" fill="#3A2A38"/><rect x="5" y="0" width="8" height="14" fill="#3A2A38"/>
+<rect x="0" y="26" width="18" height="16" fill="#E8E2D2"/><text x="9" y="37" font-family="Georgia,serif" font-size="7" fill="#3A2A38" text-anchor="middle">24</text></g>
+</svg>`;
+
+const SPOTS=[
+{id:"glass1",x:19,y:63,icon:"🥃",label:"第一杯",kind:"开场 · The first nose",title:"Have a wee nose at it",
+ passage:{
+  en:["Right, that's you all sorted with a glass.",
+      "Now, before you take a sip, have a wee nose at it.",
+      "Don't stick your nose right in — hold the glass just under your chin and let it come up to you.",
+      "That's it.",
+      "So, what's the first thing that hits you?",
+      "Most folk say the same word, and it's not a word you'd normally use about a drink."],
+  zh:"好，杯子给你了。<br>先别喝，闻一下。<br>别把鼻子整个埋进去——把杯子端在下巴底下，让香气自己上来。<br>对，就这样。<br>那么，第一个冲上来的是什么？<br>大多数人说的都是同一个词，而那个词你平常绝不会用来形容一杯酒。",
+  tip:"导览员的开场白，<b>纯口语</b>。里面有三个直译不通的地方。"},
+ build(b){
+  b.appendChild(E("h3",null,"三个直译不通的地方"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>① that's you all sorted</b> ＝「你这边全搞定了」<br>苏格兰和北英格兰的日常口头禅，字面完全不通，只能整块记。<b>这一句你在段 1、段 4 还会再撞两次。</b><br><br><b>② have a wee nose at it</b> ＝「闻一下」<br><b>wee</b> ＝ little；<b>nose</b> 在这儿是<b>动词</b>，威士忌圈专用。<br><br><b>③ what hits you</b> ＝「第一印象是什么」<br>hit 用在感官上非常常见：<i>the smell hits you</i>。</p>"));
+  b.appendChild(E("h3",null,"你回了一句，他接住了"));
+  WM.dialogue(b,[
+   {who:"y",en:"It's very... <mark class='k'>medicinal</mark>?",zh:"这个……很像药味？"},
+   {who:"g",en:"<mark>Aye, that'll be</mark> the peat. <mark>Folk say</mark> TCP, antiseptic, some say a hospital. Don't worry — <mark>round here</mark> that's a compliment.",zh:"对，那是泥煤。有人说像消毒药水、像医院。别担心——在这儿这是夸奖。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>medicinal</b> 是形容 Laphroaig 最标准的词，不是贬义。<b>TCP</b> 是英国家家都有的消毒药水牌子——英国人闻到 Laphroaig 第一反应就是它。<br><br><b>that'll be…</b> ＝「那应该是……」，很轻的推测，比 that is 客气。</div>"));
+ },
+ check:{q:"他说 <b>“hold the glass just under your chin”</b>——为什么不能把鼻子埋进杯子里？",
+  opts:["酒精浓度高，直接吸会把嗅觉打晕，闻不到别的","这是礼节问题，会显得不礼貌","杯子会起雾看不清酒色","会把气味蹭到鼻子上"],a:0,
+  exp:"威士忌 40% 以上，鼻子贴太近，<b>酒精先把嗅觉打晕</b>，后面细的香气就闻不到了。这是真实的品鉴技巧，不是客套。<br><br>顺带记住这个动词：<b>let it come up to you</b>——「让它自己上来」，比 smell it 高级得多。"}},
+
+{id:"jug",x:69,y:63,icon:"💧",label:"水壶",kind:"转折 · Adding water",title:"Just a drop, mind",
+ passage:{
+  en:["Now, a drop of water.",
+      "Just a drop, mind — you can always add more, but you'll not get it back out.",
+      "Watch what happens.",
+      "The whisky goes a wee bit cloudy, and that's a good sign; that's the oils coming out.",
+      "Give it a swirl, and nose it again.",
+      "Different dram entirely, isn't it? Water opens it up.",
+      "The smoke doesn't go away — it just steps back and lets the sweet stuff through."],
+  zh:"来，滴一点水。<br>就一滴啊——你随时能再加，但加进去就拿不出来了。<br>看会发生什么。<br>酒会有点浑浊，这是好事；那是油脂析出来了。<br>晃一晃，再闻一次。<br>完全是另一杯酒了，对吧？水把它打开了。<br>烟味没有消失——它只是退后一步，让甜的东西透出来。",
+  tip:"这段藏着一个<b>苏格兰特有的否定</b>。听得出是哪句吗？"},
+ build(b){
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>苏格兰否定：you'll not get it back out</b><br>标准英语是 <i>you won't</i>。苏格兰人习惯把 not 单独放在助动词后面：<br><i>I'll not be long. / He'll not like that. / I've not seen him.</i><br><br>你不用学着说，但<b>必须听得懂</b>。<b>这个结构在段 1（伞）和段 4（观鸟）还会各出现一次。</b></p>"));
+  b.appendChild(E("h3",null,"加水前 / 加水后"));
+  b.appendChild(E("p","small","点一下切换。同一杯酒，两套完全不同的形容词——这就是 <b>open up</b>。"));
+  const tabs=E("div","tabs"),out=E("div","box");
+  const S=[{k:"Neat 纯饮",en:"Straight in with the smoke. Sharp, dry, and that antiseptic edge right at the front.",zh:"烟味直接冲上来。锐利、干、消毒水味顶在最前面。"},
+           {k:"+ a drop 加一滴",en:"It opens up. Vanilla and coconut come forward, and the smoke settles into the background.",zh:"它打开了。香草和椰子走到前面，烟味退到后面去。"}];
+  function draw(i){[...tabs.children].forEach((c,j)=>c.className="tab"+(j===i?" on":""));out.innerHTML="";
+   const en=E("p","en",S[i].en);en.appendChild(WM.sb(S[i].en));out.appendChild(en);out.appendChild(E("p","zh",S[i].zh))}
+  S.forEach((s,i)=>{const t=E("button","tab","<b>"+s.k.split(" ")[0]+"</b>"+s.k.split(" ").slice(1).join(" "));t.onclick=()=>draw(i);tabs.appendChild(t)});
+  b.appendChild(tabs);b.appendChild(out);draw(0);
+  b.appendChild(E("h3",null,"这一段的动词，全都很好用"));
+  WM.chips(b,[
+   {en:"It opens up.",zh:"它打开了。｜ 威士忌专用，不能换词"},
+   {en:"Give it a swirl.",zh:"晃一晃。｜ give it a + 名词 ＝ 轻轻做一下"},
+   {en:"The smoke steps back.",zh:"烟味退后。｜ 拟人，非常地道"},
+   {en:"It lets the sweet stuff through.",zh:"让甜的东西透出来。｜ let … through"},
+   {en:"It goes a wee bit cloudy.",zh:"变得有点浑浊。｜ go + 形容词 ＝ 变得"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>mind</b> 放句尾 ＝「注意啊」的轻提醒。<b>这个词你在段 2（Mind your back / Mind your eyes）和段 3（Sour beer, mind）还会撞三次。</b>不用背，撞够了自然就懂。</div>"));
+ },
+ check:{q:"下面哪一句<b>不是</b>苏格兰式否定？",
+  opts:["I won't be long.","I'll not be long.","He'll not like that.","I've not seen him."],a:0,
+  exp:"<b>I won't be long</b> 是标准英语的缩写形式。另外三句都是把 <b>not 单独放在助动词后面</b>——苏格兰、北英格兰的特征。<br><br>听力上要注意：<i>I'll not</i> 连读起来接近「阿尔诺」，很容易听成别的。"}},
+
+{id:"guide",x:84,y:50,icon:"🗣",label:"导览员",kind:"核心 · The one question",title:"What are you getting?",
+ passage:{
+  en:["People get nervous when I ask them what they're getting.",
+      "They think there's a right answer. There isn't.",
+      "If you smell wet rope, say wet rope.",
+      "If it reminds you of a hospital, say a hospital — half the folk on this island would agree with you.",
+      "The only wrong answer is silence.",
+      "And if you can't find the word, just say so, and ask me what I'd call it.",
+      "That's how everybody learns this. Including me."],
+  zh:"我一问「你尝到什么」，大家就紧张。<br>他们以为有标准答案。没有。<br>你闻到湿绳子，就说湿绳子。<br>它让你想起医院，就说医院——这岛上有一半人会同意你。<br><b>唯一错误的回答是沉默。</b><br>要是找不到词，就直说，然后问我会怎么形容。<br>大家都是这么学会的。包括我自己。",
+  tip:"这一段是整个项目的核心。<b>听两遍，第二遍闭上眼睛。</b>"},
+ build(b){
+  b.appendChild(E("div","box","<p class='en' style='text-align:center;font-size:20px;margin:0'>“What are you getting?”</p><p class='zh' style='text-align:center;margin:5px 0 12px'>你尝到什么了？</p><p class='en' style='text-align:center;font-size:20px;margin:0'>“I get…”</p><p class='zh' style='text-align:center;margin:5px 0 0'>我尝到……</p>"));
+  b.appendChild(E("p","small","用<b>一般现在时</b>，不是 I am getting。品鉴用 <b>get</b>，不用 taste 或 smell——那两个太像在写报告。这一对问答学会了，比背五十个单词有用。"));
+  b.appendChild(E("h3",null,"接住这个问题的六种说法"));
+  WM.chips(b,[
+   {en:"I get a bit of vanilla.",zh:"我尝到一点香草。｜ 最标准"},
+   {en:"There's a hint of smoke.",zh:"有一丝烟味。｜ a hint of ＝ 极少量"},
+   {en:"There's a touch of salt to it.",zh:"带一点咸。｜ to it ＝「它身上有」的固定尾巴"},
+   {en:"On the nose it's medicinal; on the palate it's sweeter.",zh:"闻起来是药味，入口更甜。｜ 三段式"},
+   {en:"The finish is long and smoky.",zh:"余韵长而烟熏。"},
+   {en:"It's a bit like wet rope, if that makes sense.",zh:"有点像湿绳子，不知道这么说对不对。｜ 万能缓冲"}
+  ]);
+  b.appendChild(E("h3",null,"卡壳时的四句（对你最有用）"));
+  WM.chips(b,[
+   {en:"Give me a second.",zh:"等我一下。｜ 争取思考时间，比沉默好一百倍"},
+   {en:"I'm not sure what to call it.",zh:"我不知道该怎么形容。｜ 说了不丢人"},
+   {en:"It reminds me of something — I can't place it.",zh:"想起某个东西但想不起来。｜ can't place it 非常地道"},
+   {en:"What would you call that?",zh:"你会怎么形容？｜ 把球踢回去，还白赚一个词"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>为什么这四句最重要：</b>母语者也会卡壳——他们的办法不是想得更快，是<b>用一句话把沉默填掉，同时把球踢回去</b>。<i>What would you call that?</i> 能救你无数次，而且对方一回答，你就白赚一个词。</div>"));
+ },
+ check:{q:"品鉴时对方问 <b>“What are you getting?”</b>，下面哪个回答<b>最不自然</b>？",
+  opts:["I am getting the smell of smoke.","I get a bit of vanilla.","Give me a second.","I'm not sure what to call it."],a:0,
+  exp:"<b>I am getting…</b> 时态就错了（这里要一般现在时），而且 <b>the smell of</b> 太啰嗦——直接说那个东西就行：<i>I get smoke.</i><br><br>注意 C、D 两个「不回答」的选项<b>都是完全自然的</b>。这正是重点：<b>拖时间和承认不会，都比说错话或沉默强。</b>"}},
+
+{id:"flight",x:45,y:62,icon:"🥃🥃",label:"三杯对比",kind:"实战 · The language of difference",title:"说出它们的差别",
+ passage:{
+  en:["Three glasses in front of you.",
+      "All from the same distillery, the same water, the same peat, the same sea air.",
+      "And not one of them tastes the same.",
+      "The ten is the dry one — straight in with the smoke.",
+      "The Quarter Cask sat in smaller casks, so it's had more wood on it: sweeter, rounder, a bit of coconut.",
+      "And the cask strength is everything at once, at full volume.",
+      "Try them in that order, and don't rush.",
+      "The differences are the whole point."],
+  zh:"你面前三个杯子。<br>同一个酒厂、同一处水、同一片泥煤、同一片海风。<br>但没有一杯是一样的。<br>10 年是干的那杯——烟味直上。<br>Quarter Cask 在更小的桶里待过，所以木头味更重：更甜、更圆、带点椰子。<br>桶强是所有东西一起来，音量开到最大。<br>按这个顺序喝，别赶。<br><b>差别本身就是全部的意义。</b>",
+  tip:"最后那句，是你自己说过的话的英文版。"},
+ build(b){
+  const tabs=E("div","tabs"),out=E("div","box");
+  const D=[{n:"10 Year",abv:"40%",en:"Straight in with the smoke. Seaweed and iodine on the nose, then a dry, ashy finish.",zh:"烟味直上。闻香是海藻和碘，收尾干、带灰烬感。"},
+           {n:"Quarter Cask",abv:"48%",en:"Softer and sweeter. More wood on it — vanilla, coconut, a bit of toffee — but the smoke's still underneath.",zh:"更柔更甜。木头味更重——香草、椰子、一点太妃糖——但烟还在底下。"},
+           {n:"Cask Strength",abv:"~57%",en:"Everything turned up. Oily and thick, and it really needs water. Add a drop and it opens right up.",zh:"所有东西都调大了。油润、厚，非常需要加水。滴一滴，它整个打开。"}];
+  function draw(i){[...tabs.children].forEach((c,j)=>c.className="tab"+(j===i?" on":""));out.innerHTML="";
+   const en=E("p","en",D[i].en);en.appendChild(WM.sb(D[i].en));out.appendChild(en);out.appendChild(E("p","zh",D[i].zh))}
+  D.forEach((d,i)=>{const t=E("button","tab","<b>"+d.n+"</b>"+d.abv);t.onclick=()=>draw(i);tabs.appendChild(t)});
+  b.appendChild(tabs);b.appendChild(out);draw(0);
+  b.appendChild(E("h3",null,"说差别的六个零件"));
+  WM.chips(b,[
+   {en:"The Quarter Cask is sweeter than the ten.",zh:"QC 比 10 年甜。｜ -er than"},
+   {en:"The cask strength isn't as easy to drink.",zh:"桶强没那么好入口。｜ not as … as（否定比较不能用 than）"},
+   {en:"There's more of a vanilla note to the Quarter Cask.",zh:"QC 的香草感更明显。｜ more of a … ＝ 更偏向某种"},
+   {en:"The ten is the driest of the three.",zh:"三杯里 10 年最干。｜ 最高级 + of the three"},
+   {en:"It's somewhere between the two.",zh:"介于两者之间。"},
+   {en:"Same cask, but they're not quite the same.",zh:"同一个桶，但不完全一样。｜ not quite ＝ 不完全"}
+  ]);
+  b.appendChild(E("h3",null,"说变化"));
+  WM.chips(b,[
+   {en:"It opens up with water.",zh:"加水后打开了。"},
+   {en:"Give it a minute in the glass.",zh:"让它在杯里放一会儿。"},
+   {en:"It changes as it sits.",zh:"放着放着就变了。"},
+   {en:"The smoke fades into the background.",zh:"烟味退到后面去了。"}
+  ]);
+ },
+ check:{q:"「桶强没有 10 年那么好入口」——哪句对？",
+  opts:["The cask strength isn't as easy to drink as the ten.","The cask strength isn't so easy to drink than the ten.","The cask strength isn't easier as the ten.","The cask strength is not as easier than the ten."],a:0,
+  exp:"否定比较的唯一结构：<b>not as + 原级形容词 + as</b>。<br><br>记死这条：<b>than 只能跟比较级</b>（sweeter than），<b>as 只能跟原级</b>（as easy as）。两个混用是中文母语者最高频的错误之一。"}},
+
+{id:"window",x:78,y:19,icon:"🌊",label:"窗外",kind:"威士忌 · Why it tastes of medicine",title:"答案就在窗外那片海",
+ passage:{cap:"English first · 换成书面说明体",
+  en:["Peat is not just smoke. It is the ground itself.",
+      "Thousands of years of heather, moss and seaweed, pressed down in the wet.",
+      "When it burns under the malting floor, the smoke carries phenols, and those phenols stick to the barley and travel all the way into the glass.",
+      "Inland peat is made of trees and ferns, so it smells of a bonfire.",
+      "Islay peat is made of the shore, so it smells of iodine and salt.",
+      "That is why this whisky tastes of medicine.",
+      "You are not tasting a flavouring. You are tasting the island."],
+  zh:"泥煤不只是烟。它就是土地本身。<br>几千年的石南、苔藓和海藻，在潮湿中被压实。<br>它在发麦楼下面燃烧时，烟里带着酚类，那些酚附着到大麦上，一路走进杯子里。<br>内陆的泥煤由树木和蕨类构成，所以闻起来像篝火。<br>艾雷的泥煤由海岸构成，所以闻起来是碘和盐。<br>这就是为什么这酒尝起来像药。<br><b>你尝到的不是一种香料，你尝到的是这座岛。</b>",
+  tip:"注意这段和前面几段<b>完全不同的语感</b>：句子更长、不用缩写（It is 不写 It's）、词更正式。这是<b>书面说明文</b>的英语。"},
+ build(b){
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>为什么让你注意文体？</b><br><br>你之前那段英语混了两种腔：口语的随意（<i>actually, I'm not sure…</i>）和书面的复杂。<b>这不是错，但知道自己在用哪一种，你就控制得住。</b><br><br>· 口语：短句、缩写（it's, don't）、<i>a wee bit</i>、<i>folk say</i><br>· 书面：长句、不缩写、<i>That is why…</i>、<i>You are not tasting…</i></p>"));
+  b.appendChild(E("h3",null,"Laphroaig 的硬事实"));
+  b.appendChild(E("p","zh","· 泥煤含量约 <b>40–45 ppm</b> 酚值<br>· 少数保留 <b>floor maltings 地板发麦</b>的酒厂之一，自产约 10% 麦芽，泥煤<b>手工切</b><br>· 水源来自 <b>Kilbride</b> 水坝<br>· 3 个初馏器 + 4 个再馏器<br>· 1815 年由 Donald 和 Alexander Johnston 兄弟创立"));
+  b.appendChild(E("h3",null,"三个可能让你意外的"));
+  b.appendChild(E("p","zh","<b>① 它是日本公司的。</b>2014 年三得利（Suntory）收购 Beam 时一并拿下。你手上土屋守那些日文资料，写的是自家酒厂。"));
+  b.appendChild(E("p","zh","<b>② 唯一持王室认证的威士忌。</b>1994 年由当时的威尔士亲王（现查尔斯国王）授予，他偏爱 15 年。"));
+  b.appendChild(E("p","zh","<b>③ Oyster Night 是真的。</b>酒厂有官方活动：5 杯 Laphroaig 配 5 只生蚝。村上春树在《如果我们的语言是威士忌》里写过的那个吃法——往生蚝上滴几滴单一麦芽再连壳吸下去——在这里有正式活动对应。"));
+  b.appendChild(E("hr","sep"));
+  WM.vocab(b,[
+   {w:"peat",ipa:"/piːt/",zh:"泥煤",ja:"ピート"},
+   {w:"phenol",ipa:"/ˈfiːnɒl/",zh:"酚",ja:"フェノール"},
+   {w:"heather",ipa:"/ˈheðə/",zh:"石南",ja:"ヘザー"},
+   {w:"iodine",ipa:"/ˈaɪədiːn/",zh:"碘（味）",ja:"ヨード"},
+   {w:"seaweed",ipa:"/ˈsiːwiːd/",zh:"海藻",ja:"海藻"},
+   {w:"floor maltings",ipa:"/flɔː ˈmɔːltɪŋz/",zh:"地板发麦",ja:"フロアモルティング"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>🗓 去之前要知道：</b>2026 年 <b>7/8 – 9/13 是停产期（silent season）</b>，这期间参观进不了生产区。要看地板发麦和蒸馏，<b>避开盛夏</b>。参观走官网跳 AnyRoad 预约。</div>"));
+ },
+ check:{q:"这一段用的是哪种文体？根据什么判断？",
+  opts:["书面说明文——句子长、不用缩写（It is / You are）、用 That is why 这类正式连接","口语——因为出现了 smells 这种日常动词","诗歌——因为最后一句有修辞","广告文案——因为在夸自己的酒"],a:0,
+  exp:"关键证据是<b>不用缩写</b>：全段写 <i>It is / You are / That is</i>，一次 <i>it's</i> 都没有。<b>缩写是口语和书面之间最明显的分界线。</b><br><br>顺带：最后一句 <i>You are not tasting a flavouring. You are tasting the island.</i> 是<b>平行结构</b>——同样的句式重复一次只换一个词。<b>你可以直接偷来用。</b>"}},
+
+{id:"board",x:40,y:52,icon:"📋",label:"黑板",kind:"词汇 · EN / 中文 / 日本語",title:"品鉴词表",
+ passage:{cap:"English first · 一整条品鉴笔记",
+  en:["On the nose: peat smoke, iodine and wet rope.",
+      "On the palate: oily and briny at first, then sweeter, with vanilla and a little toffee.",
+      "The finish is long, dry and ashy.",
+      "With water it opens up, and the smoke settles into the background.",
+      "A classic Islay dram — peaty, medicinal, and not remotely shy."],
+  zh:"闻香：泥煤烟、碘、湿绳子。<br>入口：先是油润和咸腥，然后转甜，带香草和一点太妃糖。<br>余韵长、干、带灰烬感。<br>加水后打开，烟味退到后面。<br>一杯经典的艾雷——泥煤、药味，而且一点都不含蓄。",
+  tip:"这就是一条<b>完整的品鉴笔记</b>，下面词表里的词几乎全在里面。先听懂整条，再看拆开的词。"},
+ build(b){
+  b.appendChild(E("div","box flat","<div class='small'>注意骨架：<b>On the nose → On the palate → The finish → With water</b>。<br>这四个短语是固定顺序，几乎所有英文品鉴笔记都按这个走。<b>记住骨架，你就能读懂任何一条。</b></div>"));
+  b.appendChild(E("h3",null,"① 结构词（先记这四个）"));
+  WM.vocab(b,[
+   {w:"nose",ipa:"/nəʊz/",zh:"香气；（动词）闻香",ja:"香り／ノージング"},
+   {w:"palate",ipa:"/ˈpælət/",zh:"口感、味觉",ja:"味わい／口中"},
+   {w:"finish",ipa:"/ˈfɪnɪʃ/",zh:"余韵",ja:"フィニッシュ／余韻"},
+   {w:"dram",ipa:"/dræm/",zh:"一小杯威士忌",ja:"ドラム（一杯）"}
+  ]);
+  b.appendChild(E("h3",null,"② 艾雷岛的味道"));
+  WM.vocab(b,[
+   {w:"peaty",ipa:"/ˈpiːti/",zh:"泥煤味的",ja:"ピーティー"},
+   {w:"smoky",ipa:"/ˈsməʊki/",zh:"烟熏的",ja:"スモーキー"},
+   {w:"medicinal",ipa:"/məˈdɪsɪnl/",zh:"药味的",ja:"薬品香"},
+   {w:"briny",ipa:"/ˈbraɪni/",zh:"咸腥的（海水感）",ja:"塩気のある"},
+   {w:"tar",ipa:"/tɑː/",zh:"焦油",ja:"タール"},
+   {w:"ashy",ipa:"/ˈæʃi/",zh:"灰烬感的",ja:"灰っぽい"},
+   {w:"oily",ipa:"/ˈɔɪli/",zh:"油润的",ja:"オイリー"}
+  ]);
+  b.appendChild(E("h3",null,"③ 甜的那一侧（你近期的口味）"));
+  WM.vocab(b,[
+   {w:"vinous",ipa:"/ˈvaɪnəs/",zh:"葡萄酒般的（雪莉桶专用）",ja:"ワイン様の"},
+   {w:"sherry cask",ipa:"/ˈʃeri kɑːsk/",zh:"雪莉桶",ja:"シェリー樽"},
+   {w:"fruity",ipa:"/ˈfruːti/",zh:"果味的",ja:"フルーティー"},
+   {w:"toffee",ipa:"/ˈtɒfi/",zh:"太妃糖",ja:"トフィー"},
+   {w:"cask strength",ipa:"/kɑːsk streŋθ/",zh:"桶强（未稀释）",ja:"カスクストレングス"},
+   {w:"expression",ipa:"/ɪkˈspreʃn/",zh:"酒款（同厂不同版本）",ja:"エクスプレッション"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>vinous</b> 就是你上次写 <i>“like an old wine”</i> 时够不到的那个词。/ˈvaɪnəs/，来自拉丁语 vinum。你那瓶雪莉桶 Macallan 的官方笔记上，大概率就有这个词。</div>"));
+ },
+ check:{q:"品鉴笔记里 <b>“not remotely shy”</b> 是什么意思？",
+  opts:["一点都不含蓄（味道非常张扬）","有点害羞、内敛","不太好闻","离得远才闻得到"],a:0,
+  exp:"<b>not remotely + 形容词</b> ＝「一点都不……」，remotely 在否定句里是强化词。<br><br>而 <b>shy</b> 形容酒 ＝「内敛、不张扬」，是品鉴笔记里的常用拟人词（还有 <i>closed</i>「封闭」、<i>open</i>「打开」、<i>bold</i>「张扬」）。<br><br>所以这句是英式的低调反讽：<b>说 Laphroaig 猛得要命。</b>"}},
+
+{id:"smws",x:23,y:20,icon:"🍾",label:"那瓶 24",kind:"阅读 · SMWS 的怪英语",title:"你已经在买的那套教材",
+ passage:{cap:"English first · SMWS 风格（我仿写的，不是原文）",
+  en:["A peat fire in a leather armchair.",
+      "On the nose: wet rope, bonfire smoke and something antiseptic.",
+      "On the palate: sweeter than expected, with brine and vanilla.",
+      "The finish is long, dry and faintly medicinal.",
+      "With water it opens up — coconut, warm sand, and the smoke settles into the background."],
+  zh:"「皮扶手椅里的泥煤火」<br>闻香：湿绳子、篝火烟，还有某种消毒水味。<br>入口：比预想的甜，带海水味和香草。<br>余韵长、干、隐隐的药味。<br>加水后打开——椰子、晒热的沙，烟味退到后面去。",
+  tip:"SMWS 笔记的第一句永远是<b>一个荒谬到具体的画面</b>，不是形容词。这就是他们的招牌。"},
+ build(b){
+  b.appendChild(E("p","zh","架子上那瓶深色的，标上没有酒厂名，只有<b>两段数字</b>。前一个是<b>酒厂代码</b>（按学会首次买入该厂的顺序编号），后一个是这厂的<b>第几个桶</b>。"));
+  const w=E("div","chips");
+  [["24.xxx","Macallan — 就是你那瓶"],["29.xxx","Laphroaig — 本章"],["3.xxx","Bowmore"],["1.xxx","Glenfarclas — 学会的第一桶"]]
+   .forEach(p=>w.appendChild(E("div","chip","<span>"+p[0]+"</span><small>"+p[1]+"</small>")));
+  b.appendChild(w);
+  b.appendChild(E("h3",null,"拆开看这条笔记的五段骨架"));
+  const S=[["① 荒诞酒名","A peat fire in a leather armchair","一个具体到荒谬的画面，不是形容词堆砌。这一句是 SMWS 的灵魂。"],
+           ["② Nose","On the nose: wet rope, bonfire smoke and something antiseptic","名词短语并列，不写完整句。<b>something + 形容词</b>＝「某种……的东西」，说不准的时候超好用。"],
+           ["③ Palate","On the palate: sweeter than expected, with brine and vanilla","几乎每条都有一个转折。<b>sweeter than expected</b> 这个说法你可以直接偷。"],
+           ["④ Finish","The finish is long, dry and faintly medicinal","三个形容词收尾。<b>faintly</b>＝「隐隐地」，比 a little 高级。"],
+           ["⑤ With water","With water it opens up — coconut, warm sand, and the smoke settles into the background","招牌段落，最像散文。<b>warm sand</b> 这种词组是 SMWS 的典型：具体、有温度、非标准。"]];
+  S.forEach(s=>{
+   const d=E("div","rw");d.style.cssText="border-left:3px solid var(--heather);padding-left:11px;margin:14px 0";
+   d.appendChild(E("div","small","<b style='color:var(--heather)'>"+s[0]+"</b>"));
+   const en=E("p","en",s[1]);en.style.fontSize="15px";en.appendChild(WM.sb(s[1]));
+   d.appendChild(en);d.appendChild(E("div","why",s[2]));b.appendChild(d);
+  });
+  b.appendChild(E("div","box flat","<div class='small'>你那瓶雪莉桶 Macallan：你写的 <i>“like an old wine”</i> → 标准说法是 <b>vinous</b>；<i>“berry wood”</i> 拆开是 <b>dark berries</b>（果）+ <b>polished oak</b>（木）。<br><br><b>“bright sweetness” 你用得很好</b>，是真实的品鉴用词，保留。</div>"));
+ },
+ check:{q:"SMWS 笔记里写 <b>“something antiseptic”</b>，为什么不直接写 antiseptic？",
+  opts:["因为闻到的东西说不准是什么，something + 形容词 表示「某种……的味道」","因为 antiseptic 不能单独用","因为要凑字数","因为这是名词，前面必须加 something"],a:0,
+  exp:"<b>something + 形容词</b> 是英语里表达「说不准」的标准手法：<i>something sweet / something floral / something you can't quite name</i>。<br><br><b>这对你特别有用</b>——你的痛点是临场说不出精确的词。有了这个结构，<b>你不用找到那个准确的词也能说出一句完整、地道的话。</b>"}},
+
+{id:"sign",x:14,y:49,icon:"🍀",label:"木牌",kind:"Gàidhlig 彩蛋",title:"这个名字，一半是维京人的",
+ passage:{cap:"English first · 词源彩蛋",
+  en:["Nearly every place name on this island is a puzzle in two languages.",
+      "Laphroaig comes from the Gaelic lag, a hollow — but the second half is Norse: breiðr-vík, the broad bay.",
+      "The Vikings held these islands for four hundred years, and they left their words in the ground.",
+      "They did the same to English.",
+      "Sky, skin, egg, knife, window, husband — all borrowed from Old Norse.",
+      "Even they, them and their.",
+      "So when a Scottish place name defeats you, remember: English is a borrowed language too."],
+  zh:"这岛上几乎每一个地名都是两种语言的谜题。<br>Laphroaig 来自盖尔语 lag「凹地」——但后半截是诺尔斯语：breiðr-vík「宽阔的海湾」。<br>维京人统治这些岛屿四百年，把他们的词留在了土地里。<br>他们对英语做了同样的事。<br>Sky、skin、egg、knife、window、husband——全是从古诺尔斯语借的。<br>连 they、them、their 也是。<br><b>所以当一个苏格兰地名难住你的时候，记住：英语本身也是一门借来的语言。</b>"},
+ build(b){
+  const d=E("div","dark");
+  d.innerHTML="<p class='gd' style='font-size:19px;margin:0'>Lag Bhròdhaig</p><p style='margin:4px 0 0'>「宽阔海湾的凹地」<br>盖尔语 lag（凹地）＋ 古诺尔斯语 breiðr-vík（宽湾）</p>";
+  b.appendChild(d);
+  b.appendChild(E("p","zh","9 到 13 世纪，赫布里底群岛是挪威人的地盘。岛上的地名至今一半带诺尔斯语词根——<b>这个名字是维京人留在土地上的指纹。</b>"));
+  b.appendChild(E("h3",null,"连人称代词都是借的"));
+  b.appendChild(E("div","box","<p class='en' style='margin:0;line-height:2;font-size:16px'>sky · skin · egg · window · knife<br>husband · leg · want · give<br><b>they / them / their</b></p>"));
+  b.appendChild(E("p","small","<b>they/them/their</b> 这种核心人称代词被借走，在语言接触史上极其罕见——说明当时两拨人是真的混住在一起，天天说话。"));
+  b.appendChild(E("hr","sep"));
+  b.appendChild(E("h3",null,"敬酒必备"));
+  const d2=E("div","dark");
+  d2.innerHTML="<p class='gd' style='font-size:24px;margin:0'>Slàinte mhath!</p><p style='margin:6px 0 0'>读作 <b>SLAAN-cha VA</b>（斯兰查·瓦）<br>字面是「好健康」</p>";
+  b.appendChild(d2);
+  const r=E("div","btnrow"),p=E("button","btn pri","▶︎ 听发音（近似）");
+  p.onclick=()=>WM.speak("Slahn-cha vah",0.7);r.appendChild(p);b.appendChild(r);
+  b.appendChild(E("p","small","对方会回你 <b>Slàinte mhòr</b>（更大的健康）。在艾雷岛的 pub 里说这一句，气氛立刻不一样——因为他们知道你是特意学的。"));
+  b.appendChild(E("div","box flat","<div class='small'><b>📖 顺带：</b>村上春树写艾雷岛那本《如果我们的语言是威士忌》（もし僕らのことばがウィスキーであったなら），书名本身就是一个虚拟语气句。他在书里跑遍了艾雷岛七家酒厂，Laphroaig 是其中之一。</div>"));
+ },
+ check:{q:"最后一句 <b>“English is a borrowed language too”</b>，在这段里起什么作用？",
+  opts:["把地名的话题翻转成一句对学英语的人的安慰","说明英语不如盖尔语正宗","解释为什么英语拼写混乱","证明维京人发明了英语"],a:0,
+  exp:"这是英语写作里非常常见的<b>收尾翻转（turn）</b>：前面一直在讲地名和维京人，最后一句突然把镜头转向读者。<br><br>句式也值得偷：<b>So when …, remember: …</b>。这个结构你写邮件、做汇报都能用。"}},
+
+{id:"mic",x:41,y:83,icon:"🎙",label:"跟读",kind:"跟读 · Record & compare",title:"说出来，然后听自己",
+ build(b){
+  b.appendChild(E("p","small","iPhone 的 Safari 没有语音识别 API，做不了自动打分。<b>但录下来自己听，其实比分数有用</b>——你会立刻听出哪里不对。"));
+  const S=[{en:"I get a bit of vanilla, and there's a hint of smoke behind it.",zh:"我尝到一点香草，后面还有一丝烟味。"},
+           {en:"It's not as sweet as I expected — there's more of a sherry note to it.",zh:"没我想的那么甜——雪莉感更明显一些。"},
+           {en:"It opens up with water. The smoke fades into the background.",zh:"加水后它打开了，烟味退到后面去了。"},
+           {en:"Same cask, but they're not quite the same. That's the fun of it.",zh:"同一个桶，但它们不完全一样。这就是好玩的地方。"},
+           {en:"I'm not sure what to call it. What would you call that?",zh:"我不知道该怎么形容。你会怎么说？"}];
+  let i=0;
+  const card=E("div","box"),enP=E("p","en",""),zhP=E("p","zh","");
+  card.appendChild(enP);card.appendChild(zhP);
+  const row=E("div","btnrow"),orig=E("button","btn sea","▶︎ 原音（慢）"),rec=E("button","btn pri","🎙 录音"),nxt=E("button","btn sm","↻ 换一句");
+  row.appendChild(orig);row.appendChild(rec);row.appendChild(nxt);card.appendChild(row);
+  const audio=E("audio");audio.controls=true;audio.hidden=true;card.appendChild(audio);
+  const msg=E("p","small","");card.appendChild(msg);b.appendChild(card);
+  function draw(){enP.textContent=S[i].en;zhP.textContent=S[i].zh;audio.hidden=true;audio.removeAttribute("src");rec.textContent="🎙 录音";msg.textContent=""}
+  orig.onclick=()=>WM.speak(S[i].en,0.78);
+  nxt.onclick=()=>{i=(i+1)%S.length;draw()};
+  let recorder=null,chunks=[],url=null;
+  rec.onclick=async()=>{
+   if(recorder&&recorder.state==="recording"){recorder.stop();return}
+   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
+    msg.innerHTML="⚠︎ 这个环境不能录音。<b>必须用 https 打开</b>（本地 file:// 拿不到麦克风），iOS 需要 14.3 以上。";return}
+   try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    let mime="";
+    if(window.MediaRecorder.isTypeSupported){
+     if(MediaRecorder.isTypeSupported("audio/mp4"))mime="audio/mp4";
+     else if(MediaRecorder.isTypeSupported("audio/webm"))mime="audio/webm"}
+    recorder=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
+    chunks=[];
+    recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+    recorder.onstop=()=>{
+     stream.getTracks().forEach(t=>t.stop());
+     if(url)URL.revokeObjectURL(url);
+     url=URL.createObjectURL(new Blob(chunks,{type:mime||"audio/mp4"}));
+     audio.src=url;audio.hidden=false;rec.textContent="🎙 重录";
+     msg.textContent="录好了。原音 → 自己 → 原音，来回两三遍，差在哪你会自己听出来。";recorder=null};
+    recorder.start();rec.textContent="⏹ 停止";msg.textContent="录音中…";
+   }catch(err){msg.textContent="⚠︎ 拿不到麦克风："+(err&&err.name?err.name:"unknown")}};
+  draw();
+  b.appendChild(E("div","box flat","<div class='small'><b>只盯一件事：重音落在哪。</b>中文习惯每个字平均用力，英语是几个词重、其余全滑过去。<br><i>I <b>GET</b> a bit of va-<b>NIL</b>-la, and there's a <b>HINT</b> of <b>SMOKE</b> behind it.</i><br>听原音时数一下有几个重音，再听自己的。</div>"));
+ },
+ check:{q:"英语句子里，下面哪一类词<b>通常不重读</b>？",
+  opts:["冠词、介词、助动词（a / of / there's）","名词（vanilla / smoke）","实义动词（get / open）","形容词（sweet / dry）"],a:0,
+  exp:"英语是<b>重音计时语言</b>：实词重读，虚词弱读甚至含糊掉。<br><br><i>there's a hint of</i> 母语者读起来接近「ðərzə<b>HINT</b>əv」——四个词挤成一坨。<br><br><b>这就是你听不清的真正原因</b>：不是词不认识，是虚词被压扁了。跟读时故意把它们读轻，反而更像。"}},
+
+{id:"notes",x:16,y:82,icon:"📓",label:"本场笔记",kind:"写作 · Your notes for this scene",title:"这一场，你自己写",
+ notes:{
+  taskTitle:"重写你那瓶 SMWS 24",
+  task:"就是你说「像 berry wood、像老葡萄酒、但保留着 bright sweetness」的那瓶。<b>这次用今天的骨架重写一遍</b>（四到六句）。<br><br><b>要求（都是今天学的）：</b><br>· 第一句写一个<b>画面</b>，不是形容词（SMWS 的招牌）<br>· 然后 <b>On the nose… / On the palate… / The finish is…</b><br>· 至少一个 <b>something + 形容词</b><br>· 至少一个<b>比较</b>（…er than 或 not as … as）<br>· 试着用一次 <b>vinous</b>",
+  placeholder:"An old armchair in a room where…",
+  minHeight:"150px",
+  checklist:["<b>三段式骨架</b>：On the nose → On the palate → The finish 都写了吗？",
+   "<b>比较</b>：than 只跟比较级，as 只跟原级 —— 混了没有？",
+   "<b>冠词</b>：a hint of / the finish / an old wine",
+   "<b>词性</b>：fruit → fruit<b>y</b>；berry → dark berrie<b>s</b>",
+   "<b>动词形式</b>：it still <b>keeps</b>（主语是 it，三单）",
+   "<b>拼写</b>：flavo<b>u</b>r —— 苏格兰用英式"],
+  ref:"An old armchair in a room where someone has just opened a jar of jam. On the nose: dark berries, polished oak and something faintly vinous. On the palate it's richer than I expected, but it keeps a bright sweetness underneath. The finish is long, dry and a little dusty.",
+  refNote:"这是把<b>你自己的原话</b>（berry wood / like an old wine / bright sweetness）套进 SMWS 骨架的结果。<b>你的感受一个字没变，只是换了语言的装法。</b><br><br>用到：画面开头／三段式／<b>something faintly vinous</b>（something + 副词 + 形容词）／<b>richer than I expected</b>（比较）／<b>it keeps</b>（三单）。"
+ }},
+
+{id:"outro",x:80,y:83,icon:"🧾",label:"过关",kind:"过关 · Produce, don't pick",title:"这一关要你真的写英语",outro:true}
+];
+
+WM.boot({
+ sceneKey:"scene5",
+ progressKey:"whiskymap.laphroaig.tasting.v2",
+ sub:"ISLAY · 第 5 段 TASTING ROOM",
+ crumbs:[{n:1,t:"报到",href:"laphroaig-1-arrival.html"},{n:2,t:"发麦",href:"laphroaig-2-malting.html"},
+         {n:3,t:"蒸馏",href:"laphroaig-3-stills.html"},{n:4,t:"地租",href:"laphroaig-4-plot.html"},
+         {n:5,t:"品鉴",on:true}],
+ svg:SVG,spots:SPOTS,
+ note:"<b>这一段的英语重点：</b><i>What are you getting? ↔ I get…</i>、<b>说差别的语言</b>（比较级／not as…as／more of a…）、书面说明体、SMWS 笔记骨架。<br><b>跨场回收：</b><i>that's you sorted</i>（本站三次的第一次）、<i>mind</i>、苏格兰否定 <i>you'll not</i> 都从这里起头。",
+ doneMsg:"🥃 <b>Slàinte mhath! 这一场走完了。</b>",
+ exportTitle:"Laphroaig · 第 5 段 Tasting Room · 我的笔记",
+ dict:["I get a hint of smoke, but it's not as sweet as I expected.",
+       "On the palate it's oilier than the ten, and the finish is long and dry.",
+       "Water opens it up, and the smoke settles into the background."],
+ comp:[
+  {sit:"导览员倒了一杯给你，问 <b>“What are you getting?”</b> 你闻到烟味和一点甜。",
+   need:["用 <b>I get</b> 开头","加一个 <b>a hint of</b> 或 <b>a bit of</b>"],
+   ref:"I get smoke, and there's a hint of something sweet behind it."},
+  {sit:"你想说：这杯<b>没有</b>你刚才那杯甜。",need:["必须用 <b>not as … as</b>","不能用 than"],
+   ref:"This one isn't as sweet as the last one."},
+  {sit:"你闻到一个说不上来的味道，想承认但不想冷场。",need:["用 <b>something + 形容词</b> 或 <b>can't place it</b>","再把球踢回去"],
+   ref:"There's something medicinal in there — I can't place it. What would you call that?"},
+  {sit:"你想说：同一个酒厂、同一个桶，每一瓶还是不一样，而这正是你喜欢的地方。",
+   need:["用 <b>the same</b>（别漏 the）","用 <b>What I love about … is …</b>"],
+   ref:"Same distillery, same cask, and still every bottle is different. That's what I love about whisky."}],
+ fix:[
+  {bad:"There are too many bottles I want to try.",good:"There are so many bottles I want to try.",
+   why:"<b>too many</b> ＝「多到成问题了」。想说「多得很」用 <b>so many</b>。"},
+  {bad:"I love almost of the Islay whiskies.",good:"I love almost all of the Islay whiskies.",
+   why:"<b>almost</b> 是副词，必须修饰量词：almost <b>all</b> / almost <b>every</b>。"},
+  {bad:"This one is not as sweeter than the ten.",good:"This one is not as sweet as the ten.",
+   why:"两个错叠在一起：as 只跟<b>原级</b>（sweet），than 只跟<b>比较级</b>。这句里 as 和 than 不能同时出现。"},
+  {bad:"It keeps a bright sweetness and a fruit favor.",good:"It keeps a bright sweetness and a fruity flavour.",
+   why:"<b>fruit</b>（名词）→ <b>fruity</b>（形容词）；<b>favor</b> 拼错，且苏格兰用英式 <b>flavour</b>。"},
+  {bad:"Bottles from same cask are all different.",good:"Bottles from the same cask are all different.",
+   why:"<b>the same</b> 永远带 the。"},
+  {bad:"I'm keeping finding new things in it.",good:"I keep finding new things in it.",
+   why:"<b>keep + V-ing</b> 本身已表持续，不能再套进行时。"}]
+});
+</script>
+</body>
+</html>

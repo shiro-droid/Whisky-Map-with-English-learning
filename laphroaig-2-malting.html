@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Laphroaig 2 · 发麦楼 | Whisky Map</title>
+<link rel="stylesheet" href="wm.css">
+</head>
+<body><div id="app"></div>
+<script src="wm.js"></script>
+<script>
+const E=WM.el,SB=WM.sb;
+
+const SVG=`<svg class="bg" viewBox="0 0 375 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+<linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E8577"/><stop offset="1" stop-color="#5E5750"/></linearGradient>
+<linearGradient id="flr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4A96E"/><stop offset=".5" stop-color="#B39856"/><stop offset="1" stop-color="#8E7742"/></linearGradient>
+<linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCE6E4"/><stop offset="1" stop-color="#A8BCBC"/></linearGradient>
+<radialGradient id="fire" cx=".5" cy=".7" r=".8"><stop offset="0" stop-color="#FFC46A"/><stop offset=".5" stop-color="#D9691E"/><stop offset="1" stop-color="rgba(120,40,10,0)"/></radialGradient>
+<linearGradient id="shaft" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,240,205,.34)"/><stop offset="1" stop-color="rgba(255,240,205,0)"/></linearGradient>
+</defs>
+<rect width="375" height="400" fill="url(#wallG)"/>
+<!-- 天花梁 -->
+<g fill="#4A3E33"><rect x="0" y="0" width="375" height="16"/>
+<rect x="0" y="30" width="375" height="9"/><rect x="0" y="58" width="375" height="9"/>
+<rect x="34" y="0" width="11" height="70"/><rect x="150" y="0" width="11" height="70"/><rect x="266" y="0" width="11" height="70"/></g>
+<!-- 宝塔顶（透过屋顶开口） -->
+<g><rect x="196" y="0" width="88" height="46" fill="#8FA6AE"/>
+<rect x="214" y="14" width="46" height="32" fill="#E4DFD4"/>
+<path d="M208 14 L237 -8 L266 14 Z" fill="#4E4239"/>
+<rect x="233" y="-14" width="8" height="8" fill="#4E4239"/>
+<g opacity=".45" fill="#DCE2E0"><ellipse cx="237" cy="-4" rx="16" ry="6"/><ellipse cx="252" cy="-12" rx="12" ry="5"/></g>
+<rect x="196" y="0" width="88" height="46" fill="none" stroke="#4A3E33" stroke-width="7"/></g>
+<!-- 拱窗 -->
+<g>
+<path d="M22 128 a24 24 0 0 1 48 0 v72 h-48 Z" fill="url(#win)"/>
+<path d="M22 128 a24 24 0 0 1 48 0 v72 h-48 Z" fill="none" stroke="#4A3E33" stroke-width="5"/>
+<line x1="46" y1="106" x2="46" y2="200" stroke="#4A3E33" stroke-width="3"/><line x1="22" y1="156" x2="70" y2="156" stroke="#4A3E33" stroke-width="3"/>
+<path d="M96 128 a24 24 0 0 1 48 0 v72 h-48 Z" fill="url(#win)"/>
+<path d="M96 128 a24 24 0 0 1 48 0 v72 h-48 Z" fill="none" stroke="#4A3E33" stroke-width="5"/>
+<line x1="120" y1="106" x2="120" y2="200" stroke="#4A3E33" stroke-width="3"/><line x1="96" y1="156" x2="144" y2="156" stroke="#4A3E33" stroke-width="3"/></g>
+<!-- 光柱 -->
+<path d="M28 132 L120 288 L44 292 L22 168 Z" fill="url(#shaft)"/>
+<path d="M104 132 L196 288 L134 292 L98 168 Z" fill="url(#shaft)" opacity=".7"/>
+<!-- 窑门 + 火光 -->
+<g><rect x="278" y="140" width="76" height="86" rx="4" fill="#3A2E24" stroke="#241C16" stroke-width="4"/>
+<ellipse cx="316" cy="196" rx="42" ry="40" fill="url(#fire)" opacity=".85"/>
+<rect x="290" y="176" width="52" height="42" rx="3" fill="#1E1410"/>
+<ellipse cx="316" cy="204" rx="24" ry="16" fill="url(#fire)"/>
+<path d="M304 206 q6 -14 12 -4 q6 -12 10 4 z" fill="#FFCC70" opacity=".9"/>
+<rect x="278" y="132" width="76" height="10" fill="#4A3E33"/>
+<text x="316" y="160" font-family="Georgia,serif" font-size="10" fill="#E0C58E" text-anchor="middle">KILN</text></g>
+<!-- 泥煤堆 -->
+<g fill="#3E2E22">
+<rect x="240" y="238" width="30" height="11" rx="2"/><rect x="272" y="238" width="30" height="11" rx="2"/>
+<rect x="248" y="227" width="30" height="11" rx="2"/><rect x="281" y="227" width="30" height="11" rx="2"/>
+<rect x="256" y="216" width="30" height="11" rx="2"/><rect x="290" y="216" width="26" height="11" rx="2"/></g>
+<g fill="#54402F" opacity=".6"><rect x="243" y="240" width="24" height="3"/><rect x="275" y="240" width="24" height="3"/><rect x="251" y="229" width="24" height="3"/></g>
+<!-- 地板 -->
+<rect x="0" y="250" width="375" height="150" fill="url(#flr)"/>
+<g opacity=".35" stroke="#7A6636" stroke-width="1">
+<line x1="0" y1="272" x2="375" y2="272"/><line x1="0" y1="300" x2="375" y2="300"/>
+<line x1="0" y1="332" x2="375" y2="332"/><line x1="0" y1="368" x2="375" y2="368"/></g>
+<g fill="#E0CE96" opacity=".85">
+<circle cx="26" cy="284" r="2.2"/><circle cx="58" cy="292" r="2"/><circle cx="92" cy="278" r="2.4"/><circle cx="128" cy="296" r="2"/>
+<circle cx="164" cy="282" r="2.3"/><circle cx="200" cy="300" r="2"/><circle cx="236" cy="286" r="2.2"/><circle cx="272" cy="298" r="2"/>
+<circle cx="308" cy="280" r="2.4"/><circle cx="344" cy="294" r="2"/><circle cx="40" cy="320" r="2.4"/><circle cx="80" cy="336" r="2.2"/>
+<circle cx="120" cy="322" r="2"/><circle cx="160" cy="342" r="2.3"/><circle cx="204" cy="326" r="2"/><circle cx="248" cy="344" r="2.2"/>
+<circle cx="292" cy="328" r="2.4"/><circle cx="332" cy="346" r="2"/><circle cx="20" cy="360" r="2.3"/><circle cx="66" cy="374" r="2.2"/>
+<circle cx="112" cy="362" r="2"/><circle cx="158" cy="380" r="2.4"/><circle cx="206" cy="366" r="2.1"/><circle cx="254" cy="382" r="2.3"/>
+<circle cx="300" cy="368" r="2"/><circle cx="346" cy="384" r="2.2"/></g>
+<!-- 翻过的痕迹 -->
+<g opacity=".28" stroke="#8E7742" stroke-width="4" fill="none">
+<path d="M0 312 q90 -12 190 4 t185 -6"/><path d="M0 352 q100 -14 200 6 t175 -8"/></g>
+<!-- 木铲 shiel -->
+<g transform="translate(150,236) rotate(14)">
+<rect x="0" y="0" width="6" height="96" rx="3" fill="#9E7A46"/>
+<path d="M-11 92 L17 92 L14 126 L-8 126 Z" fill="#B08A52"/>
+<rect x="-9" y="94" width="24" height="3" fill="#8A6838"/></g>
+<!-- 麦堆 -->
+<g><ellipse cx="66" cy="332" rx="46" ry="15" fill="#D6C084"/><ellipse cx="66" cy="326" rx="34" ry="11" fill="#E4D29A"/></g>
+<!-- 导览员 -->
+<g opacity=".9" transform="translate(330,228)"><ellipse cx="0" cy="0" rx="14" ry="16" fill="#241C18"/>
+<path d="M0 16 C-16 16 -24 30 -25 56 L-25 92 L25 92 L25 56 C24 30 16 16 0 16 Z" fill="#2E2420"/>
+<ellipse cx="0" cy="-5" rx="15" ry="7" fill="#1C1512"/></g>
+<!-- 笔记本 -->
+<g transform="translate(24,352)"><rect x="0" y="0" width="48" height="32" rx="3" fill="#EFE7D2" transform="rotate(-7)"/>
+<g transform="rotate(-7)" stroke="#B0A088" stroke-width="1"><line x1="6" y1="9" x2="41" y2="9"/><line x1="6" y1="16" x2="41" y2="16"/><line x1="6" y1="23" x2="33" y2="23"/></g>
+<rect x="-2" y="-2" width="5" height="36" rx="2" fill="#9E4B34" transform="rotate(-7)"/></g>
+<!-- 小票 -->
+<g transform="translate(206,354)"><rect x="0" y="0" width="30" height="38" rx="2" fill="#F2EDE2" transform="rotate(6)"/>
+<g transform="rotate(6)" stroke="#B8AE9E" stroke-width="1"><line x1="4" y1="8" x2="26" y2="8"/><line x1="4" y1="15" x2="26" y2="15"/><line x1="4" y1="22" x2="21" y2="22"/><line x1="4" y1="29" x2="26" y2="29"/></g></g>
+</svg>`;
+
+const SPOTS=[
+{id:"barley",x:18,y:82,icon:"🌾",label:"地板上的麦",kind:"工序 · Germination",title:"它以为春天到了",
+ passage:{
+  en:["This is barley, and right now it thinks it's spring.",
+      "We soak it in water for two or three days, and it starts to sprout.",
+      "That's what we're after — because when a grain sprouts, it turns its own starch into sugar.",
+      "No sugar, no alcohol. It's as simple as that.",
+      "Then we spread it out on this floor, about a foot deep, and we let it get on with it.",
+      "Laphroaig is one of the few places left that still does this by hand — about ten per cent of what we use."],
+  zh:"这是大麦，此刻它以为春天到了。<br>我们把它在水里泡两三天，它就开始发芽。<br>这正是我们要的——因为一粒谷物发芽时，会把自己的淀粉转成糖。<br>没有糖就没有酒精。就这么简单。<br>然后我们把它铺在这片地板上，大约一英尺厚，剩下的让它自己去弄。<br>拉弗格是少数还在手工做这件事的地方之一——大概占我们用量的百分之十。",
+  tip:"注意 <b>it thinks it's spring</b>——把大麦拟人化。英语说明事情时非常爱这么干，比讲原理好懂十倍。"},
+ build(b){
+  b.appendChild(E("h3",null,"两个能直接搬走的句式"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>① No X, no Y.</b><br><i>No sugar, no alcohol.</i>「没有糖就没有酒精」<br>省略到只剩两个名词，是英语里最有力的结构之一。<br><i>No peat, no smoke. / No rain, no whisky. / No pain, no gain.</i>（这句你早就会）<br><br><b>② It's as simple as that.</b><br>「就这么简单」——讲完一个道理收尾用，非常常见。你做技术汇报也能用。</p>"));
+  b.appendChild(E("h3",null,"let it get on with it"));
+  b.appendChild(E("div","box flat","<div class='small'><b>get on with it</b> ＝ 继续做、自己去弄。<br>· <i>We let it get on with it.</i> 我们不管它，让它自己长。<br>· <i>Just get on with it!</i> 别废话，快做。（对人说，语气偏冲）<br>· <i>How are you getting on?</i> 你进展如何？（很常见的问候）<br><br><b>get on</b> 这个词组在英式英语里出现频率极高，而且意思差很远，要靠后面的介词分辨。</div>"));
+  b.appendChild(E("h3",null,"这一段的词"));
+  WM.vocab(b,[
+   {w:"barley",ipa:"/ˈbɑːli/",zh:"大麦",ja:"大麦"},
+   {w:"to soak",ipa:"/səʊk/",zh:"浸泡",ja:"浸す"},
+   {w:"to sprout / to germinate",ipa:"/spraʊt/ /ˈdʒɜːmɪneɪt/",zh:"发芽",ja:"発芽する"},
+   {w:"starch",ipa:"/stɑːtʃ/",zh:"淀粉",ja:"デンプン"},
+   {w:"malt",ipa:"/mɔːlt/",zh:"麦芽（名词）；发麦（动词）",ja:"モルト／麦芽"},
+   {w:"a foot deep",ipa:"—",zh:"一英尺厚（约 30 公分）",ja:"1フィートの厚さ"}
+  ]);
+ },
+ check:{q:"<b>“we let it get on with it”</b> 在这里是什么意思？",
+  opts:["不去管它，让它自己长","让它继续加热","把它移到下一道工序","让它待在水里"],a:0,
+  exp:"<b>get on with it</b> ＝ 自己继续做下去。加上 <b>let</b> 就是「放手不管」。<br><br>顺带把 get on 的几个意思一起收了：<br>· <i>How are you getting on?</i> ＝ 你进展怎样？（问候）<br>· <i>I get on well with him.</i> ＝ 我跟他处得来（with 某人）<br>· <i>Get on the bus.</i> ＝ 上车<br><br>同一个词组，靠后面的小品词分意思——<b>这是英式英语最难也最值钱的部分。</b>"}},
+
+{id:"shiel",x:44,y:66,icon:"🪵",label:"木铲",kind:"动手 · Turning the malt",title:"Go on, have a go",
+ passage:{
+  en:["Here — take this. It's called a shiel.",
+      "The grain heats up as it germinates, so it has to be turned, every four hours, day and night, for about a week.",
+      "If we don't, it cakes together and cooks itself.",
+      "Go on, have a go. Push it in flat, and lift.",
+      "Aye, like that. Mind your back.",
+      "Now do that for eight hours and you'll understand why most distilleries stopped."],
+  zh:"来——拿着。这个叫 shiel（木铲）。<br>谷物发芽时会发热，所以必须翻动，每四小时一次，日夜不停，翻大约一个星期。<br>不翻的话，它会结成块，把自己焖熟。<br>来吧，试一下。平着插进去，然后抬起来。<br>对，就这样。当心腰。<br>现在这么干八个小时，你就明白为什么大部分酒厂都不干了。",
+  tip:"<b>Mind your back</b> ——段 5 的 <i>Just a drop, mind</i> 又出现了，同一个 mind。"},
+ build(b){
+  b.appendChild(E("h3",null,"英国人天天说的「试一下」"));
+  WM.chips(b,[
+   {en:"Go on, have a go.",zh:"来，试一下。｜ have a go ＝ 试试（英式，比 try 亲切）"},
+   {en:"Do you want a go?",zh:"你要试试吗？｜ a go 是可数名词"},
+   {en:"Give it a go.",zh:"试试看。"},
+   {en:"I'll have a go at it later.",zh:"我待会儿试试。｜ have a go at + 某事"},
+   {en:"Mind your back.",zh:"当心腰。｜ mind ＝ 注意、当心"},
+   {en:"Mind your head.",zh:"当心头（低门框）。｜ 在苏格兰老酒厂里天天听得到"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>Go on 的三种用法</b>（语气差很多）<br><br>· <b>鼓励</b>：<i>Go on, have a go.</i>「来嘛，试试」——最常见<br>· <b>继续</b>：<i>Go on, I'm listening.</i>「说下去，我在听」<br>· <b>不信</b>：<i>Go on!</i>（升调）「不会吧！」<br><br>全靠语调分。你只要能<b>听出</b>是哪一种就够了，说的时候用第一种最安全。</p>"));
+  b.appendChild(E("h3",null,"你可以说的"));
+  WM.dialogue(b,[
+   {who:"y",en:"<mark class='k'>Can I have a go?</mark>",zh:"我能试试吗？"},
+   {who:"g",en:"Of course. On you go.",zh:"当然。你上。"},
+   {who:"y",en:"Like this? — <mark class='k'>Am I doing it right?</mark>",zh:"这样吗？——我做得对吗？"},
+   {who:"g",en:"Aye, that's it. Keep it flat, don't dig.",zh:"对，就这样。平着来，别往下挖。"},
+   {who:"y",en:"<mark class='k'>It's heavier than it looks.</mark>",zh:"比看起来重。"},
+   {who:"g",en:"It is that. And this is a wee bit of it — try a full floor.",zh:"确实。而这才一点点——试试整个地板。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>“It's heavier than it looks.”</b> 这个句型你到处能用：<br><i>It's harder than it looks. / It's smaller than it looks. / It's further than it looks.</i><br><br><b>比较级 + than it looks</b>——一句话就能表达「跟想的不一样」，而且完全不需要复杂词汇。<b>这是你最该囤的那类句型：结构简单、场合无限。</b></div>"));
+ },
+ check:{q:"导览员说 <b>“Go on, have a go.”</b> 他在做什么？",
+  opts:["鼓励你上手试一下","让他自己过去","让你走开","问你要不要走了"],a:0,
+  exp:"<b>have a go</b> ＝ 试一下（英式口语，比 try 更轻松）。<b>Go on</b> 在这儿是鼓励，不是「走」。<br><br>两个都用了 go，但一个都不表示「去」——<b>这就是英式口语最坑的地方：最简单的词组合起来意思完全变了。</b>好消息是这类组合数量有限，撞见一次记住一次就行。"}},
+
+{id:"kiln",x:83,y:47,icon:"🔥",label:"泥煤窑",kind:"核心 · The peat reek",title:"Mind your eyes",
+ passage:{
+  en:["Mind your eyes. Right — in you go, throw it on.",
+      "That's peat, cut by hand out on the moor a few miles from here.",
+      "It doesn't burn the way wood burns. It smoulders, and it gives off a thick, wet, oily smoke.",
+      "That smoke is the whole point. We call it the peat reek.",
+      "Seventeen hours of this, and then we finish the drying with hot air.",
+      "Everything you'll taste in the glass later starts in this room."],
+  zh:"当心眼睛。好——上吧，扔进去。<br>这是泥煤，在几英里外的荒原上手工切下来的。<br>它烧起来跟木头不一样。它是<b>闷燃</b>，冒出又厚又湿又油的烟。<br>那烟就是全部意义。我们叫它 peat reek。<br>这样熏十七个小时，然后用热风把干燥收尾。<br>你之后在杯子里尝到的一切，都从这个房间开始。",
+  tip:"最后一句把这一场和段 5 接上了。<b>你在品鉴室闻到的药味，就是在这里被放进去的。</b>"},
+ build(b){
+  b.appendChild(E("h3",null,"burn 和 smoulder 差在哪"));
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>burn</b> /bɜːn/ ＝ 有火焰地烧<br><b>smoulder</b> /ˈsməʊldə/ ＝ <b>无焰闷燃</b>，冒烟不起火<br><br>泥煤如果起明火就没用了——要的正是那股闷出来的烟。所以这个词在这儿不能换。<br><br>顺带：<b>smoulder</b> 还有比喻义，形容压着的怒火或情绪：<i>a smouldering resentment</i>（憋着的怨气）。</p>"));
+  b.appendChild(E("h3",null,"reek 是个有意思的词"));
+  b.appendChild(E("div","box flat","<div class='small'>在标准英语里 <b>reek</b> ＝ 臭味，是贬义的：<i>It reeks of fish.</i>「一股鱼腥味」。<br><br>但在苏格兰语里 <b>reek</b> 原本就是「烟」，没有贬义。爱丁堡的老外号 <b>Auld Reekie</b>（老烟城）就是这个词——因为家家烧煤。<br><br>所以 <b>peat reek</b> 在酒厂里是个褒义词，指泥煤烟。<b>同一个词在两种语言里分了岔，这就是苏格兰英语的日常状态。</b></div>"));
+  b.appendChild(E("h3",null,"泥煤这一段的词"));
+  WM.vocab(b,[
+   {w:"to smoulder",ipa:"/ˈsməʊldə/",zh:"闷燃（无明火）",ja:"くすぶる"},
+   {w:"peat reek",ipa:"/piːt riːk/",zh:"泥煤烟（苏格兰语）",ja:"ピート香"},
+   {w:"moor",ipa:"/mʊə/",zh:"荒原、高沼地",ja:"荒野／ムーア"},
+   {w:"to cut peat",ipa:"—",zh:"切泥煤（手工用特制铁锹）",ja:"ピートを切り出す"},
+   {w:"kiln",ipa:"/kɪln/",zh:"烘麦窑",ja:"キルン／乾燥塔"},
+   {w:"to give off",ipa:"/ɡɪv ɒf/",zh:"散发出（烟、味、热）",ja:"放出する"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>Mind 第三次出现了。</b><br>段 5：<i>Just a drop, mind.</i>（句尾，＝提醒）<br>段 2：<i>Mind your back. / Mind your eyes.</i>（句首，＝当心）<br><br>同一个词两种用法，在英国你一天能撞上十次。<b>不用背，撞够次数自然就分得清了</b>——这个项目就是让你撞。</div>"));
+ },
+ check:{q:"为什么说泥煤是 <b>smoulders</b> 而不是 <b>burns</b>？",
+  opts:["它是无明火的闷燃，要的就是那股烟","它烧得比木头快","它烧起来没有味道","它其实点不着"],a:0,
+  exp:"<b>burn</b> 有火焰；<b>smoulder</b> 无焰、只冒烟。<br><br>做泥煤威士忌要的<b>正是烟不是火</b>——起明火反而把酚烧掉了。所以这个动词在这儿是精确的技术用词，不是文学修辞。<br><br>这也是段 5 那句 <i>You are tasting the island</i> 的物理机制：<b>烟 → 酚 → 附着到麦芽 → 进你杯子。</b>"}},
+
+{id:"pagoda",x:63,y:11,icon:"🏯",label:"宝塔顶",kind:"建筑 · The pagoda",title:"那不是装饰，是烟囱",
+ passage:{cap:"English first · 换成书面说明体",
+  en:["Look up. That shape on the roof — we call it a pagoda — is not Chinese, and it is not decoration.",
+      "It is a chimney.",
+      "It was designed in the 1880s by an architect called Charles Doig, to draw the smoke up through the drying barley.",
+      "Doig built them all over Speyside and the islands, and they became the sign that said: whisky is made here.",
+      "Many distilleries kept the shape long after they stopped malting their own barley.",
+      "So when you see one, it may be a working chimney, or it may be a memory."],
+  zh:"抬头看。屋顶上那个形状——我们管它叫 pagoda（宝塔）——不是中国的，也不是装饰。<br>它是一个烟囱。<br>它由建筑师 Charles Doig 在 1880 年代设计，用来把烟从正在烘干的大麦中抽上去。<br>Doig 在斯佩塞和各岛上到处建，它们成了一个标志，意思是：这里酿威士忌。<br>很多酒厂在不再自己发麦之后，仍然保留了这个形状。<br>所以当你看到一个宝塔顶，它可能是一个还在工作的烟囱，也可能只是一段记忆。",
+  tip:"又是书面体：不用缩写（It is / It was），句子长，最后一句用 <b>it may be A, or it may be B</b> 的平行结构收尾。"},
+ build(b){
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>为什么叫 pagoda？</b><br>19 世纪的英国人管一切多层翘檐的东西都叫 pagoda（宝塔）。Doig 自己给它起的名字其实是 <b>Doig Ventilator</b>（Doig 通风器），但没人这么叫。<br><br><b>它现在成了威士忌的通用符号</b>——你在任何一个威士忌品牌的 logo 上看到那个尖顶，都是从这儿来的。</p>"));
+  b.appendChild(E("h3",null,"最后那句的写法值得偷"));
+  b.appendChild(E("div","box flat","<div class='small'><i>It <b>may be</b> a working chimney, or it <b>may be</b> a memory.</i><br><br>· 同一个句式重复一次，只换最后一个词<br>· 前一个是<b>具体的</b>（chimney），后一个是<b>抽象的</b>（memory）<br>· 作者不解释，让落差自己产生<br><br><b>「具体 → 抽象」的平行句</b>是英语散文最常用的收尾法。段 1 白墙那句（<i>the wall still faces the sea, and the boats no longer come</i>）是同一个套路的变体。<br><br>你写威士忌笔记时可以直接套：<i>It may be a flavour, or it may be a place.</i></div>"));
+  b.appendChild(E("h3",null,"顺带的建筑词"));
+  WM.vocab(b,[
+   {w:"chimney",ipa:"/ˈtʃɪmni/",zh:"烟囱",ja:"煙突"},
+   {w:"to draw (smoke)",ipa:"/drɔː/",zh:"抽（烟气）",ja:"引く／通風する"},
+   {w:"pagoda roof",ipa:"/pəˈɡəʊdə ruːf/",zh:"宝塔顶",ja:"パゴダ屋根"},
+   {w:"Speyside",ipa:"/ˈspeɪsaɪd/",zh:"斯佩塞（苏格兰最大威士忌产区）",ja:"スペイサイド"}
+  ]);
+ },
+ check:{q:"宝塔顶到底是什么？",
+  opts:["烟囱——把烟从烘干的大麦里抽上去","装饰性的中式屋顶","储存麦芽的塔楼","观景台"],
+  a:0,exp:"<b>It is a chimney.</b> 单独成一句，就是为了强调这个反转。<br><br>关键动词是 <b>draw</b>：<i>to draw the smoke up through the drying barley</i>。draw 在这里不是「画」也不是「拉」，而是<b>抽气流</b>——烟囱、壁炉、通风都用它。<br><br>另一个常见搭配：<i>The fire isn't drawing well.</i>「这炉子抽风不好」。"}},
+
+{id:"smell",x:28,y:36,icon:"👃",label:"气味",kind:"感官 · Naming a smell",title:"闻到什么，就说什么",
+ passage:{
+  en:["Have a good sniff. What does it remind you of?",
+      "Most people say bread first — wet bread, or a bakery.",
+      "Then the smoke comes in over the top of it, and that one is harder to name.",
+      "Some say a bonfire, some say a hospital, some say an old ashtray.",
+      "There's no right answer here either. Just say the first thing that comes into your head.",
+      "You'll meet this smell again later, in the glass. It'll be the same smell, only smaller."],
+  zh:"好好闻一下。它让你想起什么？<br>大多数人先说面包——湿面包，或者面包房。<br>然后烟味压过来盖在上面，那个就比较难说出名字了。<br>有人说篝火，有人说医院，有人说旧烟灰缸。<br>这里也一样没有标准答案。想到什么就说什么。<br>你后面还会再遇到这个气味，在杯子里。同一个味道，只是小一号。",
+  tip:"这一格是段 5 品鉴的<b>预演</b>。同一套「说出你感觉到什么」的语言，只是现在闻的是麦芽不是酒。"},
+ build(b){
+  b.appendChild(E("h3",null,"回答「让你想起什么」的四种框架"));
+  WM.chips(b,[
+   {en:"It reminds me of bread.",zh:"让我想起面包。｜ remind me OF，介词不能少"},
+   {en:"It smells like a bonfire.",zh:"闻起来像篝火。｜ smell like + 名词"},
+   {en:"There's something smoky about it.",zh:"它身上有股烟味。｜ something + 形容词 + about it"},
+   {en:"It's a bit like a hospital, if that makes sense.",zh:"有点像医院，不知道这么说合不合适。｜ 万能缓冲"},
+   {en:"I can smell it, I just can't name it.",zh:"我闻得到，就是说不出名字。｜ 承认卡壳的最好说法"},
+   {en:"What does it remind you of?",zh:"你觉得像什么？｜ 把球踢回去"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>remind 的两个坑</b><br><br>① <b>remind me OF</b>（想起某物）—— 介词是 of，不是 to<br>　<i>It reminds me of my hometown.</i> ✓<br>② <b>remind me TO do</b>（提醒我去做）—— 完全不同的意思<br>　<i>Remind me to call her.</i>「提醒我给她打电话」<br><br>一个 of 一个 to，意思差十万八千里。<b>威士忌场合永远用 of。</b></p>"));
+  b.appendChild(E("h3",null,"闻到的这几样，用英语怎么说"));
+  WM.vocab(b,[
+   {w:"a bakery",ipa:"/ˈbeɪkəri/",zh:"面包房",ja:"パン屋"},
+   {w:"a bonfire",ipa:"/ˈbɒnfaɪə/",zh:"篝火、露天火堆",ja:"焚き火"},
+   {w:"an ashtray",ipa:"/ˈæʃtreɪ/",zh:"烟灰缸",ja:"灰皿"},
+   {w:"damp",ipa:"/dæmp/",zh:"潮的（比 wet 轻，带霉气）",ja:"湿っぽい"},
+   {w:"to sniff",ipa:"/snɪf/",zh:"嗅、吸气闻",ja:"クンクン嗅ぐ"},
+   {w:"to name a smell",ipa:"—",zh:"说出一个气味叫什么",ja:"匂いを言い当てる"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>“the same smell, only smaller”</b><br><br><b>only + 比较级</b> ＝「只是……一点」，用来在肯定之后补一个小修正：<br><i>the same thing, only cheaper / the same road, only longer</i><br><br>这个结构极短、极常用，而且中文里没有对应的说法，所以中国学习者几乎不会主动用。<b>值得单独记下来。</b></div>"));
+ },
+ check:{q:"「这让我想起面包」哪句对？",
+  opts:["It reminds me of bread.","It reminds me to bread.","It reminds me about bread.","It reminds bread to me."],a:0,
+  exp:"<b>remind sb. OF sth.</b> ＝ 让某人想起某物。<br><br>· <i>remind me <b>of</b></i> ＝ 想起（记忆被勾起）<br>· <i>remind me <b>to</b> do</i> ＝ 提醒我去做某事<br><br>这两个只差一个介词，意思完全不同。品鉴场合永远是 <b>of</b>。<br><br>顺带，最自然的组合是 <b>What does it remind you of? → It reminds me of…</b>，问和答用同一个介词，很好记。"}},
+
+{id:"ask",x:87,y:60,icon:"💬",label:"敢提问",kind:"痛点专项 · Interrupting",title:"打断导览员是被允许的",
+ passage:{
+  en:["Don't be shy about stopping me. I'd far rather you asked.",
+      "If you want me to slow down, just say: sorry, can I ask something?",
+      "If you didn't hear me, say: sorry, I didn't catch that.",
+      "If it was a word you don't know, say: what does that mean, sorry?",
+      "Nobody minds. Half the questions I get asked, I had to ask somebody myself once.",
+      "And there's no such thing as a stupid question in a distillery. There's only whisky you don't understand yet."],
+  zh:"别不好意思打断我。我宁可你问。<br>想让我慢一点，就说：不好意思，我能问一下吗？<br>没听清，就说：抱歉，我没听清。<br>是个你不认识的词，就说：抱歉，那是什么意思？<br>没人会介意。我被问到的问题里，有一半我自己当年也得去问别人。<br>而且在酒厂里没有蠢问题这回事。只有你还没搞懂的威士忌。",
+  tip:"<b>这一格是给你的痛点专门做的。</b>你选的是「开口说 / 临场反应」——而现场最卡人的不是说不出，是<b>不敢打断</b>。"},
+ build(b){
+  b.appendChild(E("h3",null,"三句救命的（背下来，一字不改）"));
+  WM.chips(b,[
+   {en:"Sorry, can I ask something?",zh:"不好意思，我能问一下吗？｜ 打断的万能开头"},
+   {en:"Sorry, I didn't catch that.",zh:"抱歉，我没听清。｜ catch ＝ 听清，不用 hear"},
+   {en:"What does that mean, sorry?",zh:"抱歉，那是什么意思？｜ sorry 放句尾更轻"}
+  ]);
+  b.appendChild(E("div","box","<p class='zh' style='margin:0'><b>为什么用 catch 不用 hear？</b><br><br>· <i>I didn't <b>hear</b> you.</i> ＝ 我没听见（声音没到）——听起来像在怪对方声音小<br>· <i>I didn't <b>catch</b> that.</i> ＝ 我没接住（听见了但没抓住）——<b>把责任放在自己这边</b>，礼貌得多<br><br>英国人几乎只说 catch。这一个词的差别，是「显得没礼貌」和「显得得体」的差别。</p>"));
+  b.appendChild(E("h3",null,"再加四句，覆盖所有卡壳场景"));
+  WM.chips(b,[
+   {en:"Could you say that again, please?",zh:"能再说一遍吗？"},
+   {en:"Could you slow down a wee bit?",zh:"能稍微慢一点吗？｜ a wee bit ＝ 一点点（苏格兰）"},
+   {en:"Sorry, was that fifteen or fifty?",zh:"抱歉，是 15 还是 50？｜ 数字必须确认"},
+   {en:"How do you spell that?",zh:"那怎么拼？｜ 遇到人名地名直接问"}
+  ]);
+  b.appendChild(E("h3",null,"完整走一遍"));
+  WM.dialogue(b,[
+   {who:"g",en:"…and then the reek comes up through the perforated floor for about seventeen hours—",zh:"……然后烟从带孔的地板往上走，大约十七个小时——"},
+   {who:"y",en:"<mark class='k'>Sorry, can I ask something?</mark> <mark class='k'>What does 'reek' mean?</mark>",zh:"不好意思我能问一下吗？reek 是什么意思？"},
+   {who:"g",en:"Reek's just the old Scots word for smoke. Edinburgh's nickname is Auld Reekie — Old Smoky.",zh:"reek 就是苏格兰古语里的「烟」。爱丁堡的外号 Auld Reekie 就是「老烟城」。"},
+   {who:"y",en:"Ah, got it. <mark class='k'>And sorry, was that seventeen hours or seventy?</mark>",zh:"啊，懂了。另外抱歉，是十七小时还是七十？"},
+   {who:"g",en:"Seventeen. Seven-teen. Aye, they sound the same, everybody asks.",zh:"十七。十-七。对，听起来一样，人人都问。"},
+   {who:"y",en:"<mark class='k'>Thanks, sorry to interrupt.</mark>",zh:"谢谢，抱歉打断了。"},
+   {who:"g",en:"Not at all. Ask away.",zh:"完全不用。尽管问。"}
+  ]);
+  b.appendChild(E("div","box flat","<div class='small'><b>数一下：你打断了两次，一共说了三十来个词。</b><br><br>而你换来的是：一个新词的来历、一个地名的典故、一个确认过的数字。<br><br><b>这就是这一格真正想教的事</b>——打断的成本比你以为的低得多，收益比你以为的高得多。而对方那句 <i>everybody asks</i> 是真的：这些问题他一天要回答十遍。</div>"));
+ },
+ check:{q:"没听清对方说的话，最得体的说法是？",
+  opts:["Sorry, I didn't catch that.","Sorry, I didn't hear you.","Sorry, please speak louder.","Sorry, what? I can't understand."],a:0,
+  exp:"<b>catch</b> ＝ 我没接住，责任在我 → 礼貌。<br><b>hear</b> ＝ 我没听见，暗示你声音小 → 有点怪对方。<br><b>speak louder</b> 是直接下命令 → 在英国听起来相当冲。<br><br>英国人礼貌的核心逻辑就是这个：<b>把问题揽到自己身上，而不是指出对方的不足。</b>这一条你在爱丁堡办公室开会时天天用得上。"}},
+
+{id:"notes",x:14,y:88,icon:"📓",label:"本场笔记",kind:"写作 · Your notes for this scene",title:"这一场，你自己写",
+ notes:{
+  taskTitle:"写三到五个你会问的问题",
+  task:"你正跟着导览走，想问几个问题。<b>用英语写出三到五个问句</b>，真的问得出口的那种。<br><br><b>必须包含：</b><br>· 至少一个 <b>Sorry, can I ask…?</b> 开头的<br>· 至少一个 <b>What does … mean?</b>（注意语序）<br>· 至少一个 <b>间接问句</b>：<i>Could you tell me where / how / whether …</i>（<b>不倒装</b>）<br>· 至少一个确认数字的：<i>Was that … or …?</i>",
+  placeholder:"Sorry, can I ask something? …",
+  minHeight:"130px",
+  checklist:["<b>直接问句要倒装</b>：What <b>does</b> that <b>mean</b>?（不是 What means that?）",
+   "<b>间接问句不倒装</b>：Could you tell me where the peat <b>comes</b> from?（不是 where does the peat come from）",
+   "<b>助动词后用原形</b>：I didn't <b>catch</b>（不是 didn't catched）",
+   "<b>冠词</b>：a question / the barley / an hour —— 都带上了吗？",
+   "<b>时长用 for</b>：for about a week（不是 during a week）",
+   "<b>explain 不能双宾</b>：explain <b>this to me</b>（不是 explain me this）"],
+  ref:"Sorry, can I ask something? How long does the barley stay on the floor? And what does 'reek' mean — is it a Scots word? Sorry, I didn't catch the number: was that seventeen hours or seventy? One more thing — could you tell me where the peat is cut?",
+  refNote:"五个问句，用到：<b>Sorry, can I ask…?</b>（打断）／<b>How long does…?</b>（直接问句倒装）／<b>What does X mean?</b>（不是 What means X）／<b>was that A or B?</b>（确认数字）／<b>could you tell me where … is cut</b>（间接问句<b>不倒装</b>）。<br><br><b>没有一个难词。</b>问句的难点从来不是词汇，是语序。"
+ }},
+
+{id:"outro",x:56,y:88,icon:"🧾",label:"过关",kind:"过关 · Produce, don't pick",title:"这一关要你真的写英语",outro:true}
+];
+
+WM.boot({
+ sceneKey:"s2",
+ progressKey:"whiskymap.laphroaig.s2.v1",
+ sub:"ISLAY · 第 2 段 FLOOR MALTINGS &amp; KILN",
+ crumbs:[{n:1,t:"报到",href:"laphroaig-1-arrival.html"},{n:2,t:"发麦",on:true},
+         {n:3,t:"蒸馏",href:"laphroaig-3-stills.html"},{n:4,t:"地租",href:"laphroaig-4-plot.html"},
+         {n:5,t:"品鉴",href:"laphroaig-5-tasting.html"}],
+ svg:SVG,spots:SPOTS,
+ note:"<b>这一段的英语重点：</b>动手时的口语（have a go / mind your back）、闷燃与烟的精确动词、书面说明体的平行句收尾，以及<b>一整格专门练敢打断提问</b>。<br><b>跨场回收：</b><i>mind</i> 第三次出现；<i>get on</i>、<i>only + 比较级</i> 是新收的高频结构。",
+ doneMsg:"🔥 <b>这一场走完了。下一场：蒸馏室。</b>",
+ exportTitle:"Laphroaig · 第 2 段 Floor Maltings & Kiln · 我的笔记",
+ dict:["It doesn't burn the way wood burns. It smoulders.",
+       "Sorry, I didn't catch that. Could you say it again?",
+       "We turn it every four hours, day and night, for about a week."],
+ comp:[
+  {sit:"导览员讲太快了，你想打断一下问个问题。",need:["用 <b>Sorry, can I ask…?</b>","再加一句请他慢一点"],
+   ref:"Sorry, can I ask something? Could you slow down a wee bit?"},
+  {sit:"他说了一个数字你没听清，可能是 15 也可能是 50。",need:["用 <b>I didn't catch</b>","用 <b>was that … or …?</b>"],
+   ref:"Sorry, I didn't catch that — was that fifteen or fifty?"},
+  {sit:"他用了一个词 reek，你不认识。",need:["用 <b>What does … mean?</b>（注意语序）","句尾加 sorry"],
+   ref:"What does 'reek' mean, sorry?"},
+  {sit:"你想问泥煤是在哪儿切的。",need:["用 <b>Could you tell me where…</b>","间接问句<b>不能倒装</b>"],
+   ref:"Could you tell me where the peat is cut?"}],
+ fix:[
+  {bad:"Sorry, I didn't catched that.",good:"Sorry, I didn't catch that.",why:"<b>did/didn't 后面永远用动词原形</b>。过去时已经由 did 表达了，动词不再变。"},
+  {bad:"What means 'reek'?",good:"What does 'reek' mean?",why:"英语直接问句必须有<b>助动词倒装</b>：What <b>does</b> X <b>mean</b>? 中文「什么意思」的语序直接搬过来就错。"},
+  {bad:"Could you tell me where does the peat come from?",good:"Could you tell me where the peat comes from?",why:"<b>间接问句不倒装。</b>where 后面照陈述句语序：the peat comes。这是中文母语者最顽固的错之一。"},
+  {bad:"Please explain me this word.",good:"Please explain this word to me.",why:"<b>explain 不能带双宾语。</b>人要用 to 引出：explain sth. <b>to</b> sb.。同类的还有 say / describe / suggest。"},
+  {bad:"It smoulders during seventeen hours.",good:"It smoulders for seventeen hours.",why:"<b>时长用 for</b>（for two days / for a week）；<b>during</b> 后面接的是一段有名字的时期（during the war / during the tour）。"},
+  {bad:"There is no such thing like a stupid question.",good:"There is no such thing as a stupid question.",why:"固定搭配是 <b>no such thing as</b>，不是 like。"}]
+});
+</script>
+</body>
+</html>

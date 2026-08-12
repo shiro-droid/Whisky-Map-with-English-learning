@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Whisky Map · 苏格兰威士忌地图</title>
+<link rel="stylesheet" href="wm.css">
+<style>
+#app{padding-bottom:40px}
+.hero{background:linear-gradient(165deg,#2E4A54,#255B6B 55%,#2A3E44);color:#EAF2F3;padding:calc(env(safe-area-inset-top) + 26px) 20px 26px}
+.hero h1{font-family:var(--serif);font-size:26px;margin:0 0 3px;font-weight:600;letter-spacing:.5px}
+.hero .gd{font-family:var(--serif);font-style:italic;font-size:13px;color:#F0D9A6;margin:0 0 12px}
+.hero p{font-size:13.5px;color:rgba(234,242,243,.88);margin:0;line-height:1.75}
+.total{display:flex;align-items:center;gap:12px;margin-top:16px;background:rgba(0,0,0,.2);border-radius:12px;padding:11px 13px}
+.total .bar{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.16);overflow:hidden}
+.total .bar i{display:block;height:100%;background:linear-gradient(90deg,#D9B26A,#E0B458);border-radius:4px;transition:width .5s}
+.total .n{font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap}
+.sec{padding:18px 15px 6px}
+.sec h2{font-size:12px;letter-spacing:.14em;color:#8A7E74;font-weight:700;margin:0 0 10px;text-transform:uppercase}
+.card{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;
+padding:13px 14px;margin-bottom:10px;text-decoration:none;color:var(--ink);box-shadow:0 1px 3px rgba(36,31,27,.05)}
+.card:active{transform:scale(.985)}
+.card .no{flex:0 0 42px;height:42px;border-radius:12px;display:grid;place-items:center;font-family:var(--serif);
+font-size:19px;font-weight:700;background:var(--paper2);color:#8A7E74}
+.card.started .no{background:linear-gradient(150deg,#F0D9A6,var(--barley));color:#3E2E14}
+.card.full .no{background:linear-gradient(150deg,#E0B458,#B8863C);color:#fff}
+.card .t{flex:1;min-width:0}
+.card .t b{display:block;font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.3}
+.card .t span{display:block;font-size:11.5px;color:#8A7E74;margin-top:2px}
+.card .t em{display:block;font-size:12px;color:#5A5049;font-style:normal;margin-top:5px;line-height:1.6}
+.card .pg{flex:0 0 auto;font-size:11px;font-weight:700;color:#9A8F86;text-align:right;line-height:1.4}
+.card .pg b{display:block;font-size:14px;color:var(--amber)}
+.card.full .pg b{color:var(--moss)}
+.soon{opacity:.5;pointer-events:none}
+.foot{padding:6px 15px 0;font-size:11.5px;color:#8A7E74;line-height:1.8}
+.foot code{background:var(--paper2);padding:1px 5px;border-radius:4px;font-size:11px}
+.tools{display:flex;gap:8px;padding:14px 15px 0;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="hero">
+  <h1>Whisky Map</h1>
+  <p class="gd">Scotland, one dram at a time</p>
+  <p>用苏格兰威士忌学英语。每一场是一张场景图，点开一格听一段真英语，再拆开讲，当场回收，最后自己写。</p>
+  <div class="total"><span class="n" id="totN">0 / 40</span><span class="bar"><i id="totBar" style="width:0"></i></span></div>
+</div>
+
+<div class="sec">
+  <h2>第一章 · 艾雷岛 Islay</h2>
+  <a class="card" href="laphroaig-1-arrival.html" data-key="whiskymap.laphroaig.s1.v1" data-n="8">
+    <span class="no">1</span>
+    <span class="t"><b>Booking &amp; Arrival</b><span>报到 · 白墙、单车道、雨</span>
+    <em>正式邮件体 ↔ 口语落差／dreich 与 smirr／borrow ↔ lend</em></span>
+    <span class="pg"><b>—</b>格</span>
+  </a>
+  <a class="card" href="laphroaig-2-malting.html" data-key="whiskymap.laphroaig.s2.v1" data-n="8">
+    <span class="no">2</span>
+    <span class="t"><b>Floor Maltings &amp; Kiln</b><span>发麦楼 · 翻麦、泥煤窑、宝塔顶</span>
+    <em>have a go／smoulder ≠ burn／<b>一整格练敢打断提问</b></em></span>
+    <span class="pg"><b>—</b>格</span>
+  </a>
+  <a class="card" href="laphroaig-3-stills.html" data-key="whiskymap.laphroaig.s3.v1" data-n="8">
+    <span class="no">3</span>
+    <span class="t"><b>Mash, Wash &amp; Spirit</b><span>蒸馏室 · 七个不对称的铜壶</span>
+    <em>too…to／<b>does 强调式</b>／数字专项：point、per cent、15 ↔ 50</em></span>
+    <span class="pg"><b>—</b>格</span>
+  </a>
+  <a class="card" href="laphroaig-4-plot.html" data-key="whiskymap.laphroaig.s4.v1" data-n="8">
+    <span class="no">4</span>
+    <span class="t"><b>Collecting Your Rent</b><span>泥煤地 · 你的一平方英尺</span>
+    <em>完成时 vs 过去时／地貌词／<b>一整格闲聊套路</b>（最难也最值钱）</em></span>
+    <span class="pg"><b>—</b>格</span>
+  </a>
+  <a class="card" href="laphroaig-5-tasting.html" data-key="whiskymap.laphroaig.tasting.v2" data-n="11">
+    <span class="no">5</span>
+    <span class="t"><b>Tasting Room</b><span>品鉴室 · 三杯并排</span>
+    <em>What are you getting? ↔ I get…／<b>说差别的语言</b>／SMWS 骨架</em></span>
+    <span class="pg"><b>—</b>格</span>
+  </a>
+</div>
+
+<div class="sec">
+  <h2>接下来</h2>
+  <div class="card soon"><span class="no">🗺</span>
+    <span class="t"><b>艾雷岛全图</b><span>Islay</span>
+    <em>渡轮 · Port Ellen · 南岸三雄 · Bowmore 的 pub · 北岸 · Fèis Ìle</em></span></div>
+  <div class="card soon"><span class="no">🏛</span>
+    <span class="t"><b>第二章 · 爱丁堡</b><span>Edinburgh</span>
+    <em>SMWS 28 Queen Street／The Vaults · 出差与同事社交英语</em></span></div>
+</div>
+
+<div class="tools">
+  <button class="btn sm" id="exportAll">📤 导出我写过的全部笔记</button>
+  <button class="btn sm" id="wipe">↺ 清空全部进度</button>
+</div>
+
+<div class="foot">
+  <b>怎么用：</b>每场约 20–30 分钟，可以随时关掉，进度和你写的东西都存在这台设备上。<br>
+  <b>录音功能需要 https</b>——本地用 <code>file://</code> 打开拿不到麦克风，推到 GitHub Pages 之后 iPhone 上才能录。<br>
+  <b>建议加到主屏幕</b>：Safari 分享 → 添加到主屏幕，点开就是全屏。
+</div>
+</div>
+
+<script>
+(function(){
+ let done=0,total=0;
+ document.querySelectorAll('.card[data-key]').forEach(c=>{
+  const n=parseInt(c.dataset.n,10);let d=0;
+  try{d=(JSON.parse(localStorage.getItem(c.dataset.key)||'[]')||[]).length}catch(e){}
+  if(d>n)d=n;
+  done+=d;total+=n;
+  const pg=c.querySelector('.pg');
+  pg.innerHTML='<b>'+d+'/'+n+'</b>格';
+  if(d>=n)c.classList.add('full');else if(d>0)c.classList.add('started');
+ });
+ document.getElementById('totN').textContent=done+' / '+total;
+ document.getElementById('totBar').style.width=(total?done/total*100:0)+'%';
+
+ document.getElementById('exportAll').onclick=function(){
+  let o={};try{o=JSON.parse(localStorage.getItem('whiskymap.notes.v1')||'{}')}catch(e){}
+  const NAME={s1:'第 1 段 报到',s2:'第 2 段 发麦楼',s3:'第 3 段 蒸馏室',s4:'第 4 段 领地租',scene5:'第 5 段 品鉴室'};
+  const L=['# Whisky Map · 我的全部笔记',''];
+  Object.keys(NAME).forEach(k=>{
+   const keys=Object.keys(o).filter(x=>x.indexOf(k+'.')===0&&o[x]&&o[x]!=='0'&&o[x]!=='1');
+   if(!keys.length)return;
+   L.push('## '+NAME[k]);
+   keys.sort().forEach(x=>L.push('- **'+x.slice(k.length+1)+'**: '+o[x]));
+   L.push('');
+  });
+  const txt=L.length>2?L.join('\n'):'（你还没写任何东西）';
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+   navigator.clipboard.writeText(txt).then(()=>alert('全部笔记已复制到剪贴板，可以直接粘贴发给我批改。'),()=>prompt('手动复制：',txt));
+  else prompt('手动复制：',txt);
+ };
+ document.getElementById('wipe').onclick=function(){
+  if(!confirm('清空全部五场的学习进度？\n\n（你写过的笔记不会删——要删笔记请单独说）'))return;
+  ['whiskymap.laphroaig.s1.v1','whiskymap.laphroaig.s2.v1','whiskymap.laphroaig.s3.v1',
+   'whiskymap.laphroaig.s4.v1','whiskymap.laphroaig.tasting.v2'].forEach(k=>localStorage.removeItem(k));
+  location.reload();
+ };
+})();
+</script>
+</body>
+</html>
