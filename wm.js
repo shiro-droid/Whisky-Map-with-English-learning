@@ -8,24 +8,44 @@ const WM={};
 let VOICES=[],primed=false;
 function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){VOICES=[]}}
 loadVoices();
-if(window.speechSynthesis)speechSynthesis.onvoiceschanged=loadVoices;
+if(window.speechSynthesis)speechSynthesis.onvoiceschanged=function(){loadVoices();updateVoiceWarn()};
+function englishVoices(){
+ return VOICES.filter(v=>(v.lang||"").toLowerCase().indexOf("en")===0);
+}
 function pickVoice(){
  if(!VOICES.length)loadVoices();
+ const en=englishVoices();
+ if(!en.length)return null;
  const p=["Daniel","Serena","Kate","Arthur","Martha","Google UK English Male","Google UK English Female","Microsoft George","Microsoft Hazel","Microsoft Ryan"];
- for(const n of p){const v=VOICES.find(v=>v.name===n);if(v)return v}
- return VOICES.find(v=>v.lang==="en-GB")||VOICES.find(v=>(v.lang||"").indexOf("en")===0)||null;
+ for(const n of p){const v=en.find(v=>v.name===n);if(v)return v}
+ return en.find(v=>v.lang==="en-GB")||en.find(v=>v.lang==="en-US")||en[0];
+}
+/* 没有英语语音时不要用中文引擎硬念——那不是英语，会把发音带偏 */
+function voiceReady(){
+ if(!VOICES.length)loadVoices();
+ return VOICES.length===0 || englishVoices().length>0;
+}
+function updateVoiceWarn(){
+ const bar=document.getElementById("voiceWarn");
+ if(!bar)return;
+ if(!VOICES.length){bar.hidden=true;return}
+ bar.hidden=englishVoices().length>0;
 }
 function rateVal(){const r=document.getElementById("rate");return r?(parseFloat(r.value)||0.9):0.9}
 function prime(){if(!primed){try{speechSynthesis.speak(new SpeechSynthesisUtterance(""))}catch(e){}primed=true;loadVoices()}}
 function speak(t,r){
- if(!window.speechSynthesis)return;prime();try{speechSynthesis.cancel()}catch(e){}
+ if(!window.speechSynthesis)return;
+ if(!voiceReady()){updateVoiceWarn();return}
+ prime();try{speechSynthesis.cancel()}catch(e){}
  const u=new SpeechSynthesisUtterance(String(t).replace(/\s+/g," ").trim());
  const v=pickVoice();if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
  u.rate=r||rateVal();
  setTimeout(()=>{try{speechSynthesis.speak(u)}catch(e){}},60);
 }
 function speakSeq(l,r,cb){
- if(!window.speechSynthesis)return;prime();try{speechSynthesis.cancel()}catch(e){}
+ if(!window.speechSynthesis)return;
+ if(!voiceReady()){updateVoiceWarn();return}
+ prime();try{speechSynthesis.cancel()}catch(e){}
  const v=pickVoice();
  l.forEach((t,i)=>{
   const u=new SpeechSynthesisUtterance(strip(t));
@@ -297,6 +317,11 @@ WM.boot=function(C){
 
  /* belt */
  const belt=el("div","belt",
+  '<div id="voiceWarn" class="warn" hidden><b>⚠︎ 这台设备没有安装英语语音，朗读功能用不了。</b>'+
+  '<br>浏览器只找得到中文语音，用它念英文会把发音带偏，所以我直接停掉了。<br><br>'+
+  '<b>Windows：</b>设置 → 时间和语言 → 语言和区域 → 添加语言 → <b>English (United Kingdom)</b>，'+
+  '安装时勾上「语音」和「文本转语音」，装完<b>重启浏览器</b>。之后会出现 Microsoft George / Hazel（en-GB）。<br>'+
+  '<b>iPhone：</b>系统自带英语语音（Daniel，标准英音），直接就能用。</div>'+
   '<div class="row"><button class="btn sm" id="resetBtn">↺ 清空进度</button>'+
   '<button class="btn sm" id="exportBtn">📤 导出我的笔记</button><span style="flex:1"></span>'+
   '<span class="rate">语速<input type="range" id="rate" min="0.55" max="1.15" step="0.05" value="0.9" style="width:60px"><span id="rateNum">0.9</span></span></div>'+
@@ -404,6 +429,10 @@ WM.boot=function(C){
   else prompt("手动复制：",txt);
  };
  refresh();
+ loadVoices();updateVoiceWarn();
+ // 语音列表是异步加载的，隔一会儿再确认一次
+ setTimeout(()=>{loadVoices();updateVoiceWarn()},400);
+ setTimeout(()=>{loadVoices();updateVoiceWarn()},1500);
 };
 
 /* 暴露给场景文件用 */
