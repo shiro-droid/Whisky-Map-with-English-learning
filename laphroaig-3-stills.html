@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Laphroaig 3 · 蒸馏室 | Whisky Map</title>
-<link rel="stylesheet" href="wm.css?v=2">
+<link rel="stylesheet" href="wm.css?v=3">
 </head>
 <body><div id="app"></div>
-<script src="wm.js?v=2"></script>
+<script src="wm.js?v=3"></script>
 <script>
 const E=WM.el;
 
@@ -268,7 +268,7 @@ const SPOTS=[
   b.appendChild(E("div","box","<p class='zh' style='margin:0'>这是英语听力里最经典的一对陷阱，而区别<b>只在重音</b>：<br><br>· <b>thirTEEN</b> / <b>THIRty</b><br>· <b>fourTEEN</b> / <b>FORty</b><br>· <b>fifTEEN</b> / <b>FIFty</b><br>· <b>sixTEEN</b> / <b>SIXty</b><br><br><b>-teen 重音在后，-ty 重音在前。</b><br><br>但现实是：说快了、环境吵，母语者自己也分不清——<b>所以他们的解决办法不是听得更准，是复述确认。</b></p>"));
   const P=["thirteen or thirty","fourteen or forty","fifteen or fifty","sixteen or sixty","seventeen or seventy"];
   const r=E("div","btnrow");
-  P.forEach(x=>{const btn=E("button","btn sm","▶︎ "+x);btn.onclick=()=>WM.speak(x,0.62);r.appendChild(btn)});
+  P.forEach(x=>{const btn=E("button","btn sm","▶︎ "+x);btn.onclick=()=>WM.speak(x,0.8);r.appendChild(btn)});
   b.appendChild(E("p","small","点一下慢速听对比："));
   b.appendChild(r);
   b.appendChild(E("h3",null,"四句确认，学会就再也不慌"));

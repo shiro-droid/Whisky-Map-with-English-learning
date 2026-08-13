@@ -4,43 +4,83 @@
 "use strict";
 const WM={};
 
-/* ================= TTS ================= */
+/* ================= TTS =================
+   iOS Safari 的坑：
+   1) getVoices() 首次几乎必然返回空数组，要轮询 + 监听 voiceschanged
+   2) 系统里下载的 Premium/Enhanced 音色，Safari 不一定暴露给 Web Speech API
+      —— 判断依据是 voiceURI 里的 compact / enhanced / premium 字样，不是 name
+   3) 语速压到 0.6–0.7 会把语调和连读全部拉平，反而更机械 */
+const VKEY="whiskymap.voice";
 let VOICES=[],primed=false;
-function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){VOICES=[]}}
-loadVoices();
-if(window.speechSynthesis)speechSynthesis.onvoiceschanged=function(){loadVoices();updateVoiceWarn()};
+function loadVoices(){
+ try{const v=speechSynthesis.getVoices()||[];if(v.length)VOICES=v}catch(e){}
+ return VOICES;
+}
 function englishVoices(){
  return VOICES.filter(v=>(v.lang||"").toLowerCase().indexOf("en")===0);
+}
+function savedVoiceName(){try{return localStorage.getItem(VKEY)||""}catch(e){return""}}
+function setSavedVoice(n){try{n?localStorage.setItem(VKEY,n):localStorage.removeItem(VKEY)}catch(e){}}
+/* 从 voiceURI 判断苹果音色的档次 */
+function voiceTier(v){
+ const u=((v&&v.voiceURI)||"").toLowerCase();
+ if(u.indexOf("premium")>=0)return "premium";
+ if(u.indexOf("enhanced")>=0)return "enhanced";
+ if(u.indexOf("compact")>=0)return "compact";
+ if(u.indexOf("siri")>=0)return "siri";
+ return "";
 }
 function pickVoice(){
  if(!VOICES.length)loadVoices();
  const en=englishVoices();
  if(!en.length)return null;
+ // ① 你手动选过的，最优先
+ const saved=savedVoiceName();
+ if(saved){const v=en.find(v=>v.name===saved);if(v)return v}
+ // ② Zoe（你系统里选的那个）
+ const zoe=en.find(v=>/zoe/i.test(v.name));
+ if(zoe)return zoe;
+ // ③ 音质档次优先：premium > enhanced > siri > 其余
+ const byTier=t=>en.filter(v=>voiceTier(v)===t);
+ for(const t of ["premium","enhanced","siri"]){
+  const g=byTier(t);
+  if(g.length)return g.find(v=>v.lang==="en-GB")||g.find(v=>v.lang==="en-US")||g[0];
+ }
+ // ④ 已知还算自然的具名音色
  const p=["Daniel","Serena","Kate","Arthur","Martha","Google UK English Male","Google UK English Female","Microsoft George","Microsoft Hazel","Microsoft Ryan"];
  for(const n of p){const v=en.find(v=>v.name===n);if(v)return v}
  return en.find(v=>v.lang==="en-GB")||en.find(v=>v.lang==="en-US")||en[0];
 }
-/* 没有英语语音时不要用中文引擎硬念——那不是英语，会把发音带偏 */
+/* 没有英语语音时不要用中文引擎硬念——那不是英语，会把发音带偏。
+   注意：VOICES 还没加载完时不算「没有」，否则 iOS 首次点击必被误拦。 */
 function voiceReady(){
  if(!VOICES.length)loadVoices();
  return VOICES.length===0 || englishVoices().length>0;
 }
 function updateVoiceWarn(){
  const bar=document.getElementById("voiceWarn");
- if(!bar)return;
- if(!VOICES.length){bar.hidden=true;return}
- bar.hidden=englishVoices().length>0;
+ if(bar){bar.hidden=(!VOICES.length)||englishVoices().length>0}
+ updateVoicePanel();
 }
-function rateVal(){const r=document.getElementById("rate");return r?(parseFloat(r.value)||0.9):0.9}
-function prime(){if(!primed){try{speechSynthesis.speak(new SpeechSynthesisUtterance(""))}catch(e){}primed=true;loadVoices()}}
+function rateVal(){const r=document.getElementById("rate");return r?(parseFloat(r.value)||0.95):0.95}
+function prime(){if(!primed){primed=true;loadVoices()}}
+function applyVoice(u){
+ const v=pickVoice();
+ if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
+ return v;
+}
 function speak(t,r){
  if(!window.speechSynthesis)return;
  if(!voiceReady()){updateVoiceWarn();return}
  prime();try{speechSynthesis.cancel()}catch(e){}
  const u=new SpeechSynthesisUtterance(String(t).replace(/\s+/g," ").trim());
- const v=pickVoice();if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
- u.rate=r||rateVal();
- setTimeout(()=>{try{speechSynthesis.speak(u)}catch(e){}},60);
+ applyVoice(u);
+ u.rate=r||rateVal();u.pitch=1;
+ setTimeout(()=>{
+  try{speechSynthesis.speak(u)}catch(e){}
+  // iOS 常常在第一次 speak 之后才把 voice 列表填上
+  setTimeout(()=>{loadVoices();updateVoiceWarn()},300);
+ },60);
 }
 function speakSeq(l,r,cb){
  if(!window.speechSynthesis)return;
@@ -50,10 +90,68 @@ function speakSeq(l,r,cb){
  l.forEach((t,i)=>{
   const u=new SpeechSynthesisUtterance(strip(t));
   if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
-  u.rate=r||rateVal();
+  u.rate=r||rateVal();u.pitch=1;
   if(cb){u.onstart=()=>cb(i);u.onend=()=>cb(-1)}
   setTimeout(()=>{try{speechSynthesis.speak(u)}catch(e){}},60+i*12);
  });
+ setTimeout(()=>{loadVoices();updateVoiceWarn()},400);
+}
+
+/* ---------- 语音调试面板 ---------- */
+function updateVoicePanel(){
+ const box=document.getElementById("voicePanel");
+ if(!box)return;
+ const en=englishVoices(),cur=pickVoice();
+ const now=document.getElementById("vpNow");
+ if(now){
+  now.innerHTML = cur
+   ? "<b>"+cur.name+"</b> · "+cur.lang+(voiceTier(cur)?" · <b>"+voiceTier(cur)+"</b>":"")+
+     "<br><code>"+(cur.voiceURI||"(no voiceURI)")+"</code>"
+   : (VOICES.length? "<b>没有可用的英语语音</b>" : "语音列表还在加载…（iOS 上通常要点一次播放才会出来）");
+ }
+ const sel=document.getElementById("vpSel");
+ if(sel){
+  const want=cur?cur.name:"";
+  if(sel.dataset.n!==String(en.length)){
+   sel.innerHTML='<option value="">自动选择（推荐）</option>'+
+    en.map(v=>'<option value="'+v.name.replace(/"/g,"&quot;")+'">'+v.name+" — "+v.lang+(voiceTier(v)?" ["+voiceTier(v)+"]":"")+'</option>').join("");
+   sel.dataset.n=String(en.length);
+  }
+  sel.value=savedVoiceName()||"";
+  if(sel.value&&!en.some(v=>v.name===sel.value))sel.value="";
+  void want;
+ }
+ const list=document.getElementById("vpList");
+ if(list){
+  list.innerHTML = en.length
+   ? "<b>可用英语语音（"+en.length+" 个）：</b><br>"+en.map(v=>
+      "· "+v.name+" — "+v.lang+(v.localService?"":" (远程)")+(voiceTier(v)?" <b>["+voiceTier(v)+"]</b>":"")+
+      "<br>&nbsp;&nbsp;<code>"+(v.voiceURI||"")+"</code>").join("<br>")
+   : "<b>当前一个英语语音都没读到。</b>全部语音数："+VOICES.length;
+ }
+ const zoe=document.getElementById("vpZoe");
+ if(zoe){
+  const hasZoe=en.some(v=>/zoe/i.test(v.name));
+  const hasHiFi=en.some(v=>{const t=voiceTier(v);return t==="premium"||t==="enhanced"||t==="siri"});
+  // 一个英语语音都没有时，红色警告条已经说明了，这里不重复
+  if(!VOICES.length||!en.length){zoe.hidden=true}
+  else if(hasZoe){
+   zoe.hidden=false;
+   zoe.innerHTML="✅ <b>Safari 暴露了 Zoe，已经强制使用它。</b>如果听感还是偏机械，看上面的 <code>voiceURI</code>："+
+    "写着 <b>compact</b> 就说明 Safari 给的是压缩版，不是你下载的 Premium——这一层 Web 端改不了。";
+  }else{
+   zoe.hidden=false;
+   zoe.innerHTML="⚠︎ <b>Safari 没有把 Zoe 暴露给 Web Speech API。</b>"+
+    (hasHiFi?"":"而且列表里一个 premium / enhanced / siri 档的都没有，全是 compact 压缩音色。")+
+    "<br><br>这是 <b>Safari / Web Speech API 的限制</b>，不是你手机设置的问题——系统设置里选的 Premium 音色只对「朗读屏幕」等系统功能生效，网页拿不到。"+
+    "<b>请不要再去系统设置里折腾了，这条路走不通。</b>"+
+    "<br><br>浏览器 TTS 就当免费兜底用。要真正自然的语调、重音、连读和停顿，只能走外部 TTS 生成音频文件——数据结构里已经留好 <code>audio</code> 字段。";
+  }
+ }
+}
+loadVoices();
+if(window.speechSynthesis&&"onvoiceschanged" in speechSynthesis){
+ speechSynthesis.onvoiceschanged=function(){loadVoices();updateVoiceWarn()};
 }
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&window.speechSynthesis){try{speechSynthesis.cancel()}catch(e){}}});
 
@@ -163,7 +261,7 @@ function renderPassage(body,p){
  const T=el("div","tools");
  const hi=i=>{[...txt.children].forEach(c=>c.classList.remove("lit"));if(i>=0&&txt.children[i])txt.children[i].classList.add("lit")};
  const a=el("button","btn sm pri","▶︎ 整段");a.onclick=()=>speakSeq(p.en,rateVal(),hi);
- const s=el("button","btn sm","🐢 慢速");s.onclick=()=>speakSeq(p.en,0.62,hi);
+ const s=el("button","btn sm","🐢 慢速");s.onclick=()=>speakSeq(p.en,0.8,hi);
  const z=el("button","btn sm","中文");z.onclick=()=>{box.classList.toggle("showzh");z.textContent=box.classList.contains("showzh")?"藏中文":"中文"};
  T.appendChild(a);T.appendChild(s);T.appendChild(z);box.appendChild(T);
  box.appendChild(el("div","zhbox",p.zh));
@@ -227,7 +325,7 @@ function buildDict(p,DICT){
   const box=el("div","box");box.appendChild(el("div","small","<b>第 "+(i+1)+" 句</b>"));
   const r=el("div","btnrow");
   const pb=el("button","btn sm pri","▶︎ 播放");pb.onclick=()=>speak(s,rateVal());
-  const sl=el("button","btn sm","🐢 慢速");sl.onclick=()=>speak(s,0.58);
+  const sl=el("button","btn sm","🐢 慢速");sl.onclick=()=>speak(s,0.78);
   r.appendChild(pb);r.appendChild(sl);box.appendChild(r);
   const inp=el("textarea");inp.placeholder="写下你听到的…";inp.style.minHeight="60px";
   inp.value=loadNote("dict"+i);autosave(inp,"dict"+i);box.appendChild(inp);
@@ -323,8 +421,17 @@ WM.boot=function(C){
   '安装时勾上「语音」和「文本转语音」，装完<b>重启浏览器</b>。之后会出现 Microsoft George / Hazel（en-GB）。<br>'+
   '<b>iPhone：</b>系统自带英语语音（Daniel，标准英音），直接就能用。</div>'+
   '<div class="row"><button class="btn sm" id="resetBtn">↺ 清空进度</button>'+
-  '<button class="btn sm" id="exportBtn">📤 导出我的笔记</button><span style="flex:1"></span>'+
-  '<span class="rate">语速<input type="range" id="rate" min="0.55" max="1.15" step="0.05" value="0.9" style="width:60px"><span id="rateNum">0.9</span></span></div>'+
+  '<button class="btn sm" id="exportBtn">📤 导出我的笔记</button>'+
+  '<button class="btn sm" id="voiceBtn">🔊 语音</button><span style="flex:1"></span>'+
+  '<span class="rate">语速<input type="range" id="rate" min="0.7" max="1.15" step="0.01" value="0.95" style="width:60px"><span id="rateNum">0.95</span></span></div>'+
+  '<div id="voicePanel" class="vp" hidden>'+
+   '<div class="vp-h">当前实际使用的音色</div><div id="vpNow" class="vp-now">…</div>'+
+   '<div class="vp-h">手动指定（会记住）</div>'+
+   '<select id="vpSel" class="vp-sel"></select>'+
+   '<div class="btnrow"><button class="btn sm sea" id="vpTest">▶︎ 试听这一句</button>'+
+   '<button class="btn sm" id="vpReload">↻ 重新读取语音列表</button></div>'+
+   '<div id="vpZoe" class="vp-zoe" hidden></div>'+
+   '<div id="vpList" class="vp-list"></div></div>'+
   '<div class="locked-note">'+C.note+'</div>');
  app.appendChild(belt);
 
@@ -428,11 +535,29 @@ WM.boot=function(C){
    navigator.clipboard.writeText(txt).then(()=>alert("笔记已复制到剪贴板，可以直接粘贴发给我批改。"),()=>prompt("手动复制：",txt));
   else prompt("手动复制：",txt);
  };
+ /* 语音面板 */
+ const vp=document.getElementById("voicePanel");
+ document.getElementById("voiceBtn").onclick=()=>{
+  loadVoices();updateVoiceWarn();
+  vp.hidden=!vp.hidden;
+ };
+ document.getElementById("vpSel").onchange=function(){
+  setSavedVoice(this.value);updateVoicePanel();
+  speak("On the nose: peat smoke, iodine and wet rope.");
+ };
+ document.getElementById("vpTest").onclick=()=>
+  speak("Right, that's you all sorted with a glass. Now, have a wee nose at it before you take a sip.");
+ document.getElementById("vpReload").onclick=()=>{
+  try{speechSynthesis.cancel()}catch(e){}
+  // iOS 有时要先 speak 一次才肯把列表填上
+  try{speechSynthesis.speak(new SpeechSynthesisUtterance(" "))}catch(e){}
+  setTimeout(()=>{loadVoices();updateVoiceWarn()},350);
+ };
+
  refresh();
  loadVoices();updateVoiceWarn();
- // 语音列表是异步加载的，隔一会儿再确认一次
- setTimeout(()=>{loadVoices();updateVoiceWarn()},400);
- setTimeout(()=>{loadVoices();updateVoiceWarn()},1500);
+ // Safari 首次 getVoices() 基本必然是空的，多轮询几次，别急着降级
+ [150,400,900,2000,4000].forEach(ms=>setTimeout(()=>{loadVoices();updateVoiceWarn()},ms));
 };
 
 /* 暴露给场景文件用 */
