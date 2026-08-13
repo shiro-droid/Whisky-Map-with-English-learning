@@ -26,10 +26,12 @@ function voiceTier(v){
  const u=((v&&v.voiceURI)||"").toLowerCase();
  if(u.indexOf("premium")>=0)return "premium";
  if(u.indexOf("enhanced")>=0)return "enhanced";
- if(u.indexOf("compact")>=0)return "compact";
  if(u.indexOf("siri")>=0)return "siri";
+ if(u.indexOf("super-compact")>=0)return "super-compact"; // 苹果最低档，iOS Safari 只给这个
+ if(u.indexOf("compact")>=0)return "compact";
  return "";
 }
+function isHiFi(v){const t=voiceTier(v);return t==="premium"||t==="enhanced"||t==="siri"}
 function pickVoice(){
  if(!VOICES.length)loadVoices();
  const en=englishVoices();
@@ -132,7 +134,8 @@ function updateVoicePanel(){
  const zoe=document.getElementById("vpZoe");
  if(zoe){
   const hasZoe=en.some(v=>/zoe/i.test(v.name));
-  const hasHiFi=en.some(v=>{const t=voiceTier(v);return t==="premium"||t==="enhanced"||t==="siri"});
+  const hasHiFi=en.some(isHiFi);
+  const allSuper=en.length&&en.every(v=>voiceTier(v)==="super-compact");
   // 一个英语语音都没有时，红色警告条已经说明了，这里不重复
   if(!VOICES.length||!en.length){zoe.hidden=true}
   else if(hasZoe){
@@ -142,9 +145,11 @@ function updateVoicePanel(){
   }else{
    zoe.hidden=false;
    zoe.innerHTML="⚠︎ <b>Safari 没有把 Zoe 暴露给 Web Speech API。</b>"+
-    (hasHiFi?"":"而且列表里一个 premium / enhanced / siri 档的都没有，全是 compact 压缩音色。")+
-    "<br><br>这是 <b>Safari / Web Speech API 的限制</b>，不是你手机设置的问题——系统设置里选的 Premium 音色只对「朗读屏幕」等系统功能生效，网页拿不到。"+
-    "<b>请不要再去系统设置里折腾了，这条路走不通。</b>"+
+    (hasHiFi?"":(allSuper
+      ? "而且这 "+en.length+" 个<b>全部是 super-compact</b>——苹果体积最小的那一档，比普通 compact 还低。"
+      : "而且列表里一个 premium / enhanced / siri 档的都没有。"))+
+    "<br><br>这是 <b>Web Speech API 的限制</b>，不是你手机设置的问题——系统设置里下载的 Premium 音色只对「朗读屏幕」「VoiceOver」等系统功能生效，网页永远拿不到。"+
+    "<b>不用再去系统设置里折腾了，这条路是封死的。</b>"+
     "<br><br>浏览器 TTS 就当免费兜底用。要真正自然的语调、重音、连读和停顿，只能走外部 TTS 生成音频文件——数据结构里已经留好 <code>audio</code> 字段。";
   }
  }
