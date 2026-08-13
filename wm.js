@@ -173,17 +173,47 @@ function dialogue(b,L,names){
   r.appendChild(w);r.appendChild(u);b.appendChild(r);
  });
 }
+/* ---------- 真人发音（免费外链） ----------
+   浏览器 TTS 只够对节奏，语调/连读/重音得听真人。
+   单词 → 剑桥词典（真人录音，秒开）；短语 → YouGlish（真人视频片段，可筛英式） */
+function cleanQuery(t){
+ return String(t).replace(/\s*[（(].*$/,"").replace(/\s*[／/|｜].*$/,"")
+  .replace(/^(to|a|an|the)\s+/i,"").replace(/[.!?,;:—–]+$/,"").trim();
+}
+function realAudioURL(t){
+ const q=cleanQuery(t);
+ if(!q)return "";
+ return q.indexOf(" ")<0
+  ? "https://dictionary.cambridge.org/dictionary/english/"+encodeURIComponent(q.toLowerCase())
+  : "https://youglish.com/pronounce/"+encodeURIComponent(q)+"/english/uk";
+}
+function realBtn(t,cls){
+ const q=cleanQuery(t);
+ const a=el("a",(cls||"real"),"🎧");
+ a.href=realAudioURL(t);a.target="_blank";a.rel="noopener";
+ a.title="听真人说：“"+q+"”";
+ a.onclick=e=>e.stopPropagation();
+ return a;
+}
 function chips(b,I){
  const w=el("div","chips");
- I.forEach(i=>{const c=el("button","chip","<span>"+i.en+"</span><small>"+i.zh+"</small>");c.onclick=()=>speak(i.en);w.appendChild(c)});
+ I.forEach(i=>{
+  const c=el("div","chip");
+  const t=el("button","chip-t","<span>"+i.en+"</span><small>"+i.zh+"</small>");
+  t.onclick=()=>speak(i.en);
+  c.appendChild(t);c.appendChild(realBtn(i.en));
+  w.appendChild(c);
+ });
  b.appendChild(w);
 }
 function vocab(b,L){
  L.forEach(v=>{
   const d=el("div","v");
-  d.innerHTML='<div><span class="w">'+v.w+'</span><span class="ipa">'+(v.ipa||"")+'</span></div><button class="spk">🔊</button>'+
+  d.innerHTML='<div><span class="w">'+v.w+'</span><span class="ipa">'+(v.ipa||"")+'</span></div>'+
+   '<div class="vbtns"><button class="spk">🔊</button></div>'+
    '<div class="meta"><span>'+v.zh+'</span><span class="ja">'+v.ja+'</span></div>';
   d.querySelector(".spk").onclick=()=>speak(v.w,0.82);
+  d.querySelector(".vbtns").appendChild(realBtn(v.w));
   b.appendChild(d);
  });
 }
@@ -436,6 +466,12 @@ WM.boot=function(C){
    '<div class="btnrow"><button class="btn sm sea" id="vpTest">▶︎ 试听这一句</button>'+
    '<button class="btn sm" id="vpReload">↻ 重新读取语音列表</button></div>'+
    '<div id="vpZoe" class="vp-zoe" hidden></div>'+
+   '<div class="vp-how"><b>🎧 那怎么听真人？</b><br>'+
+   '短语卡和词表右边都有一个 <b>🎧</b>，点开就是真人发音，全部免费：<br>'+
+   '· <b>单词</b> → 剑桥词典（真人录的英音＋美音，秒开）<br>'+
+   '· <b>短语</b> → YouGlish（真人在视频里说这句话，已锁定英式口音，可以一直点下一个）<br><br>'+
+   '<b>分工记清楚：</b>页面里的 🔊 只用来对节奏和确认音节；'+
+   '<b>语调、连读、重音一律以 🎧 的真人为准。</b></div>'+
    '<div id="vpList" class="vp-list"></div></div>'+
   '<div class="locked-note">'+C.note+'</div>');
  app.appendChild(belt);

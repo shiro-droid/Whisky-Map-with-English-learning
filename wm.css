@@ -62,6 +62,9 @@ font-family:inherit;font-size:13px;color:var(--ink);-webkit-appearance:none;appe
 .vp-zoe{margin-top:10px;padding:10px 11px;border-radius:9px;background:#FBEFE6;border-left:3px solid var(--rust);
 font-size:11.5px;line-height:1.8;color:#6B4034}
 .vp-zoe b{color:var(--rust)}
+.vp-how{margin-top:10px;padding:10px 11px;border-radius:9px;background:rgba(37,91,107,.07);
+border-left:3px solid var(--sea);font-size:11.5px;line-height:1.85;color:#3E5058}
+.vp-how b{color:var(--sea)}
 .vp-list{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:11px;line-height:1.75;
 color:#7A6E64;max-height:230px;overflow-y:auto;word-break:break-all}
 .vp code{background:var(--paper2);padding:1px 4px;border-radius:3px;font-size:10.5px;color:#6B6058}
@@ -118,9 +121,16 @@ mark.k{background:linear-gradient(transparent 56%,rgba(184,114,42,.38) 56%);font
 .bub{flex:1;min-width:0}
 .bub .zh{margin:4px 0 0;font-size:12.5px;color:#6B6058}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font-family:var(--serif);font-size:14px;
-line-height:1.35;display:flex;flex-direction:column;gap:2px;text-align:left;cursor:pointer;font-weight:500}
+.chip{border:1px solid var(--line);background:#fff;border-radius:9px;display:flex;align-items:stretch;overflow:hidden}
+.chip-t{border:0;background:transparent;padding:7px 4px 7px 9px;font-family:var(--serif);font-size:14px;
+line-height:1.35;display:flex;flex-direction:column;gap:2px;text-align:left;cursor:pointer;font-weight:500;color:var(--ink);flex:1;min-width:0}
+.chip-t:active{background:var(--paper2)}
 .chip small{font-family:var(--sans);font-size:11px;color:#7A6E64;line-height:1.45;font-weight:400}
+.real{flex:0 0 auto;display:grid;place-items:center;padding:0 9px;font-size:13px;text-decoration:none;
+border-left:1px dashed var(--line);color:var(--sea);background:rgba(37,91,107,.05)}
+.real:active{background:rgba(37,91,107,.16)}
+.vbtns{display:flex;align-items:center;gap:2px}
+.vbtns .real{border-left:0;background:transparent;padding:0 3px}
 .v{display:grid;grid-template-columns:1fr auto;gap:3px 9px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
 .v:last-child{border-bottom:0}
 .v .w{font-family:var(--serif);font-size:16px;font-weight:600}

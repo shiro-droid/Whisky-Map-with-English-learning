@@ -46,7 +46,13 @@ laphroaig-5-tasting.html  段 5 品鉴室
 
 ## 技术说明
 
-- **音频**：目前全部使用浏览器 `speechSynthesis`（iOS 上是 Daniel，标准英音，**没有苏格兰口音**）。数据结构预留了 `audio` 字段，后续可为关键句配真人音频。
+- **音频分两层**：
+  - 🔊 浏览器 `speechSynthesis` —— 只用来**对节奏、确认音节**。
+    实测 iOS Safari 只暴露 `com.apple.voice.super-compact.*`（25 个全是这一档），
+    系统里下载的 Premium/Zoe 拿不到，这是 Web Speech API 的限制，**换 Chrome 也一样**（iOS 浏览器强制用 WebKit）。
+  - 🎧 **真人发音（免费外链）** —— **语调、连读、重音一律以这个为准**。
+    单词跳剑桥词典（真人录音），短语跳 YouGlish（真人视频片段，已锁英式口音）。
+  - 数据结构预留了 `audio` 字段，将来要上外部 TTS 生成音频时直接填。
 - **需要系统装有英语语音**。检测不到英语语音时会显示提示并停用朗读——绝不用中文引擎去念英文（那会把发音带偏）。
   - Windows：设置 → 时间和语言 → 语言和区域 → 添加 **English (United Kingdom)**，勾选「语音」「文本转语音」，装完重启浏览器。
   - iPhone / iPad：系统自带，无需设置。
